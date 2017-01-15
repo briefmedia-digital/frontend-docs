@@ -1,0 +1,38 @@
+{
+  "name": "react-structure",
+  "version": "1.0.0",
+  "description": "###Forward",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/briefmedia-digital/frontend-docs.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/briefmedia-digital/frontend-docs/issues"
+  },
+  "homepage": "https://github.com/briefmedia-digital/frontend-docs#readme",
+  "devDependencies": {
+    "babel-core": "^6.21.0",
+    "babel-loader": "^6.2.10",
+    "babel-plugin-react-transform": "^2.0.2",
+    "babel-preset-es2015": "^6.18.0",
+    "babel-preset-stage-0": "^6.16.0",
+    "eslint": "^3.13.1",
+    "webpack": "^1.14.0"
+  },
+  "dependencies": {
+    "es6-promise": "^4.0.5",
+    "isomorphic-fetch": "^2.2.1",
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2",
+    "react-redux": "^5.0.2",
+    "redux": "^3.6.0",
+    "redux-thunk": "^2.1.0"
+  }
+}
