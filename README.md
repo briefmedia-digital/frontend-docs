@@ -35,4 +35,4 @@ This repository will hold all of the documentation for our entire frontend proce
     * Documentation on our PostCSS
 * Styleguide
     * Fully documented coding style guide for:
-        * HTML/CSS/JS/React/Frontend Performance
+        * CSS/JS/React/Frontend Performance
