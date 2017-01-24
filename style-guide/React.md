@@ -4,19 +4,25 @@
 ## Table of Contents
 
   1. [Basic Rules](#basic-rules)
-  1. [Class vs `React.createClass` vs stateless](#class-vs-reactcreateclass-vs-stateless)
-  1. [Naming](#naming)
-  1. [Declaration](#declaration)
-  1. [Alignment](#alignment)
-  1. [Quotes](#quotes)
-  1. [Spacing](#spacing)
-  1. [Props](#props)
-  1. [Refs](#refs)
-  1. [Parentheses](#parentheses)
-  1. [Tags](#tags)
-  1. [Methods](#methods)
-  1. [Ordering](#ordering)
-  1. [`isMounted`](#ismounted)
+  2. [Class vs `React.createClass` vs stateless](#class-vs-reactcreateclass-vs-stateless)
+  3. [Naming](#naming)
+  4. [Declaration](#declaration)
+  5. [Alignment](#alignment)
+  6. [Quotes](#quotes)
+  7. [Spacing](#spacing)
+  8. [Props](#props)
+  9. [Refs](#refs)
+  10. [Parentheses](#parentheses)
+  11. [Tags](#tags)
+  12. [Methods](#methods)
+  13. [Ordering](#ordering)
+  14. [`isMounted`](#ismounted)
+
+
+### Todo
+  1. Higher order components
+  2. Functional components
+  3. Anything else learned while creating the example
 
 ## Basic Rules
 
