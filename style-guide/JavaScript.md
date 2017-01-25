@@ -28,17 +28,8 @@
   23. [Accessors](#accessors)
   24. [Events](#events)
   25. [jQuery](#jquery)
-  26. [ECMAScript 5 Compatibility](#ecmascript-5-compatibility)
-  27. [ECMAScript 6 Styles](#ecmascript-6-styles)
-  28. [Testing](#testing)
-  29. [Performance](#performance)
-  30. [Resources](#resources)
-  31. [In the Wild](#in-the-wild)
-  32. [Translation](#translation)
-  33. [The JavaScript Style Guide Guide](#the-javascript-style-guide-guide)
-  34. [Chat With Us About JavaScript](#chat-with-us-about-javascript)
-  35. [Contributors](#contributors)
-  36. [License](#license)
+  26. [Services](#services)
+  27. [Utilities](#utilities)
 
 ## Types
 
@@ -2532,3 +2523,84 @@
 
 **[⬆ back to top](#table-of-contents)**
 
+
+## Services
+
+  <a name="services--overview"></a><a name="26.1"></a>
+  - [25.1](#services--overview) Services overview
+
+    * A service is where you would commonly do AJAX requests to a back-end service. Service methods should be self-contained and tested with integration tests. A service method should always return a promise to keep a consistent frontend API.
+
+  <a name="services--breakdown"></a><a name="26.2"></a>
+  - [25.2](#services--breakdown) Services Breakdown
+
+    1. All methods should return a promise
+    2. Keep the services self-contained through modules
+    3. Export individual methods for testing
+    4. Declare methods in alphabetical order for consistentcy
+    5. Declare helper functions at the bottom, in chronological order of creation
+
+  <a name="services--example"></a><a name="26.3"></a>
+  - [25.3](#services--example) Services Example
+
+  ```javascript
+  export function deleteItem(item) {
+    // code here
+    return new Promise(resolve => resolve(foo));
+  }
+
+  export function getItem(id) {
+    // code here
+    return new Promise(resolve => resolve(foo));
+  }
+
+  export function getItems(ids) {
+    // code here
+    return new Promise(resolve => resolve(foo));
+  }
+
+  function deleteHelper() {
+    // code here
+    return foo;
+  }
+
+  function anotherHelper() {
+    //code here
+    return bar;
+  }
+  ```
+**[⬆ back to top](#table-of-contents)**
+
+## Utilities
+
+  <a name="utils--overview"></a><a name="27.1"></a>
+  - [25.1](#utils--overview) Utilities overview
+
+  * A Utility is a piece of code that can be reused in multile places, or it is a piece of code that allows us to build or interact with other code. An example is the JSDom file that sets up a headless browser for enzyme. Another example of a util would be string/array/object manipulation, browser tools, etc.
+
+  <a name="utils--breakdown"></a><a name="27.2"></a>
+  - [25.2](#utils--breakdown) Utilities Breakdown
+
+    1. Group related util functions under a common file, if applicable
+    3. Export each function inside util files
+    4. Util functions must be pure
+    5. Util functions should be reusable, but have a single purpose
+
+  <a name="utils--example"></a><a name="27.3"></a>
+  - [25.3](#utils--example) Utilities Example
+
+  ```javascript
+  // browserUtils.js
+
+    export function getBrowser() {
+      // code
+      return foo;
+    }
+
+    export function getDevice() {
+      // code
+      return foo;
+    }
+
+  ```
+**[⬆ back to top](#table-of-contents)**
