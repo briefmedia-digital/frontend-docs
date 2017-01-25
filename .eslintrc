@@ -1,0 +1,18 @@
+"eslintConfig": {
+  "extends": "airbnb",
+  "env": {
+    "browser": true
+  },
+  "globals": {
+    "$": true
+  },
+  "rules": {
+    "new-cap": 0,
+    "padded-blocks": 0,
+    "no-else-return": 0,
+    "no-underscore-dangle": 0,
+    "arrow-body-style": 0,
+    "react/jsx-no-bind": 0,
+    "react/jsx-closing-bracket-location": 0
+  }
+}
