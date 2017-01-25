@@ -8,6 +8,7 @@
   4. [Reducers](#reducers)
   5. [State](#state)
   6. [Integration](#integration)
+  7. [React-redux](#react-redux)
 
 
 ## Action Types
@@ -186,3 +187,60 @@
 
   ```
 
+## Reducers
+*[Redux Documentation on Reducers](http://redux.js.org/docs/basics/Reducers.html)*
+
+  * Reducers describe how the state changes, given an action
+  * A reducer is just a single, giant, [Array.prototype.reduce](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce) and as such must remain completely pure
+  * Reducers dictate the shape of the state of the application
+  * Always expose the reducer as the default export
+  * NEVER mutate the state. Use Object.asign or the object spread operator to create a new object.
+  * Use action type constants instead of strings
+  * Always define an initial state variable
+  * Combine all reducers into a top-level reducer
+  * Split a reducer up into smaller reducer functions if needed
+  * Reducers require a default case on the switch/case statement, returning only the untouched state
+
+  * NOTE: It will be worth it to look into [Redux Actions](https://github.com/acdlite/redux-actions) as it looks like it can reduce boilerplate code and speed up development a little bit.
+
+```javascript
+
+  import { FETCH_USER, RECEIVE_USER, REJECT_USER } from 'path/to/actions.js';
+
+  const initState = {
+    profile: {},
+    browseHistory: [],
+    isFetching: false,
+    errors: [],
+  };
+
+  export default function user(state = initState, action) {
+
+    switch (action.type) {
+      case FETCH_USER:
+        return {
+          ...state,
+          isFetching: true,
+        };
+      case RECEIVE_USER:
+        return {
+          ...state,
+          isFetching: false,
+          profile: action.json,
+        };
+      case REJECT_USER:
+        return {
+          ...state,
+          isFetching: false,
+          errors: state.errors.concat(action.err),
+        };
+      case default:
+        return state;
+    }
+
+  }
+```
+
+## State
+
+  * The state of the application describes every piece of information that the UI needs so it can draw the view layer while a user interacts with it. 
