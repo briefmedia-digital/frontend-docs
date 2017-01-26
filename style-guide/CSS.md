@@ -1,6 +1,10 @@
 # Brief Media PostCSS Styleguide
 *Originally forked from [Airbnb's styleguide](https://github.com/airbnb/css)*
 
+#### **Note**
+
+Before moving on, please read [Concentric CSS Model](https://github.com/brigade/scss-lint/blob/master/data/property-sort-orders/concentric.txt) to get an idea of how to structure a components list of classes.
+
 ## Table of Contents
 
   1. [PostCSS Plugins](#postcss-plugins)
