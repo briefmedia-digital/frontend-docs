@@ -259,4 +259,8 @@
 
 ## React-Redux
 
-  * 
+  * Always seperate presentational from container components
+  * Make sure presentational components are stateless and dumb
+  * [Official react-redux documentation](http://redux.js.org/docs/basics/UsageWithReact.html)
+	* Only use react-redux to interact with redux, don't mess with the store by hand
+	* The highest level in a non-basic component (think feature) must be a container component
