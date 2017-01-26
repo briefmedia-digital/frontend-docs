@@ -18,7 +18,10 @@
   * Always write action types in constant case e.g. `CONSTANT_CASE`
   * Be verbose with the action type name e.g. `TOGGLE_HEADER_PROFILE_MENU` instead of something like `TOGGLE_HEADER_MENU`
   * Export every action type
-  * Action types can be in a seperate file, or with the action creators. This is based on file length and need.
+  * Action types can be in a seperate file, or with the action creators. This is based on file length and need
+  * Action types are always strings, not Symbols. Strings are serializable and using Symbols makes recording and replaying state more difficult
+
+  * **Action creators can be exported one-at-a-time:**
 
   ```javascript
   export const TOGGLE_HEADER_PROFILE_MENU = 'TOGGLE_HEADER_PROFILE_MENU';
@@ -28,10 +31,7 @@
   export const HEADER_POSITION_UNFIXED = 'HEADER_POSITION_UNFIXED';
   ```
 
-####*Note*
-
-  * Action creators can be exported one-at-a-time like the example above
-  * OR they can be exported as an object
+  * **OR they can be exported as an object**
 
   ```javascript
   const TOGGLE_HEADER_PROFILE_MENU = 'TOGGLE_HEADER_PROFILE_MENU';
@@ -41,15 +41,15 @@
   const HEADER_POSITION_UNFIXED = 'HEADER_POSITION_UNFIXED';
 
   export {
-   TOGGLE_HEADER_PROFILE_MENU,
-   ADD_FAVORITE,
-   REMOVE_FAVORITE,
-   HEADER_POSITION_FIXED,
-   HEADER_POSITION_UNFIXED,
+    TOGGLE_HEADER_PROFILE_MENU,
+    ADD_FAVORITE,
+    REMOVE_FAVORITE,
+    HEADER_POSITION_FIXED,
+    HEADER_POSITION_UNFIXED,
   };
   ```
 
-  * You can import can use the action types as properties of the export object.
+  * You can import and use the action types as properties of the export object
 
   ```javascript
   import headerActions from 'path/to/header/actions.js';
@@ -64,9 +64,9 @@
 
   * Actions creators must be pure functions as stipulated by Redux
   * Export each action creator
-  * Keep the action creator as simple as possible and only use pure operations to shape the data inside action creators if needed. E.g. map, reduce, filter, concat, Object.asign, rest/spread operators, etc. as long as it does not mutate data or create side effects.
+  * Keep the action creator as simple as possible and only use pure operations to shape the data inside action creators if needed. E.g. map, reduce, filter, concat, Object.asign, rest/spread operators, etc. as long as it does not mutate data or create side effects
   * Use [redux-thunk](https://github.com/gaearon/redux-thunk) for async actions
-
+  * **Action creator importing individual actions**
   ```javascript
   import { EXAMPLE_ACTION, ANOTHER_ACTION } from 'path/to/actions.js';
 
@@ -77,9 +77,7 @@
     };
   }
   ```
-
-  *OR*
-
+  * **Action creators importing action object**
   ```javascript
   import exampleActions from 'path/to/actions.js';
 
@@ -104,10 +102,10 @@
   * Async actions are created using [redux-thunk](https://github.com/gaearon/redux-thunk)
   * A thunk is a function that wraps an expression to delay its evaluation
   * Redux thunks make use of our AJAX services to make calls to APIs and dispatch actions during the AJAX lifecycle
-  * Action types dispatched will usually follow the same naming scheme.
-    * `FETCH_FOO` - An action informing the reducer that the request began. Toggles an `isFetching` state to true.
-    * `RECEIVE_FOO` - Action informing the reducer that the request finished successfully. Send response to reducer.
-    * `REJECT_FOO` - Action informing the reducer that the request failed. Send error response to reducer to handle.
+  * Action types dispatched will usually follow the same naming scheme
+    * `FETCH_FOO` - An action informing the reducer that the request began. Toggles an `isFetching` state to true
+    * `RECEIVE_FOO` - Action informing the reducer that the request finished successfully. Send response to reducer
+    * `REJECT_FOO` - Action informing the reducer that the request failed. Send error response to reducer to handle
 
 
   ```javascript
@@ -194,14 +192,14 @@
   * A reducer is just a single, giant, [Array.prototype.reduce](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce) and as such must remain completely pure
   * Reducers dictate the shape of the state of the application
   * Always expose the reducer as the default export
-  * NEVER mutate the state. Use Object.asign or the object spread operator to create a new object.
+  * NEVER mutate the state. Use Object.asign or the object spread operator to create a new object
   * Use action type constants instead of strings
   * Always define an initial state variable
   * Combine all reducers into a top-level reducer
-  * Split a reducer up into smaller reducer functions if needed
+  * Split a reducer up into smaller reducer functions if needed to ensure state [encapsulation](https://blog.javascripting.com/2016/02/02/encapsulation-in-redux/)
   * Reducers require a default case on the switch/case statement, returning only the untouched state
 
-  * NOTE: It will be worth it to look into [Redux Actions](https://github.com/acdlite/redux-actions) as it looks like it can reduce boilerplate code and speed up development a little bit.
+  * NOTE: It will be worth it to look into [Redux Actions](https://github.com/acdlite/redux-actions) as it looks like it can reduce boilerplate code and speed up development a little bit
 
 ```javascript
 
@@ -243,4 +241,22 @@
 
 ## State
 
-  * The state of the application describes every piece of information that the UI needs so it can draw the view layer while a user interacts with it. 
+  * The state of the application describes every piece of information that the UI needs so it can draw the view layer while a user interacts with it. The state
+  * Don't put anything inside the state tree that you can't easily turn into JSON, ensuring the state tree is serializable allows for easy recording and playback
+  * Try to keep the state tree as flat as possible. [Normalizr](https://github.com/paularmstrong/normalizr) is a popular library for taking JSON and rebuilding it to better fit Flux/Redux architecture
+  * Always start with an initial state
+  * Each top-level item in the state represents the state of a feature
+  * [More on normalizing the state tree](http://redux.js.org/docs/recipes/reducers/NormalizingStateShape.html)
+
+
+## Integration
+
+  * All features must be made in such a way that the reducer can be combined with all of the other reducers
+  * Keep cross-feature action dispatches to a minimum, e.g. if you are working on the Social Media Calendar feature don't dispatch actions from a feature that is completely unrelated like products in brief
+  * Sometimes you will have to dispatch actions from other features such as a user action or an error logging/displaying action. These actions need to be easy to use and reason about without conflicting with any other feature
+  * When planning out the state tree of a feature consider how its shape will effect the overall state tree
+
+
+## React-Redux
+
+  * 

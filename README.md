@@ -29,7 +29,7 @@ This repository will hold all of the documentation for our entire frontend proce
     * Webpack config
     * Linter setup
     * NPM scripts
-    * Documentation on 
+    * Documentation on each of the utils
 * CSS
     * Our PostCSS
     * Documentation on our PostCSS
