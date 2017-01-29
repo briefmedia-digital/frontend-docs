@@ -7,8 +7,6 @@
 // Import React as well as React.Component and React.PropTypes
 import React, { Component, PropTypes } from 'react';
 
-
-
 /**
  * class Client
  *
