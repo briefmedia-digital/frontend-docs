@@ -7,25 +7,35 @@ Before moving on, please read [Concentric CSS Model](https://github.com/brigade/
 
 ## Table of Contents
 
-  1. [PostCSS Plugins](#postcss-plugins)
-  2. [Terminology](#terminology)
+  1. [Functional CSS](#functional-css)
+  2. [PostCSS Plugins](#postcss-plugins)
+  3. [Terminology](#terminology)
     - [Rule Declaration](#rule-declaration)
     - [Selectors](#selectors)
     - [Properties](#properties)
-  2. [CSS](#css)
+    - [Functional Class](#functional-class)
+    - [Application Class](#application-class)
+  4. [CSS](#css)
     - [Formatting](#formatting)
     - [Comments](#comments)
     - [OOCSS and BEM](#oocss-and-bem)
     - [ID Selectors](#id-selectors)
     - [JavaScript hooks](#javascript-hooks)
     - [Border](#border)
-  3. [PostCSS](#sass)
+  5. [PostCSS](#sass)
     - [Syntax](#syntax)
     - [Ordering](#ordering-of-property-declarations)
     - [Variables](#variables)
     - [Extend directive](#extend-directive)
     - [Nested selectors](#nested-selectors)
 
+## Functional CSS
+
+[Jon Gold's reasoning behind functional CSS](http://www.jon.gold/2015/07/functional-css/)
+[CSS and Scalability](http://mrmrs.io/writing/2016/03/24/scalable-css/)
+[Rationalizing Functional CSS](https://marcelosomers.com/writing/rationalizing-functional-css/)
+
+Those three posts do a wonderful job of explaining functional CSS and the pros/cons.
 
 ## PostCSS Plugins
 
@@ -68,6 +78,47 @@ Finally, properties are what give the selected elements of a rule declaration th
   color: #333;
 }
 ```
+
+### Functional Class
+
+Functional classes are the bulk of our css. These are the classes that represent only a single property and are named in such a way as to clearly convey that property.
+
+```css
+.p2 {
+  padding: var(--spacing-2);
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+```
+
+### Application Class
+
+Application classes are more "traditional" css classes. These classes will have one or more properties attached and are reserved for times when you need to define styles that are not already defined in our css. Examples of these types of styles are:
+
+  * Specific height/width/min-height/min-width
+  * Animation and keyframe styles
+  * WYSIWYG styles
+
+Example based on the Social Media Calendar
+```css
+.a-smc-card {
+  height: 33rem;
+}
+
+.a-smc-card-alert {
+  height: 10px;
+}
+
+.a-smc-card-alert--expanded {
+  height: 40px;
+  line-height: 40px;
+}
+```
+
+
+### CSS Variables
 
 ## CSS
 
