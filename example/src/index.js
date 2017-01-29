@@ -12,7 +12,7 @@
  */
 import React from 'react';
 import { render } from 'react-dom';
-import Client from './src/Client';
+import Client from './Client';
 
 // App div to append to
 const app = document.getElementById('app');
