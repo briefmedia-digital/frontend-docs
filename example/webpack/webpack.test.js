@@ -5,7 +5,7 @@ const validate = require('webpack-validator');
 const tools = require('./webpack.tools.js');
 
 /**
- * Production webpack config
+ * Test webpack config
  *
  * Build flow:
  *
@@ -14,15 +14,13 @@ const tools = require('./webpack.tools.js');
  *
  *
  */
-const prodConfig = merge(
-  tools.setEnv('production'),
+const testConfig = merge(
+  tools.setEnv('test'),
   tools.common(),
   tools.basicJS(),
-  tools.extractJS('vendor', 'vendor.js'),
-  tools.minifyJs(),
-  tools.extractCSS(),
-  //tools.purifyCSS([PATH.src]),
+  tools.basicCSS(),
+  tools.setupTests(),
   tools.clean('build')
 );
 
-module.exports = validate(prodConfig);
+module.exports = validate(testConfig);
