@@ -8,7 +8,8 @@ import MainLayout from './Pages/layouts/MainLayout';
 
 // Views
 import HomePage from './Pages/views/HomePage';
-
+import SearchPage from './Pages/views/SearchPage';
+import AboutPage from './Pages/views/AboutPage';
 
 /**
  * @name Routes
@@ -19,6 +20,8 @@ export default () => (
   <Router history={ browserHistory }>
     <Route path="/" component={ MainLayout }>
       <IndexRoute component={ HomePage } />
+			<Route path ="/search" component={ SearchPage } />
+			<Route path="/about" component={ AboutPage } />
     </Route>
   </Router>
 );

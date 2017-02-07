@@ -1,11 +1,11 @@
 /**
- * @name Home Page
+ * @name Search Page
  *
- * @description Home page of the web app
+ * @description Search through github on this page
  */
 import React, { Component, PropTypes } from 'react';
 
-class HomePage extends Component {
+class SearchPage extends Component {
 
   constructor(props) {
 
@@ -16,10 +16,10 @@ class HomePage extends Component {
 
     return (
       <section>
-        <h1>Frontpage</h1>
+        <h1>Search Page</h1>
       </section>
     );
   }
 }
 
-export default HomePage;
+export default SearchPage;

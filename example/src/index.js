@@ -14,6 +14,7 @@ import React from 'react';
 import { render } from 'react-dom';
 import Client from './Client';
 
+// require css if building for development
 if (process.env.NODE_ENV === 'development') {
   require('../styles/main.pcss');
 }
