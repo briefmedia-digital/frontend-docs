@@ -16,7 +16,7 @@
 
 ## Why Test?
 
-Writing tests is a lot like working out, if you aren't doing it right now it is difficult to get into, but when you find your groove and really get into it will make you stronger.
+Writing tests is a lot like working out, if you aren't doing it right now it is difficult to get into, but when you find your groove and really get into it will make you stronger, plus writing tests keeps developers accountable for their code changes.
 
 Taking a test-first approach has many benefits and only a few downsides. Tests give the developer confidence that the code they are pushing only adds to the quality of the codebase and never takes from it. Testing code also keeps the coding style consistent which also helps readability, decreasing development time. With tests we can be sure all requirements are met without creating more code than needed. Tests also reduce the need for documenting edge-cases as that documentation will be replaced by code. Updating old, tested, code is as easy as deleting the code and then rewriting it until the tests pass, no more questioning if code is needed.
 
@@ -251,6 +251,12 @@ describe('FooBar', () => {
 
 Testing React requires the ability to render and view the output in an actual DOM. To help us with this we use JSDom for our headless browser and Karma to run out code in the environments we create to test in. To traverse the DOM via our React components and make assertions based on the output we use Enzyme. Enzyme allows us to use jquery-like syntax to build and select DOM elements. Enzyme has both shallow and deep rendering, keeping test times down.
 
+A few tips for testing React:
+1. When writing tests for dumb components, keep the number of tests down to the absolute minimum. Sometimes this means just writing a test to see if the component renders
+2. Avoid testing implementation details like tag, element or attributes
+3. If you need to test logic inside of simple components, you should think about a refactor
+4. Anytime you find yourself testing some functionality for a feature or component by hand, write a test for that functionality
+
 *Check if a Component rendered*
 ```javascript
 
@@ -282,8 +288,76 @@ Testing React requires the ability to render and view the output in an actual DO
 
 ## Testing Redux
 
+Testing features built with Redux is a little trickier than testing dumb React components. When we test a container that has been wrapped by react-redux's connect object we need to use the Redux testing tools. Having the ability to dispatch actions to a store that is also inserted into a container is paramount to making sure the features that we build are architected as intended.
+
+A few tips for testing Redux:
+1. Always test reducers. Same data in, same data out
+2. Only test action-creators, indeirectly, through testing the reducer
+3. Test all async action creators thoroughly. Both unit and thorough integration tests here
+4. Smaller connected containers can be tested with integration tests only. Larger ones might need unit tests and will most often need e2e tests
+5. Try to catch all edge-cases while testing reducers
+
+*Example Test*
+```javascript
+// actions.js
+
+...
+
+  export function addTodo(text) {
+    return {
+      type: ADD_TODO,
+      text,
+      completed: false,
+    };
+  };
+
+...
+
+// reducer.js
+
+...
+
+export default todos(state = [], action) {
+  switch (action.type) {
+    case ADD_TODO:
+      return [
+        ...state,
+        {
+          text: action.text,
+          completed: action.completed,
+        }
+      ];
+    case default:
+      return state;
+  }
+};
+
+...
+
+// Example.spec.js
+
+it('should handle ADD_TODO', () => {
+    expect(
+      todos([], addTodo('Test AddTodo') // use the action creator
+    ).toEqual([
+      {
+        text: 'Test AddTodo',
+        completed: false,
+      }
+    ]);
+})
+
+```
+
 ## Testing Utilities
+
+This section will be expanded upon at a later date.
 
 ## Testing Services
 
+This section will be expanded upon at a later date.
+
 ## Vendor Files
+
+This section will be expanded upon at a later date.
+
