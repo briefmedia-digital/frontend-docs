@@ -58,7 +58,7 @@
 
 	// require css if building for development
 	if (true) {
-	  __webpack_require__(238);
+	  __webpack_require__(240);
 	}
 
 	// App div to append to
@@ -21436,11 +21436,11 @@
 
 	var _HomePage2 = _interopRequireDefault(_HomePage);
 
-	var _SearchPage = __webpack_require__(242);
+	var _SearchPage = __webpack_require__(238);
 
 	var _SearchPage2 = _interopRequireDefault(_SearchPage);
 
-	var _AboutPage = __webpack_require__(243);
+	var _AboutPage = __webpack_require__(239);
 
 	var _AboutPage2 = _interopRequireDefault(_AboutPage);
 
@@ -26591,7 +26591,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactRouter = __webpack_require__(180);
+	var _SiteHeader = __webpack_require__(248);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -26623,45 +26623,7 @@
 	        return _react2['default'].createElement(
 	          'main',
 	          { className: 'black-80' },
-	          _react2['default'].createElement(
-	            'header',
-	            { className: 'bg-white tc pv4 avenir mw7 center' },
-	            _react2['default'].createElement(
-	              'h1',
-	              { className: 'mt2 mb0 baskerville i fw1 f1' },
-	              'Github Profiler'
-	            ),
-	            _react2['default'].createElement(
-	              'h2',
-	              { className: 'mt2 mb0 f6 fw4 ttu tracked' },
-	              'Example for Brief Media frontend'
-	            ),
-	            _react2['default'].createElement(
-	              'nav',
-	              { className: 'bt bb tc mt4' },
-	              _react2['default'].createElement(
-	                _reactRouter.Link,
-	                {
-	                  className: 'f6 f5-l link bg-animate black-80 hover-bg-lightest-blue dib pa3 ph4-l',
-	                  to: '/' },
-	                'Home'
-	              ),
-	              _react2['default'].createElement(
-	                _reactRouter.Link,
-	                {
-	                  className: 'f6 f5-l link bg-animate black-80 hover-bg-light-green dib pa3 ph4-l',
-	                  to: '/search' },
-	                'Search'
-	              ),
-	              _react2['default'].createElement(
-	                _reactRouter.Link,
-	                {
-	                  className: 'f6 f5-l link bg-animate black-80 hover-bg-light-pink dib pa3 ph4-l',
-	                  to: '/about' },
-	                'About'
-	              )
-	            )
-	          ),
+	          _react2['default'].createElement(_SiteHeader.SiteHeader, null),
 	          _react2['default'].createElement(
 	            'div',
 	            { className: 'mw7 center pb4 ph4 ph0-l', style: { minHeight: '75vh' } },
@@ -26755,13 +26717,135 @@
 /* 238 */
 /***/ function(module, exports, __webpack_require__) {
 
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @name Search Page
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @description Search through github on this page
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
+
+
+	var SearchPage = function (_Component) {
+	  _inherits(SearchPage, _Component);
+
+	  function SearchPage(props) {
+	    _classCallCheck(this, SearchPage);
+
+	    return _possibleConstructorReturn(this, (SearchPage.__proto__ || Object.getPrototypeOf(SearchPage)).call(this, props));
+	  }
+
+	  _createClass(SearchPage, [{
+	    key: 'render',
+	    value: function () {
+	      function render() {
+
+	        return _react2['default'].createElement(
+	          'section',
+	          null,
+	          _react2['default'].createElement(
+	            'h1',
+	            null,
+	            'Search Page'
+	          )
+	        );
+	      }
+
+	      return render;
+	    }()
+	  }]);
+
+	  return SearchPage;
+	}(_react.Component);
+
+	exports['default'] = SearchPage;
+
+/***/ },
+/* 239 */
+/***/ function(module, exports, __webpack_require__) {
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @name About Page
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @description About through github on this page
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
+
+
+	var AboutPage = function (_Component) {
+	  _inherits(AboutPage, _Component);
+
+	  function AboutPage(props) {
+	    _classCallCheck(this, AboutPage);
+
+	    return _possibleConstructorReturn(this, (AboutPage.__proto__ || Object.getPrototypeOf(AboutPage)).call(this, props));
+	  }
+
+	  _createClass(AboutPage, [{
+	    key: 'render',
+	    value: function () {
+	      function render() {
+
+	        return _react2['default'].createElement(
+	          'section',
+	          null,
+	          _react2['default'].createElement(
+	            'h1',
+	            null,
+	            'About Page'
+	          )
+	        );
+	      }
+
+	      return render;
+	    }()
+	  }]);
+
+	  return AboutPage;
+	}(_react.Component);
+
+	exports['default'] = AboutPage;
+
+/***/ },
+/* 240 */
+/***/ function(module, exports, __webpack_require__) {
+
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(239);
+	var content = __webpack_require__(241);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(241)(content, {});
+	var update = __webpack_require__(243)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -26778,10 +26862,10 @@
 	}
 
 /***/ },
-/* 239 */
+/* 241 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(240)();
+	exports = module.exports = __webpack_require__(242)();
 	// imports
 
 
@@ -26792,7 +26876,7 @@
 
 
 /***/ },
-/* 240 */
+/* 242 */
 /***/ function(module, exports) {
 
 	/*
@@ -26848,7 +26932,7 @@
 
 
 /***/ },
-/* 241 */
+/* 243 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -27100,126 +27184,176 @@
 
 
 /***/ },
-/* 242 */
+/* 244 */
 /***/ function(module, exports, __webpack_require__) {
 
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+	exports.MainHeader = undefined;
 
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	var _Headers = __webpack_require__(245);
 
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @name Search Page
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @description Search through github on this page
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
-
-
-	var SearchPage = function (_Component) {
-	  _inherits(SearchPage, _Component);
-
-	  function SearchPage(props) {
-	    _classCallCheck(this, SearchPage);
-
-	    return _possibleConstructorReturn(this, (SearchPage.__proto__ || Object.getPrototypeOf(SearchPage)).call(this, props));
-	  }
-
-	  _createClass(SearchPage, [{
-	    key: 'render',
-	    value: function () {
-	      function render() {
-
-	        return _react2['default'].createElement(
-	          'section',
-	          null,
-	          _react2['default'].createElement(
-	            'h1',
-	            null,
-	            'Search Page'
-	          )
-	        );
-	      }
-
-	      return render;
-	    }()
-	  }]);
-
-	  return SearchPage;
-	}(_react.Component);
-
-	exports['default'] = SearchPage;
+	exports.MainHeader = _Headers.MainHeader;
 
 /***/ },
-/* 243 */
+/* 245 */
+/***/ function(module, exports, __webpack_require__) {
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.MainHeader = undefined;
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+	/**
+	 * Main Header
+	 *
+	 * @description The main header for the site, characterized by the script font-face with a sans-serif all-caps subheader
+	 * @property {String} props.title for the main title
+	 * @property {String} props.subtitle for the subtitle
+	 */
+	var MainHeader = exports.MainHeader = function MainHeader(props) {
+	  return _react2["default"].createElement(
+	    "div",
+	    null,
+	    _react2["default"].createElement(
+	      "h1",
+	      { className: "mt2 mb0 baskerville i fw1 f1" },
+	      props.title
+	    ),
+	    _react2["default"].createElement(
+	      "h2",
+	      { className: "mt2 mb0 f6 fw4 ttu tracked" },
+	      props.subtitle
+	    )
+	  );
+	};
+
+	MainHeader.propTypes = {
+	  title: _react.PropTypes.string.isRequired,
+	  subtitle: _react.PropTypes.string.isRequired
+	};
+
+/***/ },
+/* 246 */
+/***/ function(module, exports, __webpack_require__) {
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.HeaderNav = undefined;
+
+	var _HeaderNav = __webpack_require__(247);
+
+	var _HeaderNav2 = _interopRequireDefault(_HeaderNav);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	exports.HeaderNav = _HeaderNav2['default'];
+
+/***/ },
+/* 247 */
 /***/ function(module, exports, __webpack_require__) {
 
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
 
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactRouter = __webpack_require__(180);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	/**
+	 * Header Navigation
+	 *
+	 * @description Main navigation for the site, present in the header
+	 */
+	exports['default'] = function () {
+	  return _react2['default'].createElement(
+	    'nav',
+	    { className: 'bt bb tc mt4' },
+	    _react2['default'].createElement(
+	      _reactRouter.Link,
+	      {
+	        className: 'f6 f5-l link bg-animate black-80 hover-bg-lightest-blue dib pa3 ph4-l',
+	        to: '/' },
+	      'Home'
+	    ),
+	    _react2['default'].createElement(
+	      _reactRouter.Link,
+	      {
+	        className: 'f6 f5-l link bg-animate black-80 hover-bg-light-green dib pa3 ph4-l',
+	        to: '/search' },
+	      'Search'
+	    ),
+	    _react2['default'].createElement(
+	      _reactRouter.Link,
+	      {
+	        className: 'f6 f5-l link bg-animate black-80 hover-bg-light-pink dib pa3 ph4-l',
+	        to: '/about' },
+	      'About'
+	    )
+	  );
+	};
+
+/***/ },
+/* 248 */
+/***/ function(module, exports, __webpack_require__) {
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.SiteHeader = undefined;
+
+	var _SiteHeader = __webpack_require__(249);
+
+	var _SiteHeader2 = _interopRequireDefault(_SiteHeader);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	exports.SiteHeader = _SiteHeader2['default'];
+
+/***/ },
+/* 249 */
+/***/ function(module, exports, __webpack_require__) {
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
 
 	var _react = __webpack_require__(1);
 
 	var _react2 = _interopRequireDefault(_react);
 
+	var _Typography = __webpack_require__(244);
+
+	var _Nav = __webpack_require__(246);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @name About Page
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @description About through github on this page
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
-
-
-	var AboutPage = function (_Component) {
-	  _inherits(AboutPage, _Component);
-
-	  function AboutPage(props) {
-	    _classCallCheck(this, AboutPage);
-
-	    return _possibleConstructorReturn(this, (AboutPage.__proto__ || Object.getPrototypeOf(AboutPage)).call(this, props));
-	  }
-
-	  _createClass(AboutPage, [{
-	    key: 'render',
-	    value: function () {
-	      function render() {
-
-	        return _react2['default'].createElement(
-	          'section',
-	          null,
-	          _react2['default'].createElement(
-	            'h1',
-	            null,
-	            'About Page'
-	          )
-	        );
-	      }
-
-	      return render;
-	    }()
-	  }]);
-
-	  return AboutPage;
-	}(_react.Component);
-
-	exports['default'] = AboutPage;
+	/**
+	 * Header Navigation
+	 *
+	 * @description Main navigation for the site, present in the header
+	 */
+	exports['default'] = function () {
+	  return _react2['default'].createElement(
+	    'header',
+	    { className: 'bg-white tc pv4 avenir mw7 center' },
+	    _react2['default'].createElement(_Typography.MainHeader, { title: 'Github Profiler', subtitle: 'Example for Brief Media frontend' }),
+	    _react2['default'].createElement(_Nav.HeaderNav, null)
+	  );
+	};
 
 /***/ }
 /******/ ]);
