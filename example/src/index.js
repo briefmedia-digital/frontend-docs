@@ -14,6 +14,10 @@ import React from 'react';
 import { render } from 'react-dom';
 import Client from './Client';
 
+if (process.env.NODE_ENV === 'development') {
+  require('../styles/main.pcss');
+}
+
 // App div to append to
 const app = document.getElementById('app');
 

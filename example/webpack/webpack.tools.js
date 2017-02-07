@@ -66,6 +66,7 @@ exports.common = function() {
     src: './src/index.js',
     vendor: ['react', 'redux'],
     build: 'build',
+    styles: './styles/main.pcss',
   };
 
   const opts = {
@@ -80,7 +81,6 @@ exports.common = function() {
       resolve: {
         extensions: ['', '.js', '.es6.js', '.jsx'],
         root: [
-          'node_modules',
           path.resolve(`/src`),
         ],
       },
@@ -89,6 +89,7 @@ exports.common = function() {
       entry: {
         app: PATH.src,
         vendor: PATH.vendor,
+        styles: PATH.styles,
       },
       output: {
         path: PATH.build,

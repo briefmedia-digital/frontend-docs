@@ -7,6 +7,9 @@
 // Import React as well as React.Component and React.PropTypes
 import React, { Component, PropTypes } from 'react';
 
+// Import routes
+import Routes from './routes';
+
 /**
  * class Client
  *
@@ -22,9 +25,7 @@ class Client extends Component {
   render() {
 
     return (
-      <div>
-        <h1>Hello World</h1>
-      </div>
+      <Routes />
     );
   }
 }

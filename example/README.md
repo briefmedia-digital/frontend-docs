@@ -11,6 +11,4 @@ example uses webpack dev server which is currently incompatible with our drupal 
 **Source**: The src folder contains the core of the folder structure along with explainations of
 each folders contents as a part of the frontend documentation.
 
-###Walkthrough
-
-This is where the introduction and main page for the walkthrough.
+**Build**: compiled JavaScript and CSS will be outputted to this directory.
