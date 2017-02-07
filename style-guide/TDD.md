@@ -180,7 +180,7 @@ describe('FooBar', () => {
 
 ### Stubs
 
-Stubs are like spies except they have a pre-programmed behavior. The original function is not actually called when it is wrapped by a stub, instead the stub caries out the pre-programmed behavior. This is great for faking AJAX requests. Another great use of stubs is altering the flow of a feature to test a fringe-case or even to test the error-handling.
+Stubs are like spies except they have a pre-programmed behavior. The original function is not actually called when it is wrapped by a stub, instead the stub caries out the pre-programmed behavior. This is great for faking AJAX requests. Another great use of stubs is altering the flow of a feature to test an edge-case or even to test the error-handling.
 
 ```javascript
 // FooBar.spec.js
@@ -248,6 +248,37 @@ describe('FooBar', () => {
 ```
 
 ## Testing React
+
+Testing React requires the ability to render and view the output in an actual DOM. To help us with this we use JSDom for our headless browser and Karma to run out code in the environments we create to test in. To traverse the DOM via our React components and make assertions based on the output we use Enzyme. Enzyme allows us to use jquery-like syntax to build and select DOM elements. Enzyme has both shallow and deep rendering, keeping test times down.
+
+*Check if a Component rendered*
+```javascript
+
+...
+
+  it('should render', () => {
+    // mount() is provided by enzyme
+    const wrapper = shallow(<Example />);
+    expect(wrapper).to.have.length(1);
+  });
+
+...
+
+```
+
+*Check if child component is rendered*
+```javascript
+
+...
+
+  it('should render SubComponent', () => {
+    const wrapper = shallow(<Example />);
+    expect(wrapper.find(SubComponent)).to.have.length(1);
+  });
+
+...
+
+```
 
 ## Testing Redux
 
