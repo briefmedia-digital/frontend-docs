@@ -1,6 +1,12 @@
-import { MainHeader } from './Headers';
+import {
+  MainHeader,
+  ProfileHeader,
+  SectionHeader,
+} from './Headers';
 
 
 export {
   MainHeader,
+  ProfileHeader,
+  SectionHeader,
 };

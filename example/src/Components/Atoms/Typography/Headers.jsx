@@ -19,4 +19,28 @@ MainHeader.propTypes = {
 	subtitle: PropTypes.string.isRequired,
 };
 
+/**
+ * Profile Header
+ *
+ * @description Header for the github profile
+ */
+export const ProfileHeader = (props) => (
+  <h2>{ props.children }</h2>
+);
 
+ProfileHeader.propTypes = {
+	text: PropTypes.string.isRequired,
+};
+
+/**
+ * Section Header
+ *
+ * @description Header for a section
+ */
+export const SectionHeader = (props) => (
+  <h3>{ props.children }</h3>
+);
+
+ProfileHeader.propTypes = {
+	text: PropTypes.string.isRequired,
+};

@@ -6,7 +6,7 @@
   "scripts": {
     "build": "NODE_ENV=production webpack --display-error-details",
     "dev": "NODE_ENV=development webpack --watch",
-    "test": "NODE_ENV=test webpack --watch"
+    "test-all": "NODE_ENV=test mocha -w src/lib/tools/browser.js src/**/**.spec.js"
   },
   "repository": {
     "type": "git",
@@ -23,11 +23,16 @@
     "babel-core": "^6.21.0",
     "babel-loader": "^6.2.10",
     "babel-preset-airbnb": "^2.2.1",
+    "babel-register": "^6.22.0",
+    "chai": "^3.5.0",
     "clean-webpack-plugin": "^0.1.15",
     "css-loader": "^0.26.1",
     "cssnano": "^3.10.0",
+    "enzyme": "^2.7.1",
     "eslint": "^3.13.1",
     "extract-text-webpack-plugin": "^1.0.1",
+    "jsdom": "^9.10.0",
+    "mocha": "^3.2.0",
     "normalize.css": "^5.0.0",
     "postcss-custom-media": "^5.0.1",
     "postcss-custom-properties": "^5.0.1",
@@ -36,6 +41,8 @@
     "postcss-nested": "^1.0.0",
     "postcss-responsify": "^1.0.3",
     "purifycss-webpack-plugin": "^2.0.3",
+    "react-addons-test-utils": "^15.4.2",
+    "sinon": "^1.17.7",
     "style-loader": "^0.13.1",
     "tachyons": "^4.6.2",
     "webpack": "^1.14.0",
