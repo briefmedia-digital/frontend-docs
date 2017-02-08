@@ -112,9 +112,14 @@ exports.common = function() {
         filename: '[name].js',
       },
       resolve: {
-        extensions: ['', '.js', '.es6.js', '.jsx'],
-        root: [
+        modulesDirectories: [
           'node_modules',
+        ],
+        extensions: ['', '.js', '.es6.js', '.jsx'],
+        alias: {
+          app: path.join(__dirname, 'src'),
+        },
+        root: [
           path.resolve(`/src`),
         ],
       },
@@ -335,6 +340,7 @@ exports.setupTests = function() {
   return {
     externals: {
       'cheerio': 'window',
+      'jsdom': 'window',
       'react/lib/ExecutionEnvironment': true,
       'react/lib/ReactContext': true,
     },
