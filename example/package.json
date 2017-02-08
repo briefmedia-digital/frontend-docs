@@ -50,6 +50,8 @@
     "postcss-responsify": "^1.0.3",
     "purifycss-webpack-plugin": "^2.0.3",
     "react-addons-test-utils": "^15.4.2",
+    "redux-devtools-extension": "^2.13.0",
+    "redux-thunk": "^2.2.0",
     "requirejs": "^2.3.2",
     "sinon": "^1.17.7",
     "style-loader": "^0.13.1",

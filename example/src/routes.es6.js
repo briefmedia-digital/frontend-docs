@@ -1,5 +1,5 @@
 import React from 'react';
-import { Router, Route, IndexRoute, browserHistory } from 'react-router';
+import { Router, Route, IndexRoute, hashHistory } from 'react-router';
 
 // Routes
 
@@ -17,7 +17,7 @@ import AboutPage from './Pages/views/AboutPage';
  * @description Full routing via react-router
  */
 export default () => (
-  <Router history={ browserHistory }>
+  <Router history={ hashHistory }>
     <Route path="/" component={ MainLayout }>
       <IndexRoute component={ HomePage } />
 			<Route path ="/search" component={ SearchPage } />

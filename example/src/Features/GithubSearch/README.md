@@ -1,4 +1,4 @@
-#Example feature
+#Github Search
 
 ###Why build example?
 

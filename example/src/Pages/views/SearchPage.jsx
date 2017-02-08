@@ -4,6 +4,7 @@
  * @description Search through github on this page
  */
 import React, { Component, PropTypes } from 'react';
+import { GithubSearchContainer } from '../../Features/GithubSearch';
 
 class SearchPage extends Component {
 
@@ -16,7 +17,8 @@ class SearchPage extends Component {
 
     return (
       <section>
-        <h1>Search Page</h1>
+        <h1 className="mt0">Search Page</h1>
+        <GithubSearchContainer />
       </section>
     );
   }

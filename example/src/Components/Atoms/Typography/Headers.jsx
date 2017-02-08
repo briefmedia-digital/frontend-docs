@@ -28,10 +28,6 @@ export const ProfileHeader = (props) => (
   <h2>{ props.children }</h2>
 );
 
-ProfileHeader.propTypes = {
-	text: PropTypes.string.isRequired,
-};
-
 /**
  * Section Header
  *
@@ -40,7 +36,3 @@ ProfileHeader.propTypes = {
 export const SectionHeader = (props) => (
   <h3>{ props.children }</h3>
 );
-
-ProfileHeader.propTypes = {
-	text: PropTypes.string.isRequired,
-};

@@ -5,10 +5,18 @@
  */
 
 // Import React as well as React.Component and React.PropTypes
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 
-// Import routes
+// Import routes and configureStore
 import Routes from './routes';
+import configureStore from './store';
+
+// Import Redux
+import { Provider } from 'react-redux';
+const initState = {
+  githubUser: {},
+};
+const store = configureStore(initState);
 
 /**
  * class Client
@@ -25,7 +33,9 @@ class Client extends Component {
   render() {
 
     return (
-      <Routes />
+      <Provider store={ store }>
+        <Routes />
+      </Provider>
     );
   }
 }

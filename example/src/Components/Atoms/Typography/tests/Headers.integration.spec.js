@@ -33,7 +33,7 @@ describe('<MainHeader />', () => {
    */
   it('should render', () => {
 
-    const wrapper = mount(<MainHeader />);
+    const wrapper = mount(<MainHeader title="Title" subtitle="Subtitle" />);
     expect(wrapper).to.have.length(1);
   });
 
@@ -43,7 +43,7 @@ describe('<ProfileHeader />', () => {
 
   it('should render', () => {
 
-    const wrapper = shallow(<ProfileHeader />);
+    const wrapper = shallow(<ProfileHeader>Text</ProfileHeader>);
     expect(wrapper).to.have.length(1);
   });
 
@@ -53,7 +53,7 @@ describe('<SectionHeader />', () => {
 
   it('should render', () => {
 
-    const wrapper = shallow(<SectionHeader />);
+    const wrapper = shallow(<SectionHeader>Text</SectionHeader>);
     expect(wrapper).to.have.length(1);
   });
 
