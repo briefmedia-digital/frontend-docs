@@ -1,8 +1,6 @@
 // Karma configuration
 // Generated on Wed Feb 08 2017 00:12:29 GMT-0600 (CST)
 
-console.log(require('./webpack.config.js'));
-
 module.exports = function(config) {
   config.set({
 
@@ -17,8 +15,8 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
+      './node_modules/phantomjs-polyfill/bind-polyfill.js',
       'src/**/**.spec.js',
-      'src/**/**.jsx',
     ],
 
 
@@ -31,7 +29,8 @@ module.exports = function(config) {
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
     'src/**/**.spec.js': ['webpack'],
-    'src/**/**.js': ['webpack']
+    'src/**/**.jsx': ['webpack'],
+    'src/**/**.js': ['webpack'],
     },
 
 

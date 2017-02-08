@@ -19,8 +19,7 @@ const testConfig = merge(
   tools.common(),
   tools.basicJS(),
   tools.basicCSS(),
-  tools.setupTests(),
-  tools.clean('build')
+  tools.setupTests()
 );
 
 module.exports = validate(testConfig);

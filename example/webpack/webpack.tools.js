@@ -104,13 +104,6 @@ exports.common = function() {
       },
     },
     test: {
-      entry: {
-        app: PATH.src,
-      },
-      output: {
-        path: PATH.build,
-        filename: '[name].js',
-      },
       resolve: {
         modulesDirectories: [
           'node_modules',
@@ -343,6 +336,7 @@ exports.setupTests = function() {
       'jsdom': 'window',
       'react/lib/ExecutionEnvironment': true,
       'react/lib/ReactContext': true,
+      'react/addons': true,
     },
   };
 };
