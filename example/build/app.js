@@ -27053,11 +27053,44 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
+	var Repos = function Repos(props) {
+
+	  console.log(props);
+
+	  var repos = props.repos.map(function (repo) {
+	    return _react2['default'].createElement(
+	      'li',
+	      { key: repo.id },
+	      repo.name
+	    );
+	  });
+
+	  return _react2['default'].createElement(
+	    'ul',
+	    null,
+	    repos
+	  );
+	};
+
 	var GithubSearchContainer = function GithubSearchContainer(props) {
 	  return _react2['default'].createElement(
 	    'div',
 	    null,
-	    _react2['default'].createElement(_SearchForm.SearchForm, { handleSubmit: props.fetchUser })
+	    _react2['default'].createElement(_SearchForm.SearchForm, { handleSubmit: props.fetchUser }),
+	    _react2['default'].createElement(
+	      'div',
+	      null,
+	      _react2['default'].createElement(
+	        'div',
+	        { className: 'col-6' },
+	        !props.isFetching && props.profile.name && _react2['default'].createElement(Profile, props.profile)
+	      ),
+	      _react2['default'].createElement(
+	        'div',
+	        { className: 'col-6' },
+	        !props.isFetching && props.repos.length > 0 && _react2['default'].createElement(Repos, { repos: props.repos })
+	      )
+	    )
 	  );
 	};
 
@@ -27068,7 +27101,8 @@
 
 	  return {
 	    isFetching: state.githubUser.isFetching,
-	    profile: state.githubUser.profile || {}
+	    profile: state.githubUser.profile || {},
+	    repos: state.githubUser.repos || []
 	  };
 	};
 
@@ -29492,10 +29526,13 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.REJECT_USER = exports.RECEIVE_USER = exports.FETCH_USER = undefined;
+	exports.REJECT_USER_REPOS = exports.RECEIVE_USER_REPOS = exports.FETCH_USER_REPOS = exports.REJECT_USER = exports.RECEIVE_USER = exports.FETCH_USER = undefined;
 	exports.requestUser = requestUser;
 	exports.receiveUser = receiveUser;
 	exports.rejectUser = rejectUser;
+	exports.requestUserRepos = requestUserRepos;
+	exports.receiveUserRepos = receiveUserRepos;
+	exports.rejectUserRepos = rejectUserRepos;
 	exports.githubFetchUser = githubFetchUser;
 
 	var _isomorphicFetch = __webpack_require__(290);
@@ -29510,6 +29547,10 @@
 	var FETCH_USER = exports.FETCH_USER = 'FETCH_USER';
 	var RECEIVE_USER = exports.RECEIVE_USER = 'RECEIVE_USER';
 	var REJECT_USER = exports.REJECT_USER = 'REJECT_USER';
+
+	var FETCH_USER_REPOS = exports.FETCH_USER_REPOS = 'FETCH_USER_REPOS';
+	var RECEIVE_USER_REPOS = exports.RECEIVE_USER_REPOS = 'RECEIVE_USER_REPOS';
+	var REJECT_USER_REPOS = exports.REJECT_USER_REPOS = 'REJECT_USER_REPOS';
 
 	/**
 	 * Action Creators
@@ -29561,8 +29602,77 @@
 	}
 
 	/**
+	 * Request User Repos
+	 *
+	 * @description Create action to request a user's repos
+	 * @param {String} name of the github user
+	 * @return {Action} request user repos action
+	 */
+	function requestUserRepos(name) {
+
+	  return {
+	    type: FETCH_USER_REPOS,
+	    name: name
+	  };
+	}
+
+	/**
+	 * Receive User Repos
+	 *
+	 * @description Create action after receiving data about a user's repos
+	 * @param {Object} json data about the user's repos
+	 * @return {Action} received user repos action
+	 */
+	function receiveUserRepos(json) {
+
+	  return {
+	    type: RECEIVE_USER_REPOS,
+	    json: json
+	  };
+	}
+
+	/**
+	 * Reject User Repos
+	 *
+	 * @description Create action after request was rejected
+	 * @param {Object} err sent from server
+	 * @return {Action} server rejected repos request
+	 */
+	function rejectUserRepos(err) {
+
+	  return {
+	    type: REJECT_USER_REPOS,
+	    err: err
+	  };
+	}
+
+	/**
 	 * Async Action Creators
 	 */
+
+	/**
+	 * Fetch User's Repos
+	 *
+	 * @description Fetch data from github about a users repos while dispatching actions
+	 * @param {String} name of github user
+	 * @return {Promise} returns action creator that redux-thunk injects dispatch and store into
+	 */
+	function githubFetchUserRepos(name) {
+
+	  return function (dispatch) {
+
+	    dispatch(requestUserRepos(name));
+
+	    return (0, _isomorphicFetch2['default'])('https://api.github.com/users/' + String(name) + '/repos').then(function (res) {
+	      return res.json();
+	    }).then(function (json) {
+
+	      dispatch(receiveUserRepos(json));
+	    })['catch'](function (err) {
+	      dispatch(rejectUserRepos(err));
+	    });
+	  };
+	}
 
 	/**
 	 * Fetch User
@@ -29577,9 +29687,10 @@
 
 	    dispatch(requestUser(name));
 
-	    return (0, _isomorphicFetch2['default'])('https://api.github.com/users/' + name).then(function (res) {
+	    return (0, _isomorphicFetch2['default'])('https://api.github.com/users/' + String(name)).then(function (res) {
 	      return res.json();
 	    }).then(function (json) {
+	      dispatch(githubFetchUserRepos(name));
 	      dispatch(receiveUser(json));
 	    })['catch'](function (err) {
 	      dispatch(rejectUser(err));
@@ -30276,6 +30387,7 @@
 
 	var initState = {
 	  profile: {},
+	  repos: [],
 	  isFetching: false,
 	  errors: []
 	};
@@ -30299,6 +30411,21 @@
 	      return Object.assign({}, state, {
 	        isFetching: false,
 	        errors: state.errors.concat(action.err)
+	      });
+	    case _actions.FETCH_USER_REPOS:
+	      return Object.assign({}, state, {
+	        isFetching: true
+	      });
+	    case _actions.RECEIVE_USER_REPOS:
+	      return Object.assign({}, state, {
+	        isFetching: false,
+	        repos: action.json
+	      });
+	    case _actions.REJECT_USER_REPOS:
+	      return Object.assign({}, state, {
+	        isFetching: false,
+	        errors: state.errors.concat(action.err),
+	        repos: []
 	      });
 	    default:
 	      return state;
