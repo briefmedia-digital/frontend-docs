@@ -15,8 +15,14 @@ import configureStore from './store';
 import { Provider } from 'react-redux';
 const initState = {
   githubUser: {},
+  messages: {
+    error: '',
+  },
 };
 const store = configureStore(initState);
+
+// Import Utilities
+import { ErrorMessageContainer } from './Components/Utility/ErrorMessage';
 
 /**
  * class Client
@@ -34,7 +40,9 @@ class Client extends Component {
 
     return (
       <Provider store={ store }>
-        <Routes />
+        <ErrorMessageContainer>
+          <Routes />
+        </ErrorMessageContainer>
       </Provider>
     );
   }

@@ -58,7 +58,7 @@
 
 	// require css if building for development
 	if (true) {
-	  __webpack_require__(298);
+	  __webpack_require__(302);
 	}
 
 	// App div to append to
@@ -21362,11 +21362,13 @@
 
 	var _routes2 = _interopRequireDefault(_routes);
 
-	var _store = __webpack_require__(293);
+	var _store = __webpack_require__(295);
 
 	var _store2 = _interopRequireDefault(_store);
 
 	var _reactRedux = __webpack_require__(251);
+
+	var _ErrorMessage = __webpack_require__(300);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -21390,16 +21392,20 @@
 
 
 	var initState = {
-	  githubUser: {}
+	  githubUser: {},
+	  messages: {
+	    error: ''
+	  }
 	};
 	var store = (0, _store2['default'])(initState);
+
+	// Import Utilities
 
 	/**
 	 * class Client
 	 *
 	 * @description React component wrapper for the frontend
 	 */
-
 	var Client = function (_Component) {
 	  _inherits(Client, _Component);
 
@@ -21417,7 +21423,11 @@
 	        return _react2['default'].createElement(
 	          _reactRedux.Provider,
 	          { store: store },
-	          _react2['default'].createElement(_routes2['default'], null)
+	          _react2['default'].createElement(
+	            _ErrorMessage.ErrorMessageContainer,
+	            null,
+	            _react2['default'].createElement(_routes2['default'], null)
+	          )
 	        );
 	      }
 
@@ -21459,7 +21469,7 @@
 
 	var _SearchPage2 = _interopRequireDefault(_SearchPage);
 
-	var _AboutPage = __webpack_require__(292);
+	var _AboutPage = __webpack_require__(294);
 
 	var _AboutPage2 = _interopRequireDefault(_AboutPage);
 
@@ -27051,23 +27061,60 @@
 
 	var _actions = __webpack_require__(289);
 
+	var _Card = __webpack_require__(292);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
 	var Repos = function Repos(props) {
 
 	  console.log(props);
 
-	  var repos = props.repos.map(function (repo) {
+	  var repos = props.repos.slice(0, 8).map(function (repo) {
 	    return _react2['default'].createElement(
 	      'li',
-	      { key: repo.id },
-	      repo.name
+	      {
+	        key: repo.id,
+	        className: 'flex items-center lh-copy pa3 ph0-l bb b--black-10' },
+	      _react2['default'].createElement(
+	        'div',
+	        { className: 'pl3 flex-auto' },
+	        _react2['default'].createElement(
+	          'a',
+	          { href: repo.html_url, className: 'f6 link blue hover-dark-gray' },
+	          repo.name
+	        )
+	      ),
+	      _react2['default'].createElement(
+	        'div',
+	        null,
+	        _react2['default'].createElement(
+	          'span',
+	          { className: 'f6 db black-70' },
+	          'Issues: ',
+	          repo.open_issues
+	        ),
+	        _react2['default'].createElement(
+	          'span',
+	          { className: 'f6 db black-70' },
+	          'Forks: ',
+	          repo.forks
+	        )
+	      )
 	    );
 	  });
 
 	  return _react2['default'].createElement(
 	    'ul',
-	    null,
+	    { className: 'list' },
+	    _react2['default'].createElement(
+	      'li',
+	      null,
+	      _react2['default'].createElement(
+	        'h3',
+	        null,
+	        'Repositories'
+	      )
+	    ),
 	    repos
 	  );
 	};
@@ -27079,16 +27126,20 @@
 	    _react2['default'].createElement(_SearchForm.SearchForm, { handleSubmit: props.fetchUser }),
 	    _react2['default'].createElement(
 	      'div',
-	      null,
+	      { className: 'mw9 center ph3-ns' },
 	      _react2['default'].createElement(
 	        'div',
-	        { className: 'col-6' },
-	        !props.isFetching && props.profile.name && _react2['default'].createElement(Profile, props.profile)
-	      ),
-	      _react2['default'].createElement(
-	        'div',
-	        { className: 'col-6' },
-	        !props.isFetching && props.repos.length > 0 && _react2['default'].createElement(Repos, { repos: props.repos })
+	        { className: 'cf ph2-ns' },
+	        _react2['default'].createElement(
+	          'div',
+	          { className: 'fl w-100 w-50-ns pa2' },
+	          !props.isFetching && props.profile.name && _react2['default'].createElement(_Card.Card, props.profile)
+	        ),
+	        _react2['default'].createElement(
+	          'div',
+	          { className: 'fl w-100 w-50-ns pa2' },
+	          !props.isFetching && props.repos.length > 0 && _react2['default'].createElement(Repos, { repos: props.repos })
+	        )
 	      )
 	    )
 	  );
@@ -27165,7 +27216,7 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var inputClasses = "f6 f5-l input-reset bn fl black-80 bg-white pa3 lh-solid w-100 w-75-m w-80-l br2-ns br--left-ns";
+	var inputClasses = "f6 f5-l input-reset bn fl black-80 pa3 lh-solid w-100 w-75-m w-80-l br2-ns br--left-ns bg-light-gray";
 
 	/**
 	 * Header Navigation
@@ -27194,7 +27245,7 @@
 	        return _react2['default'].createElement(
 	          'form',
 	          {
-	            className: 'bg-light-green mw7 center pa4 br2-ns',
+	            className: 'mw7 center pa4 br2-ns',
 	            onSubmit: function () {
 	              function onSubmit(e) {
 	                e.preventDefault();
@@ -29539,6 +29590,8 @@
 
 	var _isomorphicFetch2 = _interopRequireDefault(_isomorphicFetch);
 
+	var _actions = __webpack_require__(308);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
 	/**
@@ -29690,8 +29743,12 @@
 	    return (0, _isomorphicFetch2['default'])('https://api.github.com/users/' + String(name)).then(function (res) {
 	      return res.json();
 	    }).then(function (json) {
-	      dispatch(githubFetchUserRepos(name));
-	      dispatch(receiveUser(json));
+	      if (json.message && json.message === 'Not Found') {
+	        dispatch((0, _actions.setError)('User not found, please try again'));
+	      } else {
+	        dispatch(githubFetchUserRepos(name));
+	        dispatch(receiveUser(json));
+	      }
 	    })['catch'](function (err) {
 	      dispatch(rejectUser(err));
 	    });
@@ -30181,6 +30238,85 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+	exports.Card = undefined;
+
+	var _Card = __webpack_require__(293);
+
+	var _Card2 = _interopRequireDefault(_Card);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	exports.Card = _Card2['default'];
+
+/***/ },
+/* 293 */
+/***/ function(module, exports, __webpack_require__) {
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+	var Card = function Card(props) {
+	  return _react2["default"].createElement(
+	    "section",
+	    { className: "tc pa3 pa5-ns" },
+	    _react2["default"].createElement(
+	      "article",
+	      { className: "hide-child relative ba b--black-20 mw5 center" },
+	      _react2["default"].createElement("img", {
+	        src: props.avatar_url,
+	        className: "db",
+	        alt: props.name }),
+	      _react2["default"].createElement(
+	        "div",
+	        { className: "pa2 bt b--black-20" },
+	        _react2["default"].createElement(
+	          "a",
+	          { className: "f6 db link dark-blue hover-blue", href: "https://www.github.com/" + String(props.name) },
+	          props.name
+	        ),
+	        _react2["default"].createElement(
+	          "p",
+	          { className: "f6 gray mv1" },
+	          props.login
+	        ),
+	        _react2["default"].createElement(
+	          "p",
+	          { className: "f6 gray mv1" },
+	          "Public Repos: ",
+	          props.public_repos
+	        )
+	      ),
+	      _react2["default"].createElement(
+	        "a",
+	        { className: "child absolute top-1 right-1 ba bw1 black-40 grow no-underline br-100 w1 h1 pa2 lh-solid b", href: "#" },
+	        "\xD7"
+	      )
+	    )
+	  );
+	};
+
+	Card.propTypes = {
+	  name: _react.PropTypes.string.isRequired,
+	  login: _react.PropTypes.string.isRequired,
+	  avatar_url: _react.PropTypes.string.isRequired
+	};
+
+	exports["default"] = Card;
+
+/***/ },
+/* 294 */
+/***/ function(module, exports, __webpack_require__) {
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -30273,7 +30409,7 @@
 	exports['default'] = AboutPage;
 
 /***/ },
-/* 293 */
+/* 295 */
 /***/ function(module, exports, __webpack_require__) {
 
 	Object.defineProperty(exports, "__esModule", {
@@ -30282,13 +30418,13 @@
 
 	var _redux = __webpack_require__(262);
 
-	var _reduxThunk = __webpack_require__(294);
+	var _reduxThunk = __webpack_require__(296);
 
 	var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
 
-	var _reduxDevtoolsExtension = __webpack_require__(295);
+	var _reduxDevtoolsExtension = __webpack_require__(297);
 
-	var _reducers = __webpack_require__(296);
+	var _reducers = __webpack_require__(298);
 
 	var _reducers2 = _interopRequireDefault(_reducers);
 
@@ -30304,7 +30440,7 @@
 	};
 
 /***/ },
-/* 294 */
+/* 296 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -30332,7 +30468,7 @@
 	exports['default'] = thunk;
 
 /***/ },
-/* 295 */
+/* 297 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -30358,7 +30494,7 @@
 
 
 /***/ },
-/* 296 */
+/* 298 */
 /***/ function(module, exports, __webpack_require__) {
 
 	Object.defineProperty(exports, "__esModule", {
@@ -30367,16 +30503,20 @@
 
 	var _redux = __webpack_require__(262);
 
-	var _reducer = __webpack_require__(297);
+	var _reducer = __webpack_require__(299);
 
 	var _reducer2 = _interopRequireDefault(_reducer);
 
+	var _reducer3 = __webpack_require__(309);
+
+	var _reducer4 = _interopRequireDefault(_reducer3);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	exports['default'] = (0, _redux.combineReducers)(Object.assign({}, _reducer2['default']));
+	exports['default'] = (0, _redux.combineReducers)(Object.assign({}, _reducer2['default'], _reducer4['default']));
 
 /***/ },
-/* 297 */
+/* 299 */
 /***/ function(module, exports, __webpack_require__) {
 
 	Object.defineProperty(exports, "__esModule", {
@@ -30409,8 +30549,7 @@
 	      });
 	    case _actions.REJECT_USER:
 	      return Object.assign({}, state, {
-	        isFetching: false,
-	        errors: state.errors.concat(action.err)
+	        isFetching: false
 	      });
 	    case _actions.FETCH_USER_REPOS:
 	      return Object.assign({}, state, {
@@ -30424,7 +30563,6 @@
 	    case _actions.REJECT_USER_REPOS:
 	      return Object.assign({}, state, {
 	        isFetching: false,
-	        errors: state.errors.concat(action.err),
 	        repos: []
 	      });
 	    default:
@@ -30439,16 +30577,70 @@
 	exports['default'] = githubSearchReducer;
 
 /***/ },
-/* 298 */
+/* 300 */
+/***/ function(module, exports, __webpack_require__) {
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.ErrorMessageContainer = undefined;
+
+	var _ErrorMessageContainer = __webpack_require__(301);
+
+	var _ErrorMessageContainer2 = _interopRequireDefault(_ErrorMessageContainer);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	exports.ErrorMessageContainer = _ErrorMessageContainer2['default'];
+
+/***/ },
+/* 301 */
+/***/ function(module, exports, __webpack_require__) {
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactRedux = __webpack_require__(251);
+
+	var _Messages = __webpack_require__(306);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	var ErrorMessageContainer = function ErrorMessageContainer(props) {
+	  return _react2['default'].createElement(
+	    'div',
+	    null,
+	    props.errorMessage && _react2['default'].createElement(_Messages.ErrorMessage, { message: props.errorMessage }),
+	    props.children
+	  );
+	};
+
+	var mapStateToProps = function mapStateToProps(state) {
+
+	  console.log(state);
+	  return {
+	    errorMessage: state.messages.error || ''
+	  };
+	};
+
+	exports['default'] = (0, _reactRedux.connect)(mapStateToProps)(ErrorMessageContainer);
+
+/***/ },
+/* 302 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(299);
+	var content = __webpack_require__(303);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(301)(content, {});
+	var update = __webpack_require__(305)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -30465,10 +30657,10 @@
 	}
 
 /***/ },
-/* 299 */
+/* 303 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(300)();
+	exports = module.exports = __webpack_require__(304)();
 	// imports
 
 
@@ -30479,7 +30671,7 @@
 
 
 /***/ },
-/* 300 */
+/* 304 */
 /***/ function(module, exports) {
 
 	/*
@@ -30535,7 +30727,7 @@
 
 
 /***/ },
-/* 301 */
+/* 305 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -30785,6 +30977,108 @@
 			URL.revokeObjectURL(oldSrc);
 	}
 
+
+/***/ },
+/* 306 */
+/***/ function(module, exports, __webpack_require__) {
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.ErrorMessage = undefined;
+
+	var _Messages = __webpack_require__(307);
+
+	exports.ErrorMessage = _Messages.ErrorMessage;
+
+/***/ },
+/* 307 */
+/***/ function(module, exports, __webpack_require__) {
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.ErrorMessage = undefined;
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+	var ErrorMessage = exports.ErrorMessage = function ErrorMessage(props) {
+	  return _react2["default"].createElement(
+	    "div",
+	    { className: "pa3 b red bg-washed-yellow" },
+	    props.message
+	  );
+	};
+
+/***/ },
+/* 308 */
+/***/ function(module, exports) {
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.setError = setError;
+	exports.clearError = clearError;
+	var SET_ERROR = exports.SET_ERROR = 'SET_ERROR';
+	var CLEAR_ERROR = exports.CLEAR_ERROR = 'CLEAR_ERROR';
+
+	function setError(message) {
+
+	  return {
+	    type: SET_ERROR,
+	    message: message
+	  };
+	}
+
+	function clearError() {
+
+	  return {
+	    type: CLEAR_ERROR
+	  };
+	}
+
+/***/ },
+/* 309 */
+/***/ function(module, exports, __webpack_require__) {
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _actions = __webpack_require__(308);
+
+	var initState = {
+	  error: ''
+	};
+
+	var messages = function messages() {
+	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initState;
+	  var action = arguments[1];
+
+
+	  switch (action.type) {
+	    case _actions.SET_ERROR:
+	      return Object.assign({}, state, {
+	        error: action.message
+	      });
+	    case _actions.CLEAR_ERROR:
+	      return Object.assign({}, state, {
+	        error: ''
+	      });
+	    default:
+	      return state;
+	  }
+	};
+
+	var ErrorMessageReducer = {
+	  messages: messages
+	};
+
+	exports['default'] = ErrorMessageReducer;
 
 /***/ }
 /******/ ]);
