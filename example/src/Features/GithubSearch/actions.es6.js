@@ -1,4 +1,5 @@
 import fetch from 'isomorphic-fetch';
+import { setError } from '../../Components/Utility/ErrorMessage/actions';
 
 /**
  * Github Search Actions
@@ -151,8 +152,12 @@ export function githubFetchUser(name) {
     return fetch(`https://api.github.com/users/${name}`)
       .then(res => res.json())
       .then(json => {
-        dispatch(githubFetchUserRepos(name));
-        dispatch(receiveUser(json));
+        if (json.message && json.message === 'Not Found') {
+          dispatch(setError('User not found, please try again'));
+        } else {
+          dispatch(githubFetchUserRepos(name));
+          dispatch(receiveUser(json));
+        }
       })
       .catch(err => {
         dispatch(rejectUser(err));

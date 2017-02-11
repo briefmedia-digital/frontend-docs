@@ -28,7 +28,6 @@ const githubUser = (state = initState, action) => {
       return {
         ...state,
         isFetching: false,
-        errors: state.errors.concat(action.err),
       };
     case FETCH_USER_REPOS:
       return {
@@ -45,7 +44,6 @@ const githubUser = (state = initState, action) => {
       return {
         ...state,
         isFetching: false,
-        errors: state.errors.concat(action.err),
         repos: [],
       };
     default:
