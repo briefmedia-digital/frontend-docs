@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { FlatButton } from '../../Atoms/Buttons';
 
 
-const inputClasses = "f6 f5-l input-reset bn fl black-80 bg-white pa3 lh-solid w-100 w-75-m w-80-l br2-ns br--left-ns";
+const inputClasses = "f6 f5-l input-reset bn fl black-80 pa3 lh-solid w-100 w-75-m w-80-l br2-ns br--left-ns bg-light-gray";
 
 /**
  * Header Navigation
@@ -21,7 +21,7 @@ export default class SearchForm extends Component {
 
     return (
       <form
-        className="bg-light-green mw7 center pa4 br2-ns"
+        className="mw7 center pa4 br2-ns"
         onSubmit={ e => {
           e.preventDefault();
           const name = this.textInput.value;
