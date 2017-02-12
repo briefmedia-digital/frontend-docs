@@ -6,6 +6,7 @@
 import React, { Component, PropTypes } from 'react';
 import { GithubSearchContainer } from '../../Features/GithubSearch';
 
+
 class SearchPage extends Component {
 
   constructor(props) {

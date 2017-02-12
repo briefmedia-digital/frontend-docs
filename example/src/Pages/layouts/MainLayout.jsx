@@ -5,6 +5,7 @@
  */
 import React, { Component } from 'react';
 import { SiteHeader } from '../../Components/Organisms/SiteHeader';
+import { ErrorMessageContainer } from '../../Components/Utility/ErrorMessage';
 
 
 class MainLayout extends Component {
@@ -17,21 +18,22 @@ class MainLayout extends Component {
   render() {
 
     return (
-      <main className="black-80">
-				<SiteHeader />
+      <ErrorMessageContainer>
+        <main className="black-80">
+          <SiteHeader />
 
-				<div className="mw7 center pb4 ph4 ph0-l" style={{ minHeight: '75vh' }}>
-          { this.props.children }
-				</div>
+          <div className="mw7 center pb4 ph4 ph0-l" style={{ minHeight: '75vh' }}>
+            { this.props.children }
+          </div>
 
-<footer className="bg-near-black white-80 pv5 ph0 ph4-l">
-	<p className="f6 mw7 center">
-		©2017 Your Company LLC, Inc.
-	</p>
-</footer>
+          <footer className="bg-near-black white-80 pv5 ph0 ph4-l">
+            <p className="f6 mw7 center">
+              ©2017 Your Company LLC, Inc.
+            </p>
+          </footer>
 
-
-      </main>
+        </main>
+      </ErrorMessageContainer>
     );
   }
 };

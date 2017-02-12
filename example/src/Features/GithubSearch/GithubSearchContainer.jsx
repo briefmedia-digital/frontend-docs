@@ -8,8 +8,6 @@ import { Card } from '../../Components/Molecules/Card';
 
 const Repos = (props) => {
 
-  console.log(props);
-
   const repos = props.repos.slice(0, 8).map(repo => {
     return (
       <li
@@ -39,8 +37,8 @@ const GithubSearchContainer = (props) => (
 
   <div>
     <SearchForm handleSubmit={ props.fetchUser } />
-    <div className="mw9 center ph3-ns">
-      <div className="cf ph2-ns">
+    <div className="mw12 center">
+      <div className="cf">
         <div className="fl w-100 w-50-ns pa2">
           { !props.isFetching && props.profile.name && <Card { ...props.profile } /> }
         </div>

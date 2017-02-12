@@ -21,7 +21,7 @@ export default class SearchForm extends Component {
 
     return (
       <form
-        className="mw7 center pa4 br2-ns"
+        className="mw12 center"
         onSubmit={ e => {
           e.preventDefault();
           const name = this.textInput.value;

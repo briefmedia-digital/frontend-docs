@@ -21,8 +21,6 @@ const initState = {
 };
 const store = configureStore(initState);
 
-// Import Utilities
-import { ErrorMessageContainer } from './Components/Utility/ErrorMessage';
 
 /**
  * class Client
@@ -40,9 +38,7 @@ class Client extends Component {
 
     return (
       <Provider store={ store }>
-        <ErrorMessageContainer>
           <Routes />
-        </ErrorMessageContainer>
       </Provider>
     );
   }
