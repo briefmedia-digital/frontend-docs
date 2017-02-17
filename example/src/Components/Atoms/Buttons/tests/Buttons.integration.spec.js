@@ -1,15 +1,15 @@
 import React from 'react';
-import { mount, shallow } from 'enzyme';
+import { shallow } from 'enzyme';
 import { expect } from 'chai';
 
-// Headers
+// Buttons
 import {
   FlatButton,
 } from '../Buttons';
 
 
 /**
- * Headers Tests
+ * Buttons Tests
  *
  * 1. FlatButton
  *
