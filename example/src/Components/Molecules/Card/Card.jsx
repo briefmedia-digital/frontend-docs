@@ -9,7 +9,7 @@ const Card = (props) => (
         className="db"
         alt={ props.name} />
       <div className="pa2 bt b--black-20">
-        <a className="f6 db link dark-blue hover-blue" href={ `https://www.github.com/${props.name}`}>{ props.name }</a>
+        <a className="f6 db link dark-blue hover-blue" href={ `https://www.github.com/${props.login}`}>{ props.name }</a>
         <p className="f6 gray mv1">{ props.login }</p>
         <p className="f6 gray mv1">Public Repos: { props.public_repos }</p>
       </div>
@@ -22,6 +22,7 @@ Card.propTypes = {
   name: PropTypes.string.isRequired,
   login: PropTypes.string.isRequired,
   avatar_url: PropTypes.string.isRequired,
+  public_repos: PropTypes.string.isRequired,
 };
 
 export default Card;

@@ -30406,7 +30406,7 @@
 	        { className: "pa2 bt b--black-20" },
 	        _react2["default"].createElement(
 	          "a",
-	          { className: "f6 db link dark-blue hover-blue", href: "https://www.github.com/" + String(props.name) },
+	          { className: "f6 db link dark-blue hover-blue", href: "https://www.github.com/" + String(props.login) },
 	          props.name
 	        ),
 	        _react2["default"].createElement(
@@ -30428,7 +30428,8 @@
 	Card.propTypes = {
 	  name: _react.PropTypes.string.isRequired,
 	  login: _react.PropTypes.string.isRequired,
-	  avatar_url: _react.PropTypes.string.isRequired
+	  avatar_url: _react.PropTypes.string.isRequired,
+	  public_repos: _react.PropTypes.string.isRequired
 	};
 
 	exports["default"] = Card;
