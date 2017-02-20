@@ -21454,6 +21454,10 @@
 
 	var _MainLayout2 = _interopRequireDefault(_MainLayout);
 
+	var _AdminLayout = __webpack_require__(310);
+
+	var _AdminLayout2 = _interopRequireDefault(_AdminLayout);
+
 	var _HomePage = __webpack_require__(286);
 
 	var _HomePage2 = _interopRequireDefault(_HomePage);
@@ -21466,6 +21470,10 @@
 
 	var _AboutPage2 = _interopRequireDefault(_AboutPage);
 
+	var _AdminHomePage = __webpack_require__(311);
+
+	var _AdminHomePage2 = _interopRequireDefault(_AdminHomePage);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
 	/**
@@ -21473,6 +21481,9 @@
 	 *
 	 * @description Full routing via react-router
 	 */
+
+
+	// Views
 
 
 	// Routes
@@ -21488,11 +21499,14 @@
 	      _react2['default'].createElement(_reactRouter.IndexRoute, { component: _HomePage2['default'] }),
 	      _react2['default'].createElement(_reactRouter.Route, { path: '/search', component: _SearchPage2['default'] }),
 	      _react2['default'].createElement(_reactRouter.Route, { path: '/about', component: _AboutPage2['default'] })
+	    ),
+	    _react2['default'].createElement(
+	      _reactRouter.Route,
+	      { path: '/admin', component: _AdminLayout2['default'] },
+	      _react2['default'].createElement(_reactRouter.IndexRoute, { component: _AdminHomePage2['default'] })
 	    )
 	  );
 	};
-
-	// Views
 
 /***/ },
 /* 180 */
@@ -31086,6 +31100,153 @@
 			URL.revokeObjectURL(oldSrc);
 	}
 
+
+/***/ },
+/* 310 */
+/***/ function(module, exports, __webpack_require__) {
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _ErrorMessage = __webpack_require__(243);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var AdminLayout = function (_Component) {
+	  _inherits(AdminLayout, _Component);
+
+	  function AdminLayout(props) {
+	    _classCallCheck(this, AdminLayout);
+
+	    return _possibleConstructorReturn(this, (AdminLayout.__proto__ || Object.getPrototypeOf(AdminLayout)).call(this, props));
+	  }
+
+	  _createClass(AdminLayout, [{
+	    key: 'render',
+	    value: function () {
+	      function render() {
+
+	        return _react2['default'].createElement(
+	          _ErrorMessage.ErrorMessageContainer,
+	          null,
+	          _react2['default'].createElement(
+	            'main',
+	            { className: 'black-80' },
+	            _react2['default'].createElement(
+	              'div',
+	              { className: 'mw7 center pb4 ph4 ph0-l', style: { minHeight: '75vh' } },
+	              this.props.children
+	            )
+	          )
+	        );
+	      }
+
+	      return render;
+	    }()
+	  }]);
+
+	  return AdminLayout;
+	}(_react.Component);
+
+	;
+
+	exports['default'] = AdminLayout;
+
+/***/ },
+/* 311 */
+/***/ function(module, exports, __webpack_require__) {
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactRouter = __webpack_require__(180);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var AdminHomePage = function (_Component) {
+	  _inherits(AdminHomePage, _Component);
+
+	  function AdminHomePage(props) {
+	    _classCallCheck(this, AdminHomePage);
+
+	    return _possibleConstructorReturn(this, (AdminHomePage.__proto__ || Object.getPrototypeOf(AdminHomePage)).call(this, props));
+	  }
+
+	  _createClass(AdminHomePage, [{
+	    key: 'render',
+	    value: function () {
+	      function render() {
+
+	        return _react2['default'].createElement(
+	          'section',
+	          { className: 'mt5' },
+	          _react2['default'].createElement(
+	            'h1',
+	            { className: 'mt0' },
+	            'Admin Section'
+	          ),
+	          _react2['default'].createElement(
+	            _reactRouter.Link,
+	            { to: '/' },
+	            'Home'
+	          ),
+	          _react2['default'].createElement(
+	            'p',
+	            null,
+	            'Lorem ipsum dolor sit amet, pulvinar nulla nihil potenti maecenas, metus id erat molestie integer mauris arcu, condimentum urna justo, cras vitae felis tellus vel feugiat ac, nam cras odio ac. Suspendisse placerat eget nec dui id lobortis, mus rhoncus posuere at, nec vel. Turpis turpis, nonummy bibendum nascetur consequat, et sem reprehenderit diam dis, maecenas nonummy amet laoreet sed id suscipit, aliquam amet lacus tristique nulla suspendisse. Diam autem, amet donec ipsum tristique. Sed hymenaeos, praesent mi, venenatis et pellentesque, lectus nullam et ut eros natus. Metus pellentesque tincidunt, conubia auctor vestibulum vivamus lacinia auctor, vitae commodi amet. Adipiscing suscipit nulla non orci non. Netus ut suspendisse vestibulum nibh, tellus in.'
+	          ),
+	          _react2['default'].createElement(
+	            'p',
+	            null,
+	            'Mollitia aliquet vitae est neque, pellentesque ut venenatis purus, quis proin scelerisque vitae, quis felis eget curae commodo. Vitae suspendisse. Urna a diam, nunc nam. Nec a, feugiat fermentum magna neque, nulla wisi vivamus velit habitasse repellat quis, non odio aliquet et purus nec elit. Quis mollis mi lorem, doloribus libero, id enim. Nunc ut consectetuer et ut. Pellentesque felis risus commodo quam minus suspendisse, donec morbi libero nulla vitae, iaculis elit id lectus. Consectetuer lectus, massa lacus sed, donec morbi arcu integer commodo interdum fringilla. Id pede sed vitae, sed diam lobortis, duis dolor, erat dignissim sapien quis blandit gravida risus, neque nulla auctor id non a consequat. Semper mollis ut, pellentesque non diam sagittis sed eget elit. Mauris nec diam purus vitae, cras posuere eu laoreet varius, vulputate cursus tellus mi ultricies facilisi, lorem habitasse fermentum dolore.'
+	          ),
+	          _react2['default'].createElement(
+	            'p',
+	            null,
+	            'Massa neque odio. Sit tellus venenatis nisl et, nonummy sodales id porttitor libero ullamcorper magnis, et suspendisse tincidunt ac. Cras pellentesque phasellus, eros eleifend mi lobortis leo sed, sollicitudin aenean egestas. Scelerisque quis suspendisse et at phasellus, netus faucibus id dolor non consectetuer penatibus, adipiscing semper sed. Fermentum nunc ac ipsum. Ut eros et pharetra varius egestas enim, nisi eget nunc, vitae a consequat ante id tincidunt eget. Pellentesque amet pretium nulla. Lacus justo consequuntur elementum ante ipsum turpis, eget nec pellentesque, sit condimentum interdum pretium habitasse, vestibulum sem sem ut eros auctor, magna neque. Porta amet magna justo. Platea at elit dolor id in dolor, ac suscipit. Dui a pellentesque id elit neque, magna quis interdum, ut ipsum velit ipsum imperdiet, vel mollis tortor amet, parturient ac aenean.'
+	          ),
+	          _react2['default'].createElement(
+	            'p',
+	            null,
+	            'Sodales potenti tempus augue proin purus, nostra lorem enim ipsum, vel error elementum erat et vestibulum, pharetra maecenas dolore vel tempus, a curabitur fusce arcu blandit. Lectus malesuada vitae leo, tempor dignissim varius aliquam. Ullamcorper amet suscipit leo lectus aptent. Morbi nec sed a maecenas sed ligula, dignissim fringilla neque aliquam laoreet mauris, pellentesque libero. Nec velit libero, iaculis rhoncus sed mauris tortor, eleifend dictum odio quisque massa vitae at. Wisi curabitur lectus, laoreet inceptos, erat convallis, duis nulla natoque ultricies dis duis, praesent aenean dolor mi. Fermentum imperdiet cursus sit purus ut feugiat, aliquet fermentum tellus lacinia dapibus magna, eget vitae. Phasellus turpis wisi quisque, a sed ut, pharetra non donec mi sit massa imperdiet, lacus tempor ut sit hendrerit est. Vestibulum enim, egestas amet tempus mauris neque fuga lacus.'
+	          )
+	        );
+	      }
+
+	      return render;
+	    }()
+	  }]);
+
+	  return AdminHomePage;
+	}(_react.Component);
+
+	exports['default'] = AdminHomePage;
 
 /***/ }
 /******/ ]);

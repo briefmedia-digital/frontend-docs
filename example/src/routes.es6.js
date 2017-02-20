@@ -5,11 +5,13 @@ import { Router, Route, IndexRoute, hashHistory } from 'react-router';
 
 // Layouts
 import MainLayout from './Pages/layouts/MainLayout';
+import AdminLayout from './Pages/layouts/AdminLayout';
 
 // Views
 import HomePage from './Pages/views/HomePage';
 import SearchPage from './Pages/views/SearchPage';
 import AboutPage from './Pages/views/AboutPage';
+import AdminHomePage from './Pages/views/AdminHomePage';
 
 /**
  * @name Routes
@@ -22,6 +24,9 @@ export default () => (
       <IndexRoute component={ HomePage } />
 			<Route path ="/search" component={ SearchPage } />
 			<Route path="/about" component={ AboutPage } />
+    </Route>
+    <Route path="/admin" component={ AdminLayout }>
+      <IndexRoute component={ AdminHomePage } />
     </Route>
   </Router>
 );

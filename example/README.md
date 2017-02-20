@@ -12,3 +12,4 @@ example uses webpack dev server which is currently incompatible with our drupal 
 each folders contents as a part of the frontend documentation.
 
 **Build**: compiled JavaScript and CSS will be outputted to this directory.
+

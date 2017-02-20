@@ -7,3 +7,4 @@ A layout is a master template of sorts. It allows for a parent template that wil
 ## List of layouts
 
 1. MainLayout - This is the generic layout
+2. AdminLayout - Admin section layout
