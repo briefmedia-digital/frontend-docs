@@ -5,7 +5,7 @@ import { expect } from 'chai';
 // Buttons
 import {
   FlatButton,
-} from '../Buttons';
+} from '/src/Components/Atoms/Buttons';
 
 
 /**

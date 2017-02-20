@@ -19,7 +19,7 @@ describe('<Card />', () => {
       login: 'Name',
       name: 'Firstname Lastname',
       avatar_url: 'http://www.google.com',
-      public_repos: '22',
+      public_repos: 22,
     };
 
     const wrapper = mount(<Card { ...CardInfo } />);

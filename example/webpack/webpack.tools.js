@@ -79,7 +79,7 @@ exports.common = function() {
         filename: '[name].js',
       },
       resolve: {
-        extensions: ['', '.js', '.es6.js', '.jsx'],
+        extensions: ['', '.js', '.jsx'],
       },
     },
     production: {

@@ -1,16 +1,15 @@
 import React from 'react';
-import { mount } from 'enzyme';
+import { mount, shallow } from 'enzyme';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-// Messages
+// Components
 import SearchForm from '../SearchForm';
+import { FlatButton } from '/src/Components/Atoms/Buttons';
 
 
 /**
- * Message Tests
- *
- * 1. ErrorMessage
+ * SearchForm Tests
  *
  */
 
@@ -25,12 +24,25 @@ describe('<SearchForm />', () => {
     expect(wrapper).to.have.length(1);
   });
 
-  it('should render', () => {
+  it('should contain a form', () => {
 
     const wrapper = mount(
       <SearchForm />
     );
-
-    expect(wrapper).to.have.length(1);
+    const form = wrapper.find('form');
+    expect(form).to.have.length(1);
   });
+
+  it('should run handleSubmit', () => {
+
+    const spy = sinon.spy();
+    const wrapper = mount(
+      <SearchForm handleSubmit={ spy } />
+    );
+    const input = wrapper.find('input[type="text"]');
+    input.value = 'Terrillo';
+    wrapper.simulate('submit');
+    expect(spy.called).to.be.true;
+  });
+
 });

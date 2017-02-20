@@ -49,7 +49,7 @@ describe('<ErrorMessage />', () => {
         onClick={ onClick } />
     );
     wrapper.simulate('click');
-    expect(onClick.calledOnce).to.equal(true);
+    expect(onClick.called).to.equal(true);
   });
 
 });
