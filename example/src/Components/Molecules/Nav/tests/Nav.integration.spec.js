@@ -1,10 +1,9 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import { expect } from 'chai';
-import sinon from 'sinon';
 
 // Messages
-import SearchForm from '../SearchForm';
+import HeaderNav from '../HeaderNav';
 
 
 /**
@@ -14,23 +13,15 @@ import SearchForm from '../SearchForm';
  *
  */
 
-describe('<SearchForm />', () => {
+describe('<HeaderNav />', () => {
 
   it('should render', () => {
 
     const wrapper = mount(
-      <SearchForm />
+      <HeaderNav />
     );
 
     expect(wrapper).to.have.length(1);
   });
 
-  it('should render', () => {
-
-    const wrapper = mount(
-      <SearchForm />
-    );
-
-    expect(wrapper).to.have.length(1);
-  });
 });

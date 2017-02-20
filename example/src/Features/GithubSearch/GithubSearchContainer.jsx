@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { SearchForm } from '../../Components/Organisms/SearchForm';
+import { SearchForm } from '/src/Components/Organisms/SearchForm';
 import { connect } from 'react-redux';
 import { githubFetchUser } from './actions';
-import { Card } from '../../Components/Molecules/Card';
+import { Card } from '/src/Components/Molecules/Card';
 
 
 

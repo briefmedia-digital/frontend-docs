@@ -1,3 +1,6 @@
 {
   "presets": ["airbnb"],
+  "plugins": [
+    "babel-root-slash-import"
+  ]
 }

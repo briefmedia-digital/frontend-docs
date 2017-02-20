@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { FlatButton } from '../../Atoms/Buttons';
+import { FlatButton } from '/src/Components/Atoms/Buttons';
 
 
 const inputClasses = "f6 f5-l input-reset bn fl black-80 pa3 lh-solid w-100 w-75-m w-80-l br2-ns br--left-ns bg-light-gray";

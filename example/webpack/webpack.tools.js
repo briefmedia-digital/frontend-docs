@@ -80,9 +80,6 @@ exports.common = function() {
       },
       resolve: {
         extensions: ['', '.js', '.es6.js', '.jsx'],
-        root: [
-          path.resolve(`/src`),
-        ],
       },
     },
     production: {
