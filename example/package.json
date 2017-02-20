@@ -6,8 +6,12 @@
   "scripts": {
     "build": "NODE_ENV=production webpack --display-error-details",
     "dev": "NODE_ENV=development webpack --watch",
+    "test-unit": "NODE_ENV=test mocha -w src/lib/tools/browser.js src/**/**.unit.spec.js",
+    "test-integration": "NODE_ENV=test mocha -w src/lib/tools/browser.js src/**/**.integration.spec.js",
+    "test-e2e": "NODE_ENV=test mocha -w src/lib/tools/browser.js src/**/**.e2e.spec.js",
     "test-all": "NODE_ENV=test mocha -w src/lib/tools/browser.js src/**/**.spec.js",
-    "test": "NODE_ENV=test karma start karma.conf.js"
+    "test": "NODE_ENV=test karma start karma.conf.js --singleRun",
+    "test:watch": "NODE_ENV=test karma start karma.conf.js "
   },
   "repository": {
     "type": "git",
