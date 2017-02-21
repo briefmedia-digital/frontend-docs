@@ -3,7 +3,7 @@ import { mount } from 'enzyme';
 import { expect } from 'chai';
 
 // Card
-import Card from '../Card';
+import { Card } from '/src/Components/Molecules/Card';
 
 
 /**

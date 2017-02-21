@@ -1,6 +1,6 @@
 import React from 'react';
-import { MainHeader } from '../../Atoms/Typography';
-import { HeaderNav } from '../../Molecules/Nav';
+import { MainHeader } from '/src/Components/Atoms/Typography';
+import { HeaderNav } from '/src/Components/Molecules/Nav';
 
 
 /**

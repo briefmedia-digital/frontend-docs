@@ -4,7 +4,7 @@
  * @description Search through github on this page
  */
 import React, { Component, PropTypes } from 'react';
-import { GithubSearchContainer } from '../../Features/GithubSearch';
+import { GithubSearchContainer } from '/src/Features/GithubSearch';
 
 
 class SearchPage extends Component {

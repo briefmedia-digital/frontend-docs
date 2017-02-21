@@ -3,7 +3,7 @@ import { mount } from 'enzyme';
 import { expect } from 'chai';
 
 // Messages
-import HeaderNav from '../HeaderNav';
+import HeaderNav from '/src/Components/Molecules/Nav/HeaderNav';
 
 
 /**

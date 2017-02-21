@@ -4,7 +4,7 @@
  * @description About through github on this page
  */
 import React, { Component, PropTypes } from 'react';
-import { SectionHeader } from '../../Components/Atoms/Typography';
+import { SectionHeader } from '/src/Components/Atoms/Typography';
 
 
 class AboutPage extends Component {

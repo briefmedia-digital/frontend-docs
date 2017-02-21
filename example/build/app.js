@@ -26901,7 +26901,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.ErrorMessageContainer = undefined;
+	exports.ErrorMessageUtil = exports.ErrorMessageContainer = undefined;
 
 	var _ErrorMessageContainer = __webpack_require__(244);
 
@@ -26910,6 +26910,7 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
 	exports.ErrorMessageContainer = _ErrorMessageContainer2['default'];
+	exports.ErrorMessageUtil = _ErrorMessageContainer.ErrorMessageUtil;
 
 /***/ },
 /* 244 */
@@ -26918,6 +26919,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+	exports.ErrorMessageUtil = undefined;
 
 	var _react = __webpack_require__(1);
 
@@ -26931,7 +26933,7 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	var ErrorMessageContainer = function ErrorMessageContainer(props) {
+	var ErrorMessageUtil = function ErrorMessageUtil(props) {
 	  return _react2['default'].createElement(
 	    'div',
 	    null,
@@ -26960,7 +26962,9 @@
 	  };
 	};
 
-	exports['default'] = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(ErrorMessageContainer);
+	var ErrorMessageContainer = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(ErrorMessageUtil);
+	exports.ErrorMessageUtil = ErrorMessageUtil;
+	exports['default'] = ErrorMessageContainer;
 
 /***/ },
 /* 245 */

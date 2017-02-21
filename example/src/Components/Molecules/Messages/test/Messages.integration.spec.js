@@ -6,7 +6,7 @@ import sinon from 'sinon';
 // Messages
 import {
   ErrorMessage,
-} from '../Messages';
+} from '/src/Components/Molecules/Messages';
 
 
 /**

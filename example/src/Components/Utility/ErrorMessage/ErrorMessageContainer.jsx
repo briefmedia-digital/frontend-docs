@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { ErrorMessage } from '../../Molecules/Messages';
-import { clearError } from '../../Utility/ErrorMessage/actions';
+import { ErrorMessage } from '/src/Components/Molecules/Messages';
+import { clearError } from '/src/Components/Utility/ErrorMessage/actions';
 
 
-const ErrorMessageContainer = (props) => (
+const ErrorMessageUtil = (props) => (
   <div>
 
     { props.errorMessage &&
@@ -29,4 +29,7 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ErrorMessageContainer);
+
+const ErrorMessageContainer = connect(mapStateToProps, mapDispatchToProps)(ErrorMessageUtil);
+export { ErrorMessageUtil };
+export default ErrorMessageContainer;

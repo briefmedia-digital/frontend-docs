@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 // Components
-import SearchForm from '../SearchForm';
+import { SearchForm } from '/src/Components/Organisms/SearchForm';
 import { FlatButton } from '/src/Components/Atoms/Buttons';
 
 

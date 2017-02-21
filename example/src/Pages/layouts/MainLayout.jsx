@@ -4,8 +4,8 @@
  * @description This is main layout for the user-facing frontend
  */
 import React, { Component } from 'react';
-import { SiteHeader } from '../../Components/Organisms/SiteHeader';
-import { ErrorMessageContainer } from '../../Components/Utility/ErrorMessage';
+import { SiteHeader } from '/src/Components/Organisms/SiteHeader';
+import { ErrorMessageContainer } from '/src/Components/Utility/ErrorMessage';
 
 
 class MainLayout extends Component {

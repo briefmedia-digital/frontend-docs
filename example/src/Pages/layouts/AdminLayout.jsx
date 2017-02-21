@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ErrorMessageContainer } from '../../Components/Utility/ErrorMessage';
+import { ErrorMessageContainer } from '/src/Components/Utility/ErrorMessage';
 
 
 class AdminLayout extends Component {

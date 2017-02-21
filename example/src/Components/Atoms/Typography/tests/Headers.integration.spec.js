@@ -7,7 +7,7 @@ import {
   MainHeader,
   ProfileHeader,
   SectionHeader,
-} from '../Headers';
+} from '/src/Components/Atoms/Typography/Headers';
 
 
 /**

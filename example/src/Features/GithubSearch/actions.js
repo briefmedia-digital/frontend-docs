@@ -1,5 +1,5 @@
 import fetch from 'isomorphic-fetch';
-import { setError } from '../../Components/Utility/ErrorMessage/actions';
+import { setError } from '/src/Components/Utility/ErrorMessage/actions';
 
 /**
  * Github Search Actions
