@@ -7,7 +7,6 @@ const initState = {
   profile: {},
   repos: [],
   isFetching: false,
-  errors: [],
 };
 
 const githubUser = (state = initState, action) => {

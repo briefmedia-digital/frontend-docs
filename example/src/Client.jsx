@@ -21,7 +21,6 @@ const initState = {
 };
 const store = configureStore(initState);
 
-
 /**
  * class Client
  *

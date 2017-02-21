@@ -30817,8 +30817,7 @@
 	var initState = {
 	  profile: {},
 	  repos: [],
-	  isFetching: false,
-	  errors: []
+	  isFetching: false
 	};
 
 	var githubUser = function githubUser() {

@@ -12,7 +12,7 @@ import {
   ErrorMessageUtil,
   ErrorMessageContainer,
 } from '/src/Components/Utility/ErrorMessage';
-
+import { ErrorMessage } from '/src/Components/Molecules/Messages';
 
 /**
  * ErrorMessage Tests
@@ -38,32 +38,40 @@ describe('<ErrorMessageUtil />', () => {
 
 describe('<ErrorMessageContainer />', () => {
 
-  it('should render', () => {
+  let store;
 
-    const message = 'Message';
+  // Redux Store
+  beforeEach(() => {
 
-    // Dummy Redux store
-    const store = configureStore({
+    store = configureStore({
+      githubUser: {},
       messages: {
-        error: message,
+        error: 'Message',
       },
     });
+
+  })
+
+  it('should render', () => {
+
     const wrapper = mount(
       <ErrorMessageContainer store={ store } />
     );
     expect(wrapper).to.have.length(1);
   });
 
+
+  it('should contain <ErrorMessage />', () => {
+
+    const wrapper = mount(
+      <ErrorMessageContainer store={ store } />
+    );
+
+    expect(wrapper.find(ErrorMessage)).to.have.length(1);
+  });
+
   it('should map state to props', () => {
 
-    const message = 'Message';
-
-    // Dummy Redux store
-    const store = configureStore({
-      messages: {
-        error: message,
-      },
-    });
     const wrapper = shallow(
       <ErrorMessageContainer store={ store } />
     );
@@ -71,15 +79,6 @@ describe('<ErrorMessageContainer />', () => {
   });
 
   it('should map dispatch to props', () => {
-
-    const message = 'Message';
-
-    // Dummy Redux store
-    const store = configureStore({
-      messages: {
-        error: message,
-      },
-    });
 
     // Create wrapper
     const wrapper = shallow(
@@ -90,14 +89,6 @@ describe('<ErrorMessageContainer />', () => {
 
   it('should dispatch correct action', () => {
 
-    const message = 'Message';
-
-    // Dummy Redux store
-    const store = configureStore({
-      messages: {
-        error: message,
-      },
-    });
     const dispatchSpy = sinon.spy();
     store.dispatch = dispatchSpy;
 
