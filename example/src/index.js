@@ -16,11 +16,11 @@ import Client from './Client';
 
 // require css if building for development
 if (process.env.NODE_ENV === 'development') {
-  require('../styles/main.pcss');
+  require('../styles/main.pcss'); // eslint-disable-line global-require
 }
 
 // App div to append to
-const app = document.getElementById('app');
+const app = window.document.getElementById('app');
 
 // Render when ready
 render(<Client />, app);

@@ -22,8 +22,8 @@ export default () => (
   <Router history={ hashHistory }>
     <Route path="/" component={ MainLayout }>
       <IndexRoute component={ HomePage } />
-			<Route path ="/search" component={ SearchPage } />
-			<Route path="/about" component={ AboutPage } />
+      <Route path="/search" component={ SearchPage } />
+      <Route path="/about" component={ AboutPage } />
     </Route>
     <Route path="/admin" component={ AdminLayout }>
       <IndexRoute component={ AdminHomePage } />

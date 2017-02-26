@@ -5,23 +5,19 @@ import reducers from './reducers';
 
 
 export default (initState) => {
-
   if (process.env.NODE_ENV === 'development') {
     return createStore(
       reducers,
       initState,
-      composeWithDevTools(
-        applyMiddleware(thunk)
-      )
-    );
-  } else {
-    return createStore(
-      reducers,
-      initState,
-      compose(
-        applyMiddleware(thunk)
-      )
+      composeWithDevTools(applyMiddleware(thunk)),
     );
   }
+  return createStore(
+    reducers,
+    initState,
+    compose(
+      applyMiddleware(thunk),
+    ),
+  );
 };
 
