@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 
 
-const Card = (props) => (
+const Card = props => (
   <section className="tc pt3 pt5-ns">
     <article className="relative ba b--black-20 mw12 center">
       <img
@@ -10,7 +10,8 @@ const Card = (props) => (
         alt={ props.name }
       />
       <div className="pa2 bt b--black-20">
-        <a className="f6 db link dark-blue hover-blue"
+        <a
+          className="f6 db link dark-blue hover-blue"
           href={ `https://www.github.com/${props.login}` }
         >
           { props.name }

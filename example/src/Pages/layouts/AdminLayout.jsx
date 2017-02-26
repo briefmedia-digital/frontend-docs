@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { ErrorMessageContainer } from '/src/Components/Utility/ErrorMessage';
 
 
@@ -15,7 +15,7 @@ class AdminLayout extends Component {
       <ErrorMessageContainer>
         <main className="black-80">
 
-          <div className="mw7 center pb4 ph4 ph0-l" style={{ minHeight: '75vh' }}>
+          <div className="mw7 center pb4 ph4 ph0-l" style={ { minHeight: '75vh' } }>
             { this.props.children }
           </div>
 
@@ -23,6 +23,10 @@ class AdminLayout extends Component {
       </ErrorMessageContainer>
     );
   }
+}
+
+AdminLayout.propTypes = {
+  children: PropTypes.element.isRequired,
 };
 
 export default AdminLayout;

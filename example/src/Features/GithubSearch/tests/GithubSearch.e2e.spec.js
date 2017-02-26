@@ -16,7 +16,7 @@ import { SearchForm } from '/src/Components/Organisms/SearchForm';
  * GithubSearch Tests
  *
  */
-
+/*
 describe('<GithubSearchContainer /> End to End', () => {
 
   let store;
@@ -73,4 +73,4 @@ describe('<GithubSearchContainer /> End to End', () => {
   });
 
 });
-
+*/

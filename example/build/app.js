@@ -29019,7 +29019,6 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.SiteHeader = undefined;
 
 	var _SiteHeader = __webpack_require__(276);
 
@@ -29029,7 +29028,9 @@
 	  return obj && obj.__esModule ? obj : { 'default': obj };
 	}
 
-	exports.SiteHeader = _SiteHeader2['default'];
+	exports['default'] = {
+	  SiteHeader: _SiteHeader2['default']
+	};
 
 /***/ },
 /* 276 */
@@ -29067,13 +29068,14 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.SectionHeader = exports.ProfileHeader = exports.MainHeader = undefined;
 
 	var _Headers = __webpack_require__(278);
 
-	exports.MainHeader = _Headers.MainHeader;
-	exports.ProfileHeader = _Headers.ProfileHeader;
-	exports.SectionHeader = _Headers.SectionHeader;
+	exports['default'] = {
+	  MainHeader: _Headers.MainHeader,
+	  ProfileHeader: _Headers.ProfileHeader,
+	  SectionHeader: _Headers.SectionHeader
+	};
 
 /***/ },
 /* 278 */
@@ -29145,7 +29147,6 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.HeaderNav = undefined;
 
 	var _HeaderNav = __webpack_require__(280);
 
@@ -29155,7 +29156,9 @@
 	  return obj && obj.__esModule ? obj : { 'default': obj };
 	}
 
-	exports.HeaderNav = _HeaderNav2['default'];
+	exports['default'] = {
+	  HeaderNav: _HeaderNav2['default']
+	};
 
 /***/ },
 /* 280 */
@@ -29197,7 +29200,6 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.ErrorMessageUtil = exports.ErrorMessageContainer = undefined;
 
 	var _ErrorMessageContainer = __webpack_require__(282);
 
@@ -29207,8 +29209,10 @@
 	  return obj && obj.__esModule ? obj : { 'default': obj };
 	}
 
-	exports.ErrorMessageContainer = _ErrorMessageContainer2['default'];
-	exports.ErrorMessageUtil = _ErrorMessageContainer.ErrorMessageUtil;
+	exports['default'] = {
+	  ErrorMessageContainer: _ErrorMessageContainer2['default'],
+	  ErrorMessageUtil: _ErrorMessageContainer.ErrorMessageUtil
+	};
 
 /***/ },
 /* 282 */
@@ -29280,11 +29284,12 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.ErrorMessage = undefined;
 
 	var _Messages = __webpack_require__(284);
 
-	exports.ErrorMessage = _Messages.ErrorMessage;
+	exports['default'] = {
+	  ErrorMessage: _Messages.ErrorMessage
+	};
 
 /***/ },
 /* 284 */
@@ -29324,7 +29329,6 @@
 	var CLEAR_ERROR = exports.CLEAR_ERROR = 'CLEAR_ERROR';
 
 	function setError(message) {
-
 	  return {
 	    type: SET_ERROR,
 	    message: message
@@ -29332,7 +29336,6 @@
 	}
 
 	function clearError() {
-
 	  return {
 	    type: CLEAR_ERROR
 	  };
@@ -29575,7 +29578,6 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.GithubSearchContainer = undefined;
 
 	var _GithubSearchContainer = __webpack_require__(290);
 
@@ -29585,7 +29587,9 @@
 	  return obj && obj.__esModule ? obj : { 'default': obj };
 	}
 
-	exports.GithubSearchContainer = _GithubSearchContainer2['default'];
+	exports['default'] = {
+	  GithubSearchContainer: _GithubSearchContainer2['default']
+	};
 
 /***/ },
 /* 290 */
@@ -29679,7 +29683,6 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.SearchForm = undefined;
 
 	var _SearchForm = __webpack_require__(292);
 
@@ -29689,7 +29692,9 @@
 	  return obj && obj.__esModule ? obj : { 'default': obj };
 	}
 
-	exports.SearchForm = _SearchForm2['default'];
+	exports['default'] = {
+	  SearchForm: _SearchForm2['default']
+	};
 
 /***/ },
 /* 292 */
@@ -29811,11 +29816,12 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.FlatButton = undefined;
 
 	var _Buttons = __webpack_require__(294);
 
-	exports.FlatButton = _Buttons.FlatButton;
+	exports['default'] = {
+	  FlatButton: _Buttons.FlatButton
+	};
 
 /***/ },
 /* 294 */
@@ -29862,14 +29868,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.REJECT_USER_REPOS = exports.RECEIVE_USER_REPOS = exports.FETCH_USER_REPOS = exports.REJECT_USER = exports.RECEIVE_USER = exports.FETCH_USER = undefined;
-	exports.requestUser = requestUser;
-	exports.receiveUser = receiveUser;
-	exports.rejectUser = rejectUser;
-	exports.requestUserRepos = requestUserRepos;
-	exports.receiveUserRepos = receiveUserRepos;
-	exports.rejectUserRepos = rejectUserRepos;
-	exports.githubFetchUser = githubFetchUser;
+	exports.githubFetchUser = exports.rejectUserRepos = exports.receiveUserRepos = exports.requestUserRepos = exports.rejectUser = exports.receiveUser = exports.requestUser = exports.REJECT_USER_REPOS = exports.RECEIVE_USER_REPOS = exports.FETCH_USER_REPOS = exports.REJECT_USER = exports.RECEIVE_USER = exports.FETCH_USER = undefined;
 
 	var _isomorphicFetch = __webpack_require__(296);
 
@@ -29903,13 +29902,16 @@
 	 * @param {String} name of the github user
 	 * @return {Action} request user action
 	 */
-	function requestUser(name) {
+	var requestUser = exports.requestUser = function () {
+	  function requestUser(name) {
+	    return {
+	      type: FETCH_USER,
+	      name: name
+	    };
+	  }
 
-	  return {
-	    type: FETCH_USER,
-	    name: name
-	  };
-	}
+	  return requestUser;
+	}();
 
 	/**
 	 * Receive User
@@ -29918,13 +29920,16 @@
 	 * @param {Object} json data about the user
 	 * @return {Action} received user action
 	 */
-	function receiveUser(json) {
+	var receiveUser = exports.receiveUser = function () {
+	  function receiveUser(json) {
+	    return {
+	      type: RECEIVE_USER,
+	      json: json
+	    };
+	  }
 
-	  return {
-	    type: RECEIVE_USER,
-	    json: json
-	  };
-	}
+	  return receiveUser;
+	}();
 
 	/**
 	 * Reject User
@@ -29933,13 +29938,16 @@
 	 * @param {Object} err sent from server
 	 * @return {Action} server rejected request
 	 */
-	function rejectUser(err) {
+	var rejectUser = exports.rejectUser = function () {
+	  function rejectUser(err) {
+	    return {
+	      type: REJECT_USER,
+	      err: err
+	    };
+	  }
 
-	  return {
-	    type: REJECT_USER,
-	    err: err
-	  };
-	}
+	  return rejectUser;
+	}();
 
 	/**
 	 * Request User Repos
@@ -29948,13 +29956,16 @@
 	 * @param {String} name of the github user
 	 * @return {Action} request user repos action
 	 */
-	function requestUserRepos(name) {
+	var requestUserRepos = exports.requestUserRepos = function () {
+	  function requestUserRepos(name) {
+	    return {
+	      type: FETCH_USER_REPOS,
+	      name: name
+	    };
+	  }
 
-	  return {
-	    type: FETCH_USER_REPOS,
-	    name: name
-	  };
-	}
+	  return requestUserRepos;
+	}();
 
 	/**
 	 * Receive User Repos
@@ -29963,13 +29974,16 @@
 	 * @param {Object} json data about the user's repos
 	 * @return {Action} received user repos action
 	 */
-	function receiveUserRepos(json) {
+	var receiveUserRepos = exports.receiveUserRepos = function () {
+	  function receiveUserRepos(json) {
+	    return {
+	      type: RECEIVE_USER_REPOS,
+	      json: json
+	    };
+	  }
 
-	  return {
-	    type: RECEIVE_USER_REPOS,
-	    json: json
-	  };
-	}
+	  return receiveUserRepos;
+	}();
 
 	/**
 	 * Reject User Repos
@@ -29978,13 +29992,16 @@
 	 * @param {Object} err sent from server
 	 * @return {Action} server rejected repos request
 	 */
-	function rejectUserRepos(err) {
+	var rejectUserRepos = exports.rejectUserRepos = function () {
+	  function rejectUserRepos(err) {
+	    return {
+	      type: REJECT_USER_REPOS,
+	      err: err
+	    };
+	  }
 
-	  return {
-	    type: REJECT_USER_REPOS,
-	    err: err
-	  };
-	}
+	  return rejectUserRepos;
+	}();
 
 	/**
 	 * Async Action Creators
@@ -29997,22 +30014,22 @@
 	 * @param {String} name of github user
 	 * @return {Promise} returns action creator that redux-thunk injects dispatch and store into
 	 */
-	function githubFetchUserRepos(name) {
+	var githubFetchUserRepos = function () {
+	  function githubFetchUserRepos(name) {
+	    return function (dispatch) {
+	      dispatch(requestUserRepos(name));
+	      return (0, _isomorphicFetch2['default'])('https://api.github.com/users/' + String(name) + '/repos').then(function (res) {
+	        return res.json();
+	      }).then(function (json) {
+	        return dispatch(receiveUserRepos(json));
+	      })['catch'](function (err) {
+	        return dispatch(rejectUserRepos(err));
+	      });
+	    };
+	  }
 
-	  return function (dispatch) {
-
-	    dispatch(requestUserRepos(name));
-
-	    return (0, _isomorphicFetch2['default'])('https://api.github.com/users/' + String(name) + '/repos').then(function (res) {
-	      return res.json();
-	    }).then(function (json) {
-
-	      dispatch(receiveUserRepos(json));
-	    })['catch'](function (err) {
-	      dispatch(rejectUserRepos(err));
-	    });
-	  };
-	}
+	  return githubFetchUserRepos;
+	}();
 
 	/**
 	 * Fetch User
@@ -30021,26 +30038,27 @@
 	 * @param {String} name of github user
 	 * @return {Promise} returns action creator that redux-thunk injects dispatch and store into
 	 */
-	function githubFetchUser(name) {
+	var githubFetchUser = exports.githubFetchUser = function () {
+	  function githubFetchUser(name) {
+	    return function (dispatch) {
+	      dispatch(requestUser(name));
+	      return (0, _isomorphicFetch2['default'])('https://api.github.com/users/' + String(name)).then(function (res) {
+	        return res.json();
+	      }).then(function (json) {
+	        if (json.message && json.message === 'Not Found') {
+	          dispatch((0, _actions.setError)('User not found, please try again'));
+	        } else {
+	          dispatch(githubFetchUserRepos(name));
+	          dispatch(receiveUser(json));
+	        }
+	      })['catch'](function (err) {
+	        dispatch(rejectUser(err));
+	      });
+	    };
+	  }
 
-	  return function (dispatch) {
-
-	    dispatch(requestUser(name));
-
-	    return (0, _isomorphicFetch2['default'])('https://api.github.com/users/' + String(name)).then(function (res) {
-	      return res.json();
-	    }).then(function (json) {
-	      if (json.message && json.message === 'Not Found') {
-	        dispatch((0, _actions.setError)('User not found, please try again'));
-	      } else {
-	        dispatch(githubFetchUserRepos(name));
-	        dispatch(receiveUser(json));
-	      }
-	    })['catch'](function (err) {
-	      dispatch(rejectUser(err));
-	    });
-	  };
-	}
+	  return githubFetchUser;
+	}();
 
 /***/ },
 /* 296 */
@@ -30525,7 +30543,6 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.Card = undefined;
 
 	var _Card = __webpack_require__(299);
 
@@ -30535,7 +30552,9 @@
 	  return obj && obj.__esModule ? obj : { 'default': obj };
 	}
 
-	exports.Card = _Card2['default'];
+	exports['default'] = {
+	  Card: _Card2['default']
+	};
 
 /***/ },
 /* 299 */

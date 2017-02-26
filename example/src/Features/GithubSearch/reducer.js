@@ -1,6 +1,6 @@
 import {
   FETCH_USER, RECEIVE_USER, REJECT_USER,
-  FETCH_USER_REPOS, RECEIVE_USER_REPOS, REJECT_USER_REPOS
+  FETCH_USER_REPOS, RECEIVE_USER_REPOS, REJECT_USER_REPOS,
 } from './actions';
 
 const initState = {
@@ -49,7 +49,7 @@ const githubUser = (state = initState, action) => {
       return state;
   }
 
-}
+};
 
 const githubSearchReducer = {
   githubUser,

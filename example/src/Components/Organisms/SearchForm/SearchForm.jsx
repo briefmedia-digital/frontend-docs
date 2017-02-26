@@ -2,7 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import { FlatButton } from '/src/Components/Atoms/Buttons';
 
 
-const inputClasses = "f6 f5-l input-reset bn fl black-80 pa3 lh-solid w-100 w-75-m w-80-l br2-ns br--left-ns bg-light-gray";
+const inputClasses = `f6 f5-l input-reset bn fl black-80
+pa3 lh-solid w-100 w-75-m w-80-l br2-ns br--left-ns bg-light-gray`;
 
 /**
  * Header Navigation
@@ -27,7 +28,7 @@ export default class SearchForm extends Component {
           const name = this.textInput.value;
           this.props.handleSubmit(name);
           this.textInput.value = '';
-        }}>
+        } }>
 
         <fieldset className="cf bn ma0 pa0">
           <legend className="pa0 f5 f4-ns mb3 black-80">Search for a github user</legend>

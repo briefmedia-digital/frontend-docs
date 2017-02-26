@@ -12,8 +12,8 @@
     "test-all": "NODE_ENV=test mocha -w src/lib/tools/browser.js src/**/**.spec.js",
     "test": "NODE_ENV=test karma start karma.conf.js --singleRun",
     "test:watch": "NODE_ENV=test karma start karma.conf.js ",
-    "lint:css": "stylelint --config .stylelintrc styles/*.pcss",
-    "lint:js": "eslint --config .eslintrc.js src/**.js src/**.jsx",
+    "lint:css": "stylelint --config ./.stylelintrc styles/**/**.pcss",
+    "lint:js": "eslint --config .eslintrc.js src/**/**.js src/**/**.jsx",
     "lint": "npm run lint:css & npm run lint:js"
   },
   "repository": {

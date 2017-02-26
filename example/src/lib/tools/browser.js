@@ -1,4 +1,4 @@
-
+/* eslint-disable */
 // Enables es6 during tests
 require('babel-register')();
 

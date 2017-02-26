@@ -1,6 +1,4 @@
-import ErrorMessageContainer from './ErrorMessageContainer';
-import { ErrorMessageUtil } from './ErrorMessageContainer';
-
+import ErrorMessageContainer, { ErrorMessageUtil } from './ErrorMessageContainer';
 
 export {
   ErrorMessageContainer,

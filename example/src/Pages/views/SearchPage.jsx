@@ -3,7 +3,7 @@
  *
  * @description Search through github on this page
  */
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { GithubSearchContainer } from '/src/Features/GithubSearch';
 
 

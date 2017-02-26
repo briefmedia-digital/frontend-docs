@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { ErrorMessage } from '/src/Components/Molecules/Messages';
 import { clearError } from '/src/Components/Utility/ErrorMessage/actions';
 
 
-const ErrorMessageUtil = (props) => (
+const ErrorMessageUtil = props => (
   <div>
 
     { props.errorMessage &&
@@ -15,15 +15,19 @@ const ErrorMessageUtil = (props) => (
   </div>
 );
 
-const mapStateToProps = (state) => {
+ErrorMessageUtil.propTypes = {
+  errorMessage: PropTypes.string.isRequired,
+  clearError: PropTypes.func.isRequired,
+  children: PropTypes.element.isRequired,
+};
 
+const mapStateToProps = state => {
   return {
     errorMessage: state.messages.error || '',
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
-
+const mapDispatchToProps = dispatch => {
   return {
     clearError: () => dispatch(clearError()),
   };

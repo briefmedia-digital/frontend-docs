@@ -23,13 +23,10 @@ export const REJECT_USER_REPOS = 'REJECT_USER_REPOS';
  * @param {String} name of the github user
  * @return {Action} request user action
  */
-export function requestUser(name) {
-
-  return {
-    type: FETCH_USER,
-    name,
-  };
-}
+export const requestUser = name => ({
+  type: FETCH_USER,
+  name,
+});
 
 /**
  * Receive User
@@ -38,13 +35,10 @@ export function requestUser(name) {
  * @param {Object} json data about the user
  * @return {Action} received user action
  */
-export function receiveUser(json) {
-
-  return {
-    type: RECEIVE_USER,
-    json,
-  };
-}
+export const receiveUser = json => ({
+  type: RECEIVE_USER,
+  json,
+});
 
 /**
  * Reject User
@@ -53,13 +47,10 @@ export function receiveUser(json) {
  * @param {Object} err sent from server
  * @return {Action} server rejected request
  */
-export function rejectUser(err) {
-
-  return {
-    type: REJECT_USER,
-    err,
-  };
-}
+export const rejectUser = err => ({
+  type: REJECT_USER,
+  err,
+});
 
 /**
  * Request User Repos
@@ -68,13 +59,10 @@ export function rejectUser(err) {
  * @param {String} name of the github user
  * @return {Action} request user repos action
  */
-export function requestUserRepos(name) {
-
-  return {
-    type: FETCH_USER_REPOS,
-    name,
-  };
-}
+export const requestUserRepos = name => ({
+  type: FETCH_USER_REPOS,
+  name,
+});
 
 /**
  * Receive User Repos
@@ -83,13 +71,10 @@ export function requestUserRepos(name) {
  * @param {Object} json data about the user's repos
  * @return {Action} received user repos action
  */
-export function receiveUserRepos(json) {
-
-  return {
-    type: RECEIVE_USER_REPOS,
-    json,
-  };
-}
+export const receiveUserRepos = json => ({
+  type: RECEIVE_USER_REPOS,
+  json,
+});
 
 /**
  * Reject User Repos
@@ -98,13 +83,10 @@ export function receiveUserRepos(json) {
  * @param {Object} err sent from server
  * @return {Action} server rejected repos request
  */
-export function rejectUserRepos(err) {
-
-  return {
-    type: REJECT_USER_REPOS,
-    err,
-  };
-}
+export const rejectUserRepos = err => ({
+  type: REJECT_USER_REPOS,
+  err,
+});
 
 /**
  * Async Action Creators
@@ -118,23 +100,14 @@ export function rejectUserRepos(err) {
  * @param {String} name of github user
  * @return {Promise} returns action creator that redux-thunk injects dispatch and store into
  */
-function githubFetchUserRepos(name) {
-
-  return (dispatch) => {
-
+const githubFetchUserRepos = name =>
+  dispatch => {
     dispatch(requestUserRepos(name));
-
     return fetch(`https://api.github.com/users/${name}/repos`)
       .then(res => res.json())
-      .then(json => {
-
-        dispatch(receiveUserRepos(json));
-      })
-      .catch(err => {
-        dispatch(rejectUserRepos(err));
-      });
+      .then(json => (dispatch(receiveUserRepos(json))))
+      .catch(err => (dispatch(rejectUserRepos(err))));
   };
-}
 
 /**
  * Fetch User
@@ -143,12 +116,9 @@ function githubFetchUserRepos(name) {
  * @param {String} name of github user
  * @return {Promise} returns action creator that redux-thunk injects dispatch and store into
  */
-export function githubFetchUser(name) {
-
-  return (dispatch) => {
-
+export const githubFetchUser = name =>
+  dispatch => {
     dispatch(requestUser(name));
-
     return fetch(`https://api.github.com/users/${name}`)
       .then(res => res.json())
       .then(json => {
@@ -163,4 +133,3 @@ export function githubFetchUser(name) {
         dispatch(rejectUser(err));
       });
   };
-}

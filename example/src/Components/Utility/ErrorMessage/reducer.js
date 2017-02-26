@@ -1,4 +1,3 @@
-
 import { SET_ERROR, CLEAR_ERROR } from './actions';
 
 
@@ -7,7 +6,6 @@ const initState = {
 };
 
 const messages = (state = initState, action) => {
-
   switch (action.type) {
     case SET_ERROR:
       return {
@@ -22,8 +20,7 @@ const messages = (state = initState, action) => {
     default:
       return state;
   }
-
-}
+};
 
 const ErrorMessageReducer = {
   messages,
