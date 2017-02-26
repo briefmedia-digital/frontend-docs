@@ -82,7 +82,7 @@ exports.common = function() {
         filename: '[name].js',
       },
       resolve: {
-        extensions: ['', '.js', '.jsx'],
+        extensions: ['', '.js', '.jsx', '.pcss'],
       },
     },
     production: {
@@ -96,7 +96,7 @@ exports.common = function() {
         filename: '[name].js',
       },
       resolve: {
-        extensions: ['', '.js', '.es6.js', '.jsx'],
+        extensions: ['', '.js', '.es6.js', '.jsx', '.pcss'],
         root: [
           'node_modules',
           path.resolve(`/src`),
@@ -108,7 +108,7 @@ exports.common = function() {
         modulesDirectories: [
           'node_modules',
         ],
-        extensions: ['', '.js', '.es6.js', '.jsx'],
+        extensions: ['', '.js', '.es6.js', '.jsx', '.pcss'],
         alias: {
           app: path.join(__dirname, 'src'),
         },
@@ -237,7 +237,7 @@ exports.lintJS = function() {
         // Eslint Loaders
         {
           test: /\.(js|jsx)$/,
-          loaders: ['eslint-loader', 'babel-loader'],
+          loaders: ['eslint-loader'],
           exclude: /node_modules/,
         },
 
@@ -288,7 +288,7 @@ exports.basicCSS = function() {
         // PostCSS Loaders
         {
           test: /\.(css|pcss)$/,
-          loaders: ['style-loader', 'css-loader?sourceMap', 'postcss-loader'],
+          loaders: ['style-loader', 'css-loader', 'postcss-loader'],
         },
 
       ],
@@ -313,7 +313,7 @@ exports.extractCSS = function() {
 
         // PostCSS Loaders
         {
-          test: /\.(css|pcss)$/,
+          test: /\.pcss$/,
           loader: ExtractTextPlugin.extract('style-loader', 'css-loader!postcss-loader'),
         },
 
@@ -334,14 +334,11 @@ exports.extractCSS = function() {
  *
  * @description Remove unused styles
  */
-exports.purifyCSS = function(paths) {
+exports.purifyCSS = function({ paths }) {
 
   return {
     plugins: [
-      new PurifyCSSPlugin({
-        basePath: process.cwd(),
-        paths: paths,
-      }),
+      new PurifyCSSPlugin({ paths }),
     ],
   };
 };

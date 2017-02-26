@@ -53,7 +53,7 @@ const GithubSearchContainer = props => (
 GithubSearchContainer.propTypes = {
   fetchUser: PropTypes.func.isRequired,
   isFetching: PropTypes.bool.isRequired,
-  profile: PropTypes.objectOf(PropTypes.object).isRequired,
+  profile: PropTypes.objectOf(PropTypes.any).isRequired,
   repos: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
@@ -62,7 +62,7 @@ GithubSearchContainer.propTypes = {
  */
 const mapStateToProps = state => {
   return {
-    isFetching: state.githubUser.isFetching,
+    isFetching: state.githubUser.isFetching || false,
     profile: state.githubUser.profile || {},
     repos: state.githubUser.repos || [],
   };
