@@ -19,7 +19,8 @@ const prodConfig = merge(
   tools.common(),
   tools.basicJS(),
   tools.extractJS('vendor', 'vendor.js'),
-  tools.minifyJs(),
+  tools.minifyJS(),
+  tools.lintCSS(),
   tools.extractCSS(),
   //tools.purifyCSS([PATH.src]),
   tools.clean('build')

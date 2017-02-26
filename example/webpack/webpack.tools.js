@@ -11,6 +11,7 @@ const webpack = require('webpack');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const PurifyCSSPlugin = require('purifycss-webpack-plugin');
+const StyleLintPlugin = require('stylelint-webpack-plugin');
 
 /**
  * List of tools
@@ -21,16 +22,18 @@ const PurifyCSSPlugin = require('purifycss-webpack-plugin');
  *    3. { clean } Clean the build folder
  *    4. { setEnv } Set the build environment
  *  - JavaScript
- *    5. { basicJs } ES6/Babel/React JavaScript loaders, *DEV*
+ *    5. { basicJS } ES6/Babel/React JavaScript loaders, *DEV*
  *    6. { extractJS } Extract pieces of the JS into bundles, *PROD*
- *    7. { minifyJs } Minify JS
+ *    7. { minifyJS } Minify JS
+ *    8. { lintJS } Run eslint on the JS files
  *  - PostCSS
- *    8. { cssConfig } PostCSS config
- *    9. { basicCSS } PostCSS loaders and functions
- *    10. { extractCSS } Extract CSS into files
- *    11. { purifyCSS } Remove unused css
+ *    9. { cssConfig } PostCSS config
+ *    10. { basicCSS } PostCSS loaders and functions
+ *    11. { extractCSS } Extract CSS into files
+ *    12. { purifyCSS } Remove unused css
+ *    13. { lintCSS } Run stylelint on pcss files
  *  - Testing
- *    12. { setupTests } Setup to run tests
+ *    14. { setupTests } Setup to run tests
  */
 
 
@@ -207,7 +210,7 @@ exports.extractJS = function(chunkName, fileName) {
  *
  * @description Minify the JavaScript
  */
-exports.minifyJs = function() {
+exports.minifyJS = function() {
 
   return {
     plugins: [
@@ -217,6 +220,29 @@ exports.minifyJs = function() {
         },
       }),
     ]
+  };
+};
+
+/**
+ * Lint JS
+ *
+ * @description run eslint on the JS files
+ */
+exports.lintJS = function() {
+
+  return {
+    module: {
+      loaders: [
+
+        // Eslint Loaders
+        {
+          test: /\.(js|jsx)$/,
+          loaders: ['eslint-loader', 'babel-loader'],
+          exclude: /node_modules/,
+        },
+
+      ],
+    },
   };
 };
 
@@ -319,6 +345,24 @@ exports.purifyCSS = function(paths) {
     ],
   };
 };
+
+/**
+ * Lint CSS
+ *
+ * @description Run stylelint on pcss files
+ *
+ * @param {Array} paths leading to the template files
+ * @param {Array} extensions of the template files e.g. ['.html', '.jsx'] etc.
+ */
+exports.lintCSS = () => ({
+  plugins: [
+    new StyleLintPlugin({
+      configFile: '.stylelintrc',
+      files: 'styles/**/*.pcss',
+      configBasedir: './',
+    }),
+  ],
+});
 
 /**
  * Setup Tests

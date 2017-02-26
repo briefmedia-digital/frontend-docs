@@ -54,7 +54,9 @@
 
 	var _Client2 = _interopRequireDefault(_Client);
 
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	function _interopRequireDefault(obj) {
+	  return obj && obj.__esModule ? obj : { 'default': obj };
+	}
 
 	// require css if building for development
 	if (true) {
@@ -3409,14 +3411,103 @@
 /***/ function(module, exports) {
 
 	// shim for using process in browser
-
 	var process = module.exports = {};
+
+	// cached from whatever global is present so that test runners that stub it
+	// don't break things.  But we need to wrap it in a try catch in case it is
+	// wrapped in strict mode code which doesn't define any globals.  It's inside a
+	// function because try/catches deoptimize in certain engines.
+
+	var cachedSetTimeout;
+	var cachedClearTimeout;
+
+	function defaultSetTimout() {
+	    throw new Error('setTimeout has not been defined');
+	}
+	function defaultClearTimeout () {
+	    throw new Error('clearTimeout has not been defined');
+	}
+	(function () {
+	    try {
+	        if (typeof setTimeout === 'function') {
+	            cachedSetTimeout = setTimeout;
+	        } else {
+	            cachedSetTimeout = defaultSetTimout;
+	        }
+	    } catch (e) {
+	        cachedSetTimeout = defaultSetTimout;
+	    }
+	    try {
+	        if (typeof clearTimeout === 'function') {
+	            cachedClearTimeout = clearTimeout;
+	        } else {
+	            cachedClearTimeout = defaultClearTimeout;
+	        }
+	    } catch (e) {
+	        cachedClearTimeout = defaultClearTimeout;
+	    }
+	} ())
+	function runTimeout(fun) {
+	    if (cachedSetTimeout === setTimeout) {
+	        //normal enviroments in sane situations
+	        return setTimeout(fun, 0);
+	    }
+	    // if setTimeout wasn't available but was latter defined
+	    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
+	        cachedSetTimeout = setTimeout;
+	        return setTimeout(fun, 0);
+	    }
+	    try {
+	        // when when somebody has screwed with setTimeout but no I.E. maddness
+	        return cachedSetTimeout(fun, 0);
+	    } catch(e){
+	        try {
+	            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
+	            return cachedSetTimeout.call(null, fun, 0);
+	        } catch(e){
+	            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
+	            return cachedSetTimeout.call(this, fun, 0);
+	        }
+	    }
+
+
+	}
+	function runClearTimeout(marker) {
+	    if (cachedClearTimeout === clearTimeout) {
+	        //normal enviroments in sane situations
+	        return clearTimeout(marker);
+	    }
+	    // if clearTimeout wasn't available but was latter defined
+	    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
+	        cachedClearTimeout = clearTimeout;
+	        return clearTimeout(marker);
+	    }
+	    try {
+	        // when when somebody has screwed with setTimeout but no I.E. maddness
+	        return cachedClearTimeout(marker);
+	    } catch (e){
+	        try {
+	            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
+	            return cachedClearTimeout.call(null, marker);
+	        } catch (e){
+	            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
+	            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
+	            return cachedClearTimeout.call(this, marker);
+	        }
+	    }
+
+
+
+	}
 	var queue = [];
 	var draining = false;
 	var currentQueue;
 	var queueIndex = -1;
 
 	function cleanUpNextTick() {
+	    if (!draining || !currentQueue) {
+	        return;
+	    }
 	    draining = false;
 	    if (currentQueue.length) {
 	        queue = currentQueue.concat(queue);
@@ -3432,7 +3523,7 @@
 	    if (draining) {
 	        return;
 	    }
-	    var timeout = setTimeout(cleanUpNextTick);
+	    var timeout = runTimeout(cleanUpNextTick);
 	    draining = true;
 
 	    var len = queue.length;
@@ -3449,7 +3540,7 @@
 	    }
 	    currentQueue = null;
 	    draining = false;
-	    clearTimeout(timeout);
+	    runClearTimeout(timeout);
 	}
 
 	process.nextTick = function (fun) {
@@ -3461,7 +3552,7 @@
 	    }
 	    queue.push(new Item(fun, args));
 	    if (queue.length === 1 && !draining) {
-	        setTimeout(drainQueue, 0);
+	        runTimeout(drainQueue);
 	    }
 	};
 
@@ -21348,11 +21439,21 @@
 /* 178 */
 /***/ function(module, exports, __webpack_require__) {
 
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
 
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	var _createClass = function () {
+	  function defineProperties(target, props) {
+	    for (var i = 0; i < props.length; i++) {
+	      var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);
+	    }
+	  }return function (Constructor, protoProps, staticProps) {
+	    if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;
+	  };
+	}();
 
 	var _react = __webpack_require__(1);
 
@@ -21368,17 +21469,31 @@
 
 	var _store2 = _interopRequireDefault(_store);
 
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	function _interopRequireDefault(obj) {
+	  return obj && obj.__esModule ? obj : { 'default': obj };
+	}
 
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	function _classCallCheck(instance, Constructor) {
+	  if (!(instance instanceof Constructor)) {
+	    throw new TypeError("Cannot call a class as a function");
+	  }
+	}
 
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	function _possibleConstructorReturn(self, call) {
+	  if (!self) {
+	    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+	  }return call && ((typeof call === "undefined" ? "undefined" : _typeof(call)) === "object" || typeof call === "function") ? call : self;
+	}
 
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Client entry
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * This is the wrapper component for the entire client frontend
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
+	function _inherits(subClass, superClass) {
+	  if (typeof superClass !== "function" && superClass !== null) {
+	    throw new TypeError("Super expression must either be null or a function, not " + (typeof superClass === "undefined" ? "undefined" : _typeof(superClass)));
+	  }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+	} /**
+	   * Client entry
+	   *
+	   * This is the wrapper component for the entire client frontend
+	   */
 
 	// Import React as well as React.Component and React.PropTypes
 
@@ -21417,11 +21532,7 @@
 	    key: 'render',
 	    value: function () {
 	      function render() {
-	        return _react2['default'].createElement(
-	          _reactRedux.Provider,
-	          { store: store },
-	          _react2['default'].createElement(_routes2['default'], null)
-	        );
+	        return _react2['default'].createElement(_reactRedux.Provider, { store: store }, _react2['default'].createElement(_routes2['default'], null));
 	      }
 
 	      return render;
@@ -23694,14 +23805,15 @@
 
 	var _AdminHomePage2 = _interopRequireDefault(_AdminHomePage);
 
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	function _interopRequireDefault(obj) {
+	  return obj && obj.__esModule ? obj : { 'default': obj };
+	}
 
 	/**
 	 * @name Routes
 	 *
 	 * @description Full routing via react-router
 	 */
-
 
 	// Views
 
@@ -23710,22 +23822,7 @@
 
 	// Layouts
 	exports['default'] = function () {
-	  return _react2['default'].createElement(
-	    _reactRouter.Router,
-	    { history: _reactRouter.hashHistory },
-	    _react2['default'].createElement(
-	      _reactRouter.Route,
-	      { path: '/', component: _MainLayout2['default'] },
-	      _react2['default'].createElement(_reactRouter.IndexRoute, { component: _HomePage2['default'] }),
-	      _react2['default'].createElement(_reactRouter.Route, { path: '/search', component: _SearchPage2['default'] }),
-	      _react2['default'].createElement(_reactRouter.Route, { path: '/about', component: _AboutPage2['default'] })
-	    ),
-	    _react2['default'].createElement(
-	      _reactRouter.Route,
-	      { path: '/admin', component: _AdminLayout2['default'] },
-	      _react2['default'].createElement(_reactRouter.IndexRoute, { component: _AdminHomePage2['default'] })
-	    )
-	  );
+	  return _react2['default'].createElement(_reactRouter.Router, { history: _reactRouter.hashHistory }, _react2['default'].createElement(_reactRouter.Route, { path: '/', component: _MainLayout2['default'] }, _react2['default'].createElement(_reactRouter.IndexRoute, { component: _HomePage2['default'] }), _react2['default'].createElement(_reactRouter.Route, { path: '/search', component: _SearchPage2['default'] }), _react2['default'].createElement(_reactRouter.Route, { path: '/about', component: _AboutPage2['default'] })), _react2['default'].createElement(_reactRouter.Route, { path: '/admin', component: _AdminLayout2['default'] }, _react2['default'].createElement(_reactRouter.IndexRoute, { component: _AdminHomePage2['default'] })));
 	};
 
 /***/ },
@@ -28837,11 +28934,21 @@
 /* 274 */
 /***/ function(module, exports, __webpack_require__) {
 
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
 
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	var _createClass = function () {
+	  function defineProperties(target, props) {
+	    for (var i = 0; i < props.length; i++) {
+	      var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);
+	    }
+	  }return function (Constructor, protoProps, staticProps) {
+	    if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;
+	  };
+	}();
 
 	var _react = __webpack_require__(1);
 
@@ -28851,18 +28958,31 @@
 
 	var _ErrorMessage = __webpack_require__(281);
 
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	function _interopRequireDefault(obj) {
+	  return obj && obj.__esModule ? obj : { 'default': obj };
+	}
 
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	function _classCallCheck(instance, Constructor) {
+	  if (!(instance instanceof Constructor)) {
+	    throw new TypeError("Cannot call a class as a function");
+	  }
+	}
 
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	function _possibleConstructorReturn(self, call) {
+	  if (!self) {
+	    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+	  }return call && ((typeof call === "undefined" ? "undefined" : _typeof(call)) === "object" || typeof call === "function") ? call : self;
+	}
 
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @name Main Layout
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @description This is main layout for the user-facing frontend
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
-
+	function _inherits(subClass, superClass) {
+	  if (typeof superClass !== "function" && superClass !== null) {
+	    throw new TypeError("Super expression must either be null or a function, not " + (typeof superClass === "undefined" ? "undefined" : _typeof(superClass)));
+	  }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+	} /**
+	   * @name Main Layout
+	   *
+	   * @description This is main layout for the user-facing frontend
+	   */
 
 	var MainLayout = function (_Component) {
 	  _inherits(MainLayout, _Component);
@@ -28878,29 +28998,7 @@
 	    value: function () {
 	      function render() {
 
-	        return _react2['default'].createElement(
-	          _ErrorMessage.ErrorMessageContainer,
-	          null,
-	          _react2['default'].createElement(
-	            'main',
-	            { className: 'black-80' },
-	            _react2['default'].createElement(_SiteHeader.SiteHeader, null),
-	            _react2['default'].createElement(
-	              'div',
-	              { className: 'mw7 center pb4 ph4 ph0-l', style: { minHeight: '75vh' } },
-	              this.props.children
-	            ),
-	            _react2['default'].createElement(
-	              'footer',
-	              { className: 'bg-near-black white-80 pv5 ph0 ph4-l' },
-	              _react2['default'].createElement(
-	                'p',
-	                { className: 'f6 mw7 center' },
-	                '\xA92017 Your Company LLC, Inc.'
-	              )
-	            )
-	          )
-	        );
+	        return _react2['default'].createElement(_ErrorMessage.ErrorMessageContainer, null, _react2['default'].createElement('main', { className: 'black-80' }, _react2['default'].createElement(_SiteHeader.SiteHeader, null), _react2['default'].createElement('div', { className: 'mw7 center pb4 ph4 ph0-l', style: { minHeight: '75vh' } }, this.props.children), _react2['default'].createElement('footer', { className: 'bg-near-black white-80 pv5 ph0 ph4-l' }, _react2['default'].createElement('p', { className: 'f6 mw7 center' }, '\xA92017 Your Company LLC, Inc.'))));
 	      }
 
 	      return render;
@@ -28927,7 +29025,9 @@
 
 	var _SiteHeader2 = _interopRequireDefault(_SiteHeader);
 
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	function _interopRequireDefault(obj) {
+	  return obj && obj.__esModule ? obj : { 'default': obj };
+	}
 
 	exports.SiteHeader = _SiteHeader2['default'];
 
@@ -28947,7 +29047,9 @@
 
 	var _Nav = __webpack_require__(279);
 
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	function _interopRequireDefault(obj) {
+	  return obj && obj.__esModule ? obj : { 'default': obj };
+	}
 
 	/**
 	 * Header Navigation
@@ -28955,12 +29057,7 @@
 	 * @description Main navigation for the site, present in the header
 	 */
 	exports['default'] = function () {
-	  return _react2['default'].createElement(
-	    'header',
-	    { className: 'bg-white tc pv4 avenir mw7 center' },
-	    _react2['default'].createElement(_Typography.MainHeader, { title: 'Github Profiler', subtitle: 'Example for Brief Media frontend' }),
-	    _react2['default'].createElement(_Nav.HeaderNav, null)
-	  );
+	  return _react2['default'].createElement('header', { className: 'bg-white tc pv4 avenir mw7 center' }, _react2['default'].createElement(_Typography.MainHeader, { title: 'Github Profiler', subtitle: 'Example for Brief Media frontend' }), _react2['default'].createElement(_Nav.HeaderNav, null));
 	};
 
 /***/ },
@@ -28991,7 +29088,9 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+	function _interopRequireDefault(obj) {
+	  return obj && obj.__esModule ? obj : { "default": obj };
+	}
 
 	/**
 	 * Main Header
@@ -29000,22 +29099,13 @@
 	 * @property {String} props.title for the main title
 	 * @property {String} props.subtitle for the subtitle
 	 */
-	var MainHeader = exports.MainHeader = function MainHeader(props) {
-	  return _react2["default"].createElement(
-	    "div",
-	    null,
-	    _react2["default"].createElement(
-	      "h1",
-	      { className: "mt2 mb0 baskerville i fw1 f1" },
-	      props.title
-	    ),
-	    _react2["default"].createElement(
-	      "h2",
-	      { className: "mt2 mb0 f6 fw4 ttu tracked" },
-	      props.subtitle
-	    )
-	  );
-	};
+	var MainHeader = exports.MainHeader = function () {
+	  function MainHeader(props) {
+	    return _react2["default"].createElement("div", null, _react2["default"].createElement("h1", { className: "mt2 mb0 baskerville i fw1 f1" }, props.title), _react2["default"].createElement("h2", { className: "mt2 mb0 f6 fw4 ttu tracked" }, props.subtitle));
+	  }
+
+	  return MainHeader;
+	}();
 
 	MainHeader.propTypes = {
 	  title: _react.PropTypes.string.isRequired,
@@ -29027,26 +29117,26 @@
 	 *
 	 * @description Header for the github profile
 	 */
-	var ProfileHeader = exports.ProfileHeader = function ProfileHeader(props) {
-	  return _react2["default"].createElement(
-	    "h2",
-	    null,
-	    props.children
-	  );
-	};
+	var ProfileHeader = exports.ProfileHeader = function () {
+	  function ProfileHeader(props) {
+	    return _react2["default"].createElement("h2", null, props.children);
+	  }
+
+	  return ProfileHeader;
+	}();
 
 	/**
 	 * Section Header
 	 *
 	 * @description Header for a section
 	 */
-	var SectionHeader = exports.SectionHeader = function SectionHeader(props) {
-	  return _react2["default"].createElement(
-	    "h3",
-	    null,
-	    props.children
-	  );
-	};
+	var SectionHeader = exports.SectionHeader = function () {
+	  function SectionHeader(props) {
+	    return _react2["default"].createElement("h3", null, props.children);
+	  }
+
+	  return SectionHeader;
+	}();
 
 /***/ },
 /* 279 */
@@ -29061,7 +29151,9 @@
 
 	var _HeaderNav2 = _interopRequireDefault(_HeaderNav);
 
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	function _interopRequireDefault(obj) {
+	  return obj && obj.__esModule ? obj : { 'default': obj };
+	}
 
 	exports.HeaderNav = _HeaderNav2['default'];
 
@@ -29079,7 +29171,9 @@
 
 	var _reactRouter = __webpack_require__(218);
 
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	function _interopRequireDefault(obj) {
+	  return obj && obj.__esModule ? obj : { 'default': obj };
+	}
 
 	/**
 	 * Header Navigation
@@ -29087,31 +29181,13 @@
 	 * @description Main navigation for the site, present in the header
 	 */
 	exports['default'] = function () {
-	  return _react2['default'].createElement(
-	    'nav',
-	    { className: 'bt bb tc mt4' },
-	    _react2['default'].createElement(
-	      _reactRouter.Link,
-	      {
-	        className: 'f6 f5-l link bg-animate black-80 hover-bg-lightest-blue dib pa3 ph4-l',
-	        to: '/' },
-	      'Home'
-	    ),
-	    _react2['default'].createElement(
-	      _reactRouter.Link,
-	      {
-	        className: 'f6 f5-l link bg-animate black-80 hover-bg-light-green dib pa3 ph4-l',
-	        to: '/search' },
-	      'Search'
-	    ),
-	    _react2['default'].createElement(
-	      _reactRouter.Link,
-	      {
-	        className: 'f6 f5-l link bg-animate black-80 hover-bg-light-pink dib pa3 ph4-l',
-	        to: '/about' },
-	      'About'
-	    )
-	  );
+	  return _react2['default'].createElement('nav', { className: 'bt bb tc mt4' }, _react2['default'].createElement(_reactRouter.Link, {
+	    className: 'f6 f5-l link bg-animate black-80 hover-bg-lightest-blue dib pa3 ph4-l',
+	    to: '/' }, 'Home'), _react2['default'].createElement(_reactRouter.Link, {
+	    className: 'f6 f5-l link bg-animate black-80 hover-bg-light-green dib pa3 ph4-l',
+	    to: '/search' }, 'Search'), _react2['default'].createElement(_reactRouter.Link, {
+	    className: 'f6 f5-l link bg-animate black-80 hover-bg-light-pink dib pa3 ph4-l',
+	    to: '/about' }, 'About'));
 	};
 
 /***/ },
@@ -29127,7 +29203,9 @@
 
 	var _ErrorMessageContainer2 = _interopRequireDefault(_ErrorMessageContainer);
 
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	function _interopRequireDefault(obj) {
+	  return obj && obj.__esModule ? obj : { 'default': obj };
+	}
 
 	exports.ErrorMessageContainer = _ErrorMessageContainer2['default'];
 	exports.ErrorMessageUtil = _ErrorMessageContainer.ErrorMessageUtil;
@@ -29151,36 +29229,45 @@
 
 	var _actions = __webpack_require__(285);
 
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	function _interopRequireDefault(obj) {
+	  return obj && obj.__esModule ? obj : { 'default': obj };
+	}
 
-	var ErrorMessageUtil = function ErrorMessageUtil(props) {
-	  return _react2['default'].createElement(
-	    'div',
-	    null,
-	    props.errorMessage && _react2['default'].createElement(_Messages.ErrorMessage, { message: props.errorMessage, onClick: props.clearError }),
-	    props.children
-	  );
-	};
+	var ErrorMessageUtil = function () {
+	  function ErrorMessageUtil(props) {
+	    return _react2['default'].createElement('div', null, props.errorMessage && _react2['default'].createElement(_Messages.ErrorMessage, { message: props.errorMessage, onClick: props.clearError }), props.children);
+	  }
 
-	var mapStateToProps = function mapStateToProps(state) {
+	  return ErrorMessageUtil;
+	}();
 
-	  return {
-	    errorMessage: state.messages.error || ''
-	  };
-	};
+	var mapStateToProps = function () {
+	  function mapStateToProps(state) {
 
-	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+	    return {
+	      errorMessage: state.messages.error || ''
+	    };
+	  }
 
-	  return {
-	    clearError: function () {
-	      function clearError() {
-	        return dispatch((0, _actions.clearError)());
-	      }
+	  return mapStateToProps;
+	}();
 
-	      return clearError;
-	    }()
-	  };
-	};
+	var mapDispatchToProps = function () {
+	  function mapDispatchToProps(dispatch) {
+
+	    return {
+	      clearError: function () {
+	        function clearError() {
+	          return dispatch((0, _actions.clearError)());
+	        }
+
+	        return clearError;
+	      }()
+	    };
+	  }
+
+	  return mapDispatchToProps;
+	}();
 
 	var ErrorMessageContainer = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(ErrorMessageUtil);
 	exports.ErrorMessageUtil = ErrorMessageUtil;
@@ -29212,15 +29299,17 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+	function _interopRequireDefault(obj) {
+	  return obj && obj.__esModule ? obj : { "default": obj };
+	}
 
-	var ErrorMessage = exports.ErrorMessage = function ErrorMessage(props) {
-	  return _react2["default"].createElement(
-	    "div",
-	    { className: "mw7 center mt3 ba bw1 pa3 b red bg-washed-yellow", onClick: props.onClick },
-	    props.message
-	  );
-	};
+	var ErrorMessage = exports.ErrorMessage = function () {
+	  function ErrorMessage(props) {
+	    return _react2["default"].createElement("div", { className: "mw7 center mt3 ba bw1 pa3 b red bg-washed-yellow", onClick: props.onClick }, props.message);
+	  }
+
+	  return ErrorMessage;
+	}();
 
 /***/ },
 /* 285 */
@@ -29253,11 +29342,21 @@
 /* 286 */
 /***/ function(module, exports, __webpack_require__) {
 
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
 
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	var _createClass = function () {
+	  function defineProperties(target, props) {
+	    for (var i = 0; i < props.length; i++) {
+	      var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);
+	    }
+	  }return function (Constructor, protoProps, staticProps) {
+	    if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;
+	  };
+	}();
 
 	var _react = __webpack_require__(1);
 
@@ -29265,13 +29364,27 @@
 
 	var _ErrorMessage = __webpack_require__(281);
 
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	function _interopRequireDefault(obj) {
+	  return obj && obj.__esModule ? obj : { 'default': obj };
+	}
 
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	function _classCallCheck(instance, Constructor) {
+	  if (!(instance instanceof Constructor)) {
+	    throw new TypeError("Cannot call a class as a function");
+	  }
+	}
 
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	function _possibleConstructorReturn(self, call) {
+	  if (!self) {
+	    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+	  }return call && ((typeof call === "undefined" ? "undefined" : _typeof(call)) === "object" || typeof call === "function") ? call : self;
+	}
 
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	function _inherits(subClass, superClass) {
+	  if (typeof superClass !== "function" && superClass !== null) {
+	    throw new TypeError("Super expression must either be null or a function, not " + (typeof superClass === "undefined" ? "undefined" : _typeof(superClass)));
+	  }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+	}
 
 	var AdminLayout = function (_Component) {
 	  _inherits(AdminLayout, _Component);
@@ -29287,19 +29400,7 @@
 	    value: function () {
 	      function render() {
 
-	        return _react2['default'].createElement(
-	          _ErrorMessage.ErrorMessageContainer,
-	          null,
-	          _react2['default'].createElement(
-	            'main',
-	            { className: 'black-80' },
-	            _react2['default'].createElement(
-	              'div',
-	              { className: 'mw7 center pb4 ph4 ph0-l', style: { minHeight: '75vh' } },
-	              this.props.children
-	            )
-	          )
-	        );
+	        return _react2['default'].createElement(_ErrorMessage.ErrorMessageContainer, null, _react2['default'].createElement('main', { className: 'black-80' }, _react2['default'].createElement('div', { className: 'mw7 center pb4 ph4 ph0-l', style: { minHeight: '75vh' } }, this.props.children)));
 	      }
 
 	      return render;
@@ -29317,28 +29418,51 @@
 /* 287 */
 /***/ function(module, exports, __webpack_require__) {
 
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
 
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	var _createClass = function () {
+	  function defineProperties(target, props) {
+	    for (var i = 0; i < props.length; i++) {
+	      var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);
+	    }
+	  }return function (Constructor, protoProps, staticProps) {
+	    if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;
+	  };
+	}();
 
 	var _react = __webpack_require__(1);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+	function _interopRequireDefault(obj) {
+	  return obj && obj.__esModule ? obj : { "default": obj };
+	}
 
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	function _classCallCheck(instance, Constructor) {
+	  if (!(instance instanceof Constructor)) {
+	    throw new TypeError("Cannot call a class as a function");
+	  }
+	}
 
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	function _possibleConstructorReturn(self, call) {
+	  if (!self) {
+	    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+	  }return call && ((typeof call === "undefined" ? "undefined" : _typeof(call)) === "object" || typeof call === "function") ? call : self;
+	}
 
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @name Home Page
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @description Home page of the web app
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
-
+	function _inherits(subClass, superClass) {
+	  if (typeof superClass !== "function" && superClass !== null) {
+	    throw new TypeError("Super expression must either be null or a function, not " + (typeof superClass === "undefined" ? "undefined" : _typeof(superClass)));
+	  }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+	} /**
+	   * @name Home Page
+	   *
+	   * @description Home page of the web app
+	   */
 
 	var HomePage = function (_Component) {
 	  _inherits(HomePage, _Component);
@@ -29354,35 +29478,7 @@
 	    value: function () {
 	      function render() {
 
-	        return _react2["default"].createElement(
-	          "section",
-	          null,
-	          _react2["default"].createElement(
-	            "h1",
-	            { className: "mt0" },
-	            "Frontpage"
-	          ),
-	          _react2["default"].createElement(
-	            "p",
-	            null,
-	            "Lorem ipsum dolor sit amet, pulvinar nulla nihil potenti maecenas, metus id erat molestie integer mauris arcu, condimentum urna justo, cras vitae felis tellus vel feugiat ac, nam cras odio ac. Suspendisse placerat eget nec dui id lobortis, mus rhoncus posuere at, nec vel. Turpis turpis, nonummy bibendum nascetur consequat, et sem reprehenderit diam dis, maecenas nonummy amet laoreet sed id suscipit, aliquam amet lacus tristique nulla suspendisse. Diam autem, amet donec ipsum tristique. Sed hymenaeos, praesent mi, venenatis et pellentesque, lectus nullam et ut eros natus. Metus pellentesque tincidunt, conubia auctor vestibulum vivamus lacinia auctor, vitae commodi amet. Adipiscing suscipit nulla non orci non. Netus ut suspendisse vestibulum nibh, tellus in."
-	          ),
-	          _react2["default"].createElement(
-	            "p",
-	            null,
-	            "Mollitia aliquet vitae est neque, pellentesque ut venenatis purus, quis proin scelerisque vitae, quis felis eget curae commodo. Vitae suspendisse. Urna a diam, nunc nam. Nec a, feugiat fermentum magna neque, nulla wisi vivamus velit habitasse repellat quis, non odio aliquet et purus nec elit. Quis mollis mi lorem, doloribus libero, id enim. Nunc ut consectetuer et ut. Pellentesque felis risus commodo quam minus suspendisse, donec morbi libero nulla vitae, iaculis elit id lectus. Consectetuer lectus, massa lacus sed, donec morbi arcu integer commodo interdum fringilla. Id pede sed vitae, sed diam lobortis, duis dolor, erat dignissim sapien quis blandit gravida risus, neque nulla auctor id non a consequat. Semper mollis ut, pellentesque non diam sagittis sed eget elit. Mauris nec diam purus vitae, cras posuere eu laoreet varius, vulputate cursus tellus mi ultricies facilisi, lorem habitasse fermentum dolore."
-	          ),
-	          _react2["default"].createElement(
-	            "p",
-	            null,
-	            "Massa neque odio. Sit tellus venenatis nisl et, nonummy sodales id porttitor libero ullamcorper magnis, et suspendisse tincidunt ac. Cras pellentesque phasellus, eros eleifend mi lobortis leo sed, sollicitudin aenean egestas. Scelerisque quis suspendisse et at phasellus, netus faucibus id dolor non consectetuer penatibus, adipiscing semper sed. Fermentum nunc ac ipsum. Ut eros et pharetra varius egestas enim, nisi eget nunc, vitae a consequat ante id tincidunt eget. Pellentesque amet pretium nulla. Lacus justo consequuntur elementum ante ipsum turpis, eget nec pellentesque, sit condimentum interdum pretium habitasse, vestibulum sem sem ut eros auctor, magna neque. Porta amet magna justo. Platea at elit dolor id in dolor, ac suscipit. Dui a pellentesque id elit neque, magna quis interdum, ut ipsum velit ipsum imperdiet, vel mollis tortor amet, parturient ac aenean."
-	          ),
-	          _react2["default"].createElement(
-	            "p",
-	            null,
-	            "Sodales potenti tempus augue proin purus, nostra lorem enim ipsum, vel error elementum erat et vestibulum, pharetra maecenas dolore vel tempus, a curabitur fusce arcu blandit. Lectus malesuada vitae leo, tempor dignissim varius aliquam. Ullamcorper amet suscipit leo lectus aptent. Morbi nec sed a maecenas sed ligula, dignissim fringilla neque aliquam laoreet mauris, pellentesque libero. Nec velit libero, iaculis rhoncus sed mauris tortor, eleifend dictum odio quisque massa vitae at. Wisi curabitur lectus, laoreet inceptos, erat convallis, duis nulla natoque ultricies dis duis, praesent aenean dolor mi. Fermentum imperdiet cursus sit purus ut feugiat, aliquet fermentum tellus lacinia dapibus magna, eget vitae. Phasellus turpis wisi quisque, a sed ut, pharetra non donec mi sit massa imperdiet, lacus tempor ut sit hendrerit est. Vestibulum enim, egestas amet tempus mauris neque fuga lacus."
-	          )
-	        );
+	        return _react2["default"].createElement("section", null, _react2["default"].createElement("h1", { className: "mt0" }, "Frontpage"), _react2["default"].createElement("p", null, "Lorem ipsum dolor sit amet, pulvinar nulla nihil potenti maecenas, metus id erat molestie integer mauris arcu, condimentum urna justo, cras vitae felis tellus vel feugiat ac, nam cras odio ac. Suspendisse placerat eget nec dui id lobortis, mus rhoncus posuere at, nec vel. Turpis turpis, nonummy bibendum nascetur consequat, et sem reprehenderit diam dis, maecenas nonummy amet laoreet sed id suscipit, aliquam amet lacus tristique nulla suspendisse. Diam autem, amet donec ipsum tristique. Sed hymenaeos, praesent mi, venenatis et pellentesque, lectus nullam et ut eros natus. Metus pellentesque tincidunt, conubia auctor vestibulum vivamus lacinia auctor, vitae commodi amet. Adipiscing suscipit nulla non orci non. Netus ut suspendisse vestibulum nibh, tellus in."), _react2["default"].createElement("p", null, "Mollitia aliquet vitae est neque, pellentesque ut venenatis purus, quis proin scelerisque vitae, quis felis eget curae commodo. Vitae suspendisse. Urna a diam, nunc nam. Nec a, feugiat fermentum magna neque, nulla wisi vivamus velit habitasse repellat quis, non odio aliquet et purus nec elit. Quis mollis mi lorem, doloribus libero, id enim. Nunc ut consectetuer et ut. Pellentesque felis risus commodo quam minus suspendisse, donec morbi libero nulla vitae, iaculis elit id lectus. Consectetuer lectus, massa lacus sed, donec morbi arcu integer commodo interdum fringilla. Id pede sed vitae, sed diam lobortis, duis dolor, erat dignissim sapien quis blandit gravida risus, neque nulla auctor id non a consequat. Semper mollis ut, pellentesque non diam sagittis sed eget elit. Mauris nec diam purus vitae, cras posuere eu laoreet varius, vulputate cursus tellus mi ultricies facilisi, lorem habitasse fermentum dolore."), _react2["default"].createElement("p", null, "Massa neque odio. Sit tellus venenatis nisl et, nonummy sodales id porttitor libero ullamcorper magnis, et suspendisse tincidunt ac. Cras pellentesque phasellus, eros eleifend mi lobortis leo sed, sollicitudin aenean egestas. Scelerisque quis suspendisse et at phasellus, netus faucibus id dolor non consectetuer penatibus, adipiscing semper sed. Fermentum nunc ac ipsum. Ut eros et pharetra varius egestas enim, nisi eget nunc, vitae a consequat ante id tincidunt eget. Pellentesque amet pretium nulla. Lacus justo consequuntur elementum ante ipsum turpis, eget nec pellentesque, sit condimentum interdum pretium habitasse, vestibulum sem sem ut eros auctor, magna neque. Porta amet magna justo. Platea at elit dolor id in dolor, ac suscipit. Dui a pellentesque id elit neque, magna quis interdum, ut ipsum velit ipsum imperdiet, vel mollis tortor amet, parturient ac aenean."), _react2["default"].createElement("p", null, "Sodales potenti tempus augue proin purus, nostra lorem enim ipsum, vel error elementum erat et vestibulum, pharetra maecenas dolore vel tempus, a curabitur fusce arcu blandit. Lectus malesuada vitae leo, tempor dignissim varius aliquam. Ullamcorper amet suscipit leo lectus aptent. Morbi nec sed a maecenas sed ligula, dignissim fringilla neque aliquam laoreet mauris, pellentesque libero. Nec velit libero, iaculis rhoncus sed mauris tortor, eleifend dictum odio quisque massa vitae at. Wisi curabitur lectus, laoreet inceptos, erat convallis, duis nulla natoque ultricies dis duis, praesent aenean dolor mi. Fermentum imperdiet cursus sit purus ut feugiat, aliquet fermentum tellus lacinia dapibus magna, eget vitae. Phasellus turpis wisi quisque, a sed ut, pharetra non donec mi sit massa imperdiet, lacus tempor ut sit hendrerit est. Vestibulum enim, egestas amet tempus mauris neque fuga lacus."));
 	      }
 
 	      return render;
@@ -29398,11 +29494,21 @@
 /* 288 */
 /***/ function(module, exports, __webpack_require__) {
 
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
 
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	var _createClass = function () {
+	  function defineProperties(target, props) {
+	    for (var i = 0; i < props.length; i++) {
+	      var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);
+	    }
+	  }return function (Constructor, protoProps, staticProps) {
+	    if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;
+	  };
+	}();
 
 	var _react = __webpack_require__(1);
 
@@ -29410,18 +29516,31 @@
 
 	var _GithubSearch = __webpack_require__(289);
 
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	function _interopRequireDefault(obj) {
+	  return obj && obj.__esModule ? obj : { 'default': obj };
+	}
 
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	function _classCallCheck(instance, Constructor) {
+	  if (!(instance instanceof Constructor)) {
+	    throw new TypeError("Cannot call a class as a function");
+	  }
+	}
 
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	function _possibleConstructorReturn(self, call) {
+	  if (!self) {
+	    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+	  }return call && ((typeof call === "undefined" ? "undefined" : _typeof(call)) === "object" || typeof call === "function") ? call : self;
+	}
 
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @name Search Page
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @description Search through github on this page
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
-
+	function _inherits(subClass, superClass) {
+	  if (typeof superClass !== "function" && superClass !== null) {
+	    throw new TypeError("Super expression must either be null or a function, not " + (typeof superClass === "undefined" ? "undefined" : _typeof(superClass)));
+	  }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+	} /**
+	   * @name Search Page
+	   *
+	   * @description Search through github on this page
+	   */
 
 	var SearchPage = function (_Component) {
 	  _inherits(SearchPage, _Component);
@@ -29437,16 +29556,7 @@
 	    value: function () {
 	      function render() {
 
-	        return _react2['default'].createElement(
-	          'section',
-	          null,
-	          _react2['default'].createElement(
-	            'h1',
-	            { className: 'mt0' },
-	            'Search Page'
-	          ),
-	          _react2['default'].createElement(_GithubSearch.GithubSearchContainer, null)
-	        );
+	        return _react2['default'].createElement('section', null, _react2['default'].createElement('h1', { className: 'mt0' }, 'Search Page'), _react2['default'].createElement(_GithubSearch.GithubSearchContainer, null));
 	      }
 
 	      return render;
@@ -29471,7 +29581,9 @@
 
 	var _GithubSearchContainer2 = _interopRequireDefault(_GithubSearchContainer);
 
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	function _interopRequireDefault(obj) {
+	  return obj && obj.__esModule ? obj : { 'default': obj };
+	}
 
 	exports.GithubSearchContainer = _GithubSearchContainer2['default'];
 
@@ -29495,113 +29607,68 @@
 
 	var _Card = __webpack_require__(298);
 
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	function _interopRequireDefault(obj) {
+	  return obj && obj.__esModule ? obj : { 'default': obj };
+	}
 
-	var Repos = function Repos(props) {
+	var Repos = function () {
+	  function Repos(props) {
 
-	  var repos = props.repos.slice(0, 8).map(function (repo) {
-	    return _react2['default'].createElement(
-	      'li',
-	      {
+	    var repos = props.repos.slice(0, 8).map(function (repo) {
+	      return _react2['default'].createElement('li', {
 	        key: repo.id,
-	        className: 'flex items-center lh-copy pa3 ph0-l bb b--black-10' },
-	      _react2['default'].createElement(
-	        'div',
-	        { className: 'pl3 flex-auto' },
-	        _react2['default'].createElement(
-	          'a',
-	          { href: repo.html_url, className: 'f6 link blue hover-dark-gray' },
-	          repo.name
-	        )
-	      ),
-	      _react2['default'].createElement(
-	        'div',
-	        null,
-	        _react2['default'].createElement(
-	          'span',
-	          { className: 'f6 db black-70' },
-	          'Issues: ',
-	          repo.open_issues
-	        ),
-	        _react2['default'].createElement(
-	          'span',
-	          { className: 'f6 db black-70' },
-	          'Forks: ',
-	          repo.forks
-	        )
-	      )
-	    );
-	  });
+	        className: 'flex items-center lh-copy pa3 ph0-l bb b--black-10' }, _react2['default'].createElement('div', { className: 'pl3 flex-auto' }, _react2['default'].createElement('a', { href: repo.html_url, className: 'f6 link blue hover-dark-gray' }, repo.name)), _react2['default'].createElement('div', null, _react2['default'].createElement('span', { className: 'f6 db black-70' }, 'Issues: ', repo.open_issues), _react2['default'].createElement('span', { className: 'f6 db black-70' }, 'Forks: ', repo.forks)));
+	    });
 
-	  return _react2['default'].createElement(
-	    'ul',
-	    { className: 'list' },
-	    _react2['default'].createElement(
-	      'li',
-	      null,
-	      _react2['default'].createElement(
-	        'h3',
-	        null,
-	        'Repositories'
-	      )
-	    ),
-	    repos
-	  );
-	};
+	    return _react2['default'].createElement('ul', { className: 'list' }, _react2['default'].createElement('li', null, _react2['default'].createElement('h3', null, 'Repositories')), repos);
+	  }
 
-	var GithubSearchContainer = function GithubSearchContainer(props) {
-	  return _react2['default'].createElement(
-	    'div',
-	    null,
-	    _react2['default'].createElement(_SearchForm.SearchForm, { handleSubmit: props.fetchUser }),
-	    _react2['default'].createElement(
-	      'div',
-	      { className: 'mw12 center' },
-	      _react2['default'].createElement(
-	        'div',
-	        { className: 'cf' },
-	        _react2['default'].createElement(
-	          'div',
-	          { className: 'fl w-100 w-50-ns pa2' },
-	          !props.isFetching && props.profile.name && _react2['default'].createElement(_Card.Card, props.profile)
-	        ),
-	        _react2['default'].createElement(
-	          'div',
-	          { className: 'fl w-100 w-50-ns pa2' },
-	          !props.isFetching && props.repos.length > 0 && _react2['default'].createElement(Repos, { repos: props.repos })
-	        )
-	      )
-	    )
-	  );
-	};
+	  return Repos;
+	}();
+
+	var GithubSearchContainer = function () {
+	  function GithubSearchContainer(props) {
+	    return _react2['default'].createElement('div', null, _react2['default'].createElement(_SearchForm.SearchForm, { handleSubmit: props.fetchUser }), _react2['default'].createElement('div', { className: 'mw12 center' }, _react2['default'].createElement('div', { className: 'cf' }, _react2['default'].createElement('div', { className: 'fl w-100 w-50-ns pa2' }, !props.isFetching && props.profile.name && _react2['default'].createElement(_Card.Card, props.profile)), _react2['default'].createElement('div', { className: 'fl w-100 w-50-ns pa2' }, !props.isFetching && props.repos.length > 0 && _react2['default'].createElement(Repos, { repos: props.repos })))));
+	  }
+
+	  return GithubSearchContainer;
+	}();
 
 	/**
 	 * Map State To Props
 	 */
-	var mapStateToProps = function mapStateToProps(state) {
+	var mapStateToProps = function () {
+	  function mapStateToProps(state) {
 
-	  return {
-	    isFetching: state.githubUser.isFetching,
-	    profile: state.githubUser.profile || {},
-	    repos: state.githubUser.repos || []
-	  };
-	};
+	    return {
+	      isFetching: state.githubUser.isFetching,
+	      profile: state.githubUser.profile || {},
+	      repos: state.githubUser.repos || []
+	    };
+	  }
+
+	  return mapStateToProps;
+	}();
 
 	/**
 	 * Map Dispatch to Props
 	 */
-	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+	var mapDispatchToProps = function () {
+	  function mapDispatchToProps(dispatch) {
 
-	  return {
-	    fetchUser: function () {
-	      function fetchUser(name) {
-	        return dispatch((0, _actions.githubFetchUser)(name));
-	      }
+	    return {
+	      fetchUser: function () {
+	        function fetchUser(name) {
+	          return dispatch((0, _actions.githubFetchUser)(name));
+	        }
 
-	      return fetchUser;
-	    }()
-	  };
-	};
+	        return fetchUser;
+	      }()
+	    };
+	  }
+
+	  return mapDispatchToProps;
+	}();
 
 	exports['default'] = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(GithubSearchContainer);
 
@@ -29618,7 +29685,9 @@
 
 	var _SearchForm2 = _interopRequireDefault(_SearchForm);
 
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	function _interopRequireDefault(obj) {
+	  return obj && obj.__esModule ? obj : { 'default': obj };
+	}
 
 	exports.SearchForm = _SearchForm2['default'];
 
@@ -29626,11 +29695,21 @@
 /* 292 */
 /***/ function(module, exports, __webpack_require__) {
 
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
 
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	var _createClass = function () {
+	  function defineProperties(target, props) {
+	    for (var i = 0; i < props.length; i++) {
+	      var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);
+	    }
+	  }return function (Constructor, protoProps, staticProps) {
+	    if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;
+	  };
+	}();
 
 	var _react = __webpack_require__(1);
 
@@ -29638,13 +29717,27 @@
 
 	var _Buttons = __webpack_require__(293);
 
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	function _interopRequireDefault(obj) {
+	  return obj && obj.__esModule ? obj : { 'default': obj };
+	}
 
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	function _classCallCheck(instance, Constructor) {
+	  if (!(instance instanceof Constructor)) {
+	    throw new TypeError("Cannot call a class as a function");
+	  }
+	}
 
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	function _possibleConstructorReturn(self, call) {
+	  if (!self) {
+	    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+	  }return call && ((typeof call === "undefined" ? "undefined" : _typeof(call)) === "object" || typeof call === "function") ? call : self;
+	}
 
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	function _inherits(subClass, superClass) {
+	  if (typeof superClass !== "function" && superClass !== null) {
+	    throw new TypeError("Super expression must either be null or a function, not " + (typeof superClass === "undefined" ? "undefined" : _typeof(superClass)));
+	  }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+	}
 
 	var inputClasses = "f6 f5-l input-reset bn fl black-80 pa3 lh-solid w-100 w-75-m w-80-l br2-ns br--left-ns bg-light-gray";
 
@@ -29672,53 +29765,30 @@
 	      function render() {
 	        var _this2 = this;
 
-	        return _react2['default'].createElement(
-	          'form',
-	          {
-	            className: 'mw12 center',
-	            onSubmit: function () {
-	              function onSubmit(e) {
-	                e.preventDefault();
-	                var name = _this2.textInput.value;
-	                _this2.props.handleSubmit(name);
-	                _this2.textInput.value = '';
-	              }
+	        return _react2['default'].createElement('form', {
+	          className: 'mw12 center',
+	          onSubmit: function () {
+	            function onSubmit(e) {
+	              e.preventDefault();
+	              var name = _this2.textInput.value;
+	              _this2.props.handleSubmit(name);
+	              _this2.textInput.value = '';
+	            }
 
-	              return onSubmit;
-	            }() },
-	          _react2['default'].createElement(
-	            'fieldset',
-	            { className: 'cf bn ma0 pa0' },
-	            _react2['default'].createElement(
-	              'legend',
-	              { className: 'pa0 f5 f4-ns mb3 black-80' },
-	              'Search for a github user'
-	            ),
-	            _react2['default'].createElement(
-	              'div',
-	              { className: 'cf' },
-	              _react2['default'].createElement(
-	                'label',
-	                { className: 'clip', htmlFor: 'userName' },
-	                'Username'
-	              ),
-	              _react2['default'].createElement('input', {
-	                className: inputClasses,
-	                placeholder: 'Github User Name',
-	                type: 'text',
-	                name: 'userName',
-	                ref: function () {
-	                  function ref(input) {
-	                    _this2.textInput = input;
-	                  }
+	            return onSubmit;
+	          }() }, _react2['default'].createElement('fieldset', { className: 'cf bn ma0 pa0' }, _react2['default'].createElement('legend', { className: 'pa0 f5 f4-ns mb3 black-80' }, 'Search for a github user'), _react2['default'].createElement('div', { className: 'cf' }, _react2['default'].createElement('label', { className: 'clip', htmlFor: 'userName' }, 'Username'), _react2['default'].createElement('input', {
+	          className: inputClasses,
+	          placeholder: 'Github User Name',
+	          type: 'text',
+	          name: 'userName',
+	          ref: function () {
+	            function ref(input) {
+	              _this2.textInput = input;
+	            }
 
-	                  return ref;
-	                }(),
-	                id: 'userName' }),
-	              _react2['default'].createElement(_Buttons.FlatButton, { value: 'Search' })
-	            )
-	          )
-	        );
+	            return ref;
+	          }(),
+	          id: 'userName' }), _react2['default'].createElement(_Buttons.FlatButton, { value: 'Search' }))));
 	      }
 
 	      return render;
@@ -29729,7 +29799,6 @@
 	}(_react.Component);
 
 	exports['default'] = SearchForm;
-
 
 	SearchForm.propTypes = {
 	  handleSubmit: _react.PropTypes.func.isRequired
@@ -29761,7 +29830,9 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	function _interopRequireDefault(obj) {
+	  return obj && obj.__esModule ? obj : { 'default': obj };
+	}
 
 	/**
 	 * Flat Button
@@ -29769,12 +29840,16 @@
 	 * @description The main button used. Characterized by flat color and a transition on hover to a darker color
 	 * @property {String} props.value is the text inside the button
 	 */
-	var FlatButton = exports.FlatButton = function FlatButton(props) {
+	var FlatButton = exports.FlatButton = function () {
+	  function FlatButton(props) {
 
-	  var flatButtonClasses = 'f6 f5-l button-reset fl pv3 tc bn bg-animate bg-black-70 hover-bg-black white pointer w-100 w-25-m w-20-l br2-ns br--right-ns';
+	    var flatButtonClasses = 'f6 f5-l button-reset fl pv3 tc bn bg-animate bg-black-70 hover-bg-black white pointer w-100 w-25-m w-20-l br2-ns br--right-ns';
 
-	  return _react2['default'].createElement('input', { className: flatButtonClasses, type: 'submit', value: props.value });
-	};
+	    return _react2['default'].createElement('input', { className: flatButtonClasses, type: 'submit', value: props.value });
+	  }
+
+	  return FlatButton;
+	}();
 
 	FlatButton.propTypes = {
 	  value: _react.PropTypes.string.isRequired
@@ -29802,7 +29877,9 @@
 
 	var _actions = __webpack_require__(285);
 
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	function _interopRequireDefault(obj) {
+	  return obj && obj.__esModule ? obj : { 'default': obj };
+	}
 
 	/**
 	 * Github Search Actions
@@ -30454,7 +30531,9 @@
 
 	var _Card2 = _interopRequireDefault(_Card);
 
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	function _interopRequireDefault(obj) {
+	  return obj && obj.__esModule ? obj : { 'default': obj };
+	}
 
 	exports.Card = _Card2['default'];
 
@@ -30470,45 +30549,23 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+	function _interopRequireDefault(obj) {
+	  return obj && obj.__esModule ? obj : { "default": obj };
+	}
 
-	var Card = function Card(props) {
-	  return _react2["default"].createElement(
-	    "section",
-	    { className: "tc pt3 pt5-ns" },
-	    _react2["default"].createElement(
-	      "article",
-	      { className: "relative ba b--black-20 mw12 center" },
-	      _react2["default"].createElement("img", {
-	        src: props.avatar_url,
-	        className: "db",
-	        alt: props.name
-	      }),
-	      _react2["default"].createElement(
-	        "div",
-	        { className: "pa2 bt b--black-20" },
-	        _react2["default"].createElement(
-	          "a",
-	          { className: "f6 db link dark-blue hover-blue",
-	            href: "https://www.github.com/" + String(props.login)
-	          },
-	          props.name
-	        ),
-	        _react2["default"].createElement(
-	          "p",
-	          { className: "f6 gray mv1" },
-	          props.login
-	        ),
-	        _react2["default"].createElement(
-	          "p",
-	          { className: "f6 gray mv1" },
-	          "Public Repos: ",
-	          props.public_repos
-	        )
-	      )
-	    )
-	  );
-	};
+	var Card = function () {
+	  function Card(props) {
+	    return _react2["default"].createElement("section", { className: "tc pt3 pt5-ns" }, _react2["default"].createElement("article", { className: "relative ba b--black-20 mw12 center" }, _react2["default"].createElement("img", {
+	      src: props.avatar_url,
+	      className: "db",
+	      alt: props.name
+	    }), _react2["default"].createElement("div", { className: "pa2 bt b--black-20" }, _react2["default"].createElement("a", { className: "f6 db link dark-blue hover-blue",
+	      href: "https://www.github.com/" + String(props.login)
+	    }, props.name), _react2["default"].createElement("p", { className: "f6 gray mv1" }, props.login), _react2["default"].createElement("p", { className: "f6 gray mv1" }, "Public Repos: ", props.public_repos))));
+	  }
+
+	  return Card;
+	}();
 
 	Card.propTypes = {
 	  name: _react.PropTypes.string.isRequired,
@@ -30523,11 +30580,21 @@
 /* 300 */
 /***/ function(module, exports, __webpack_require__) {
 
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
 
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	var _createClass = function () {
+	  function defineProperties(target, props) {
+	    for (var i = 0; i < props.length; i++) {
+	      var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);
+	    }
+	  }return function (Constructor, protoProps, staticProps) {
+	    if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;
+	  };
+	}();
 
 	var _react = __webpack_require__(1);
 
@@ -30535,18 +30602,31 @@
 
 	var _Typography = __webpack_require__(277);
 
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	function _interopRequireDefault(obj) {
+	  return obj && obj.__esModule ? obj : { 'default': obj };
+	}
 
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	function _classCallCheck(instance, Constructor) {
+	  if (!(instance instanceof Constructor)) {
+	    throw new TypeError("Cannot call a class as a function");
+	  }
+	}
 
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	function _possibleConstructorReturn(self, call) {
+	  if (!self) {
+	    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+	  }return call && ((typeof call === "undefined" ? "undefined" : _typeof(call)) === "object" || typeof call === "function") ? call : self;
+	}
 
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @name About Page
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @description About through github on this page
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
-
+	function _inherits(subClass, superClass) {
+	  if (typeof superClass !== "function" && superClass !== null) {
+	    throw new TypeError("Super expression must either be null or a function, not " + (typeof superClass === "undefined" ? "undefined" : _typeof(superClass)));
+	  }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+	} /**
+	   * @name About Page
+	   *
+	   * @description About through github on this page
+	   */
 
 	var AboutPage = function (_Component) {
 	  _inherits(AboutPage, _Component);
@@ -30562,50 +30642,7 @@
 	    value: function () {
 	      function render() {
 
-	        return _react2['default'].createElement(
-	          'section',
-	          null,
-	          _react2['default'].createElement(
-	            'h1',
-	            { className: 'mt0' },
-	            'About Page'
-	          ),
-	          _react2['default'].createElement(
-	            'p',
-	            null,
-	            'Lorem ipsum dolor sit amet, pulvinar nulla nihil potenti maecenas, metus id erat molestie integer mauris arcu, condimentum urna justo, cras vitae felis tellus vel feugiat ac, nam cras odio ac. Suspendisse placerat eget nec dui id lobortis, mus rhoncus posuere at, nec vel. Turpis turpis, nonummy bibendum nascetur consequat, et sem reprehenderit diam dis, maecenas nonummy amet laoreet sed id suscipit, aliquam amet lacus tristique nulla suspendisse. Diam autem, amet donec ipsum tristique. Sed hymenaeos, praesent mi, venenatis et pellentesque, lectus nullam et ut eros natus. Metus pellentesque tincidunt, conubia auctor vestibulum vivamus lacinia auctor, vitae commodi amet. Adipiscing suscipit nulla non orci non. Netus ut suspendisse vestibulum nibh, tellus in.'
-	          ),
-	          _react2['default'].createElement(
-	            _Typography.SectionHeader,
-	            null,
-	            'Section'
-	          ),
-	          _react2['default'].createElement(
-	            'p',
-	            null,
-	            'Mollitia aliquet vitae est neque, pellentesque ut venenatis purus, quis proin scelerisque vitae, quis felis eget curae commodo. Vitae suspendisse. Urna a diam, nunc nam. Nec a, feugiat fermentum magna neque, nulla wisi vivamus velit habitasse repellat quis, non odio aliquet et purus nec elit. Quis mollis mi lorem, doloribus libero, id enim. Nunc ut consectetuer et ut. Pellentesque felis risus commodo quam minus suspendisse, donec morbi libero nulla vitae, iaculis elit id lectus. Consectetuer lectus, massa lacus sed, donec morbi arcu integer commodo interdum fringilla. Id pede sed vitae, sed diam lobortis, duis dolor, erat dignissim sapien quis blandit gravida risus, neque nulla auctor id non a consequat. Semper mollis ut, pellentesque non diam sagittis sed eget elit. Mauris nec diam purus vitae, cras posuere eu laoreet varius, vulputate cursus tellus mi ultricies facilisi, lorem habitasse fermentum dolore.'
-	          ),
-	          _react2['default'].createElement(
-	            _Typography.SectionHeader,
-	            null,
-	            'Section'
-	          ),
-	          _react2['default'].createElement(
-	            'p',
-	            null,
-	            'Massa neque odio. Sit tellus venenatis nisl et, nonummy sodales id porttitor libero ullamcorper magnis, et suspendisse tincidunt ac. Cras pellentesque phasellus, eros eleifend mi lobortis leo sed, sollicitudin aenean egestas. Scelerisque quis suspendisse et at phasellus, netus faucibus id dolor non consectetuer penatibus, adipiscing semper sed. Fermentum nunc ac ipsum. Ut eros et pharetra varius egestas enim, nisi eget nunc, vitae a consequat ante id tincidunt eget. Pellentesque amet pretium nulla. Lacus justo consequuntur elementum ante ipsum turpis, eget nec pellentesque, sit condimentum interdum pretium habitasse, vestibulum sem sem ut eros auctor, magna neque. Porta amet magna justo. Platea at elit dolor id in dolor, ac suscipit. Dui a pellentesque id elit neque, magna quis interdum, ut ipsum velit ipsum imperdiet, vel mollis tortor amet, parturient ac aenean.'
-	          ),
-	          _react2['default'].createElement(
-	            _Typography.SectionHeader,
-	            null,
-	            'Section'
-	          ),
-	          _react2['default'].createElement(
-	            'p',
-	            null,
-	            'Sodales potenti tempus augue proin purus, nostra lorem enim ipsum, vel error elementum erat et vestibulum, pharetra maecenas dolore vel tempus, a curabitur fusce arcu blandit. Lectus malesuada vitae leo, tempor dignissim varius aliquam. Ullamcorper amet suscipit leo lectus aptent. Morbi nec sed a maecenas sed ligula, dignissim fringilla neque aliquam laoreet mauris, pellentesque libero. Nec velit libero, iaculis rhoncus sed mauris tortor, eleifend dictum odio quisque massa vitae at. Wisi curabitur lectus, laoreet inceptos, erat convallis, duis nulla natoque ultricies dis duis, praesent aenean dolor mi. Fermentum imperdiet cursus sit purus ut feugiat, aliquet fermentum tellus lacinia dapibus magna, eget vitae. Phasellus turpis wisi quisque, a sed ut, pharetra non donec mi sit massa imperdiet, lacus tempor ut sit hendrerit est. Vestibulum enim, egestas amet tempus mauris neque fuga lacus.'
-	          )
-	        );
+	        return _react2['default'].createElement('section', null, _react2['default'].createElement('h1', { className: 'mt0' }, 'About Page'), _react2['default'].createElement('p', null, 'Lorem ipsum dolor sit amet, pulvinar nulla nihil potenti maecenas, metus id erat molestie integer mauris arcu, condimentum urna justo, cras vitae felis tellus vel feugiat ac, nam cras odio ac. Suspendisse placerat eget nec dui id lobortis, mus rhoncus posuere at, nec vel. Turpis turpis, nonummy bibendum nascetur consequat, et sem reprehenderit diam dis, maecenas nonummy amet laoreet sed id suscipit, aliquam amet lacus tristique nulla suspendisse. Diam autem, amet donec ipsum tristique. Sed hymenaeos, praesent mi, venenatis et pellentesque, lectus nullam et ut eros natus. Metus pellentesque tincidunt, conubia auctor vestibulum vivamus lacinia auctor, vitae commodi amet. Adipiscing suscipit nulla non orci non. Netus ut suspendisse vestibulum nibh, tellus in.'), _react2['default'].createElement(_Typography.SectionHeader, null, 'Section'), _react2['default'].createElement('p', null, 'Mollitia aliquet vitae est neque, pellentesque ut venenatis purus, quis proin scelerisque vitae, quis felis eget curae commodo. Vitae suspendisse. Urna a diam, nunc nam. Nec a, feugiat fermentum magna neque, nulla wisi vivamus velit habitasse repellat quis, non odio aliquet et purus nec elit. Quis mollis mi lorem, doloribus libero, id enim. Nunc ut consectetuer et ut. Pellentesque felis risus commodo quam minus suspendisse, donec morbi libero nulla vitae, iaculis elit id lectus. Consectetuer lectus, massa lacus sed, donec morbi arcu integer commodo interdum fringilla. Id pede sed vitae, sed diam lobortis, duis dolor, erat dignissim sapien quis blandit gravida risus, neque nulla auctor id non a consequat. Semper mollis ut, pellentesque non diam sagittis sed eget elit. Mauris nec diam purus vitae, cras posuere eu laoreet varius, vulputate cursus tellus mi ultricies facilisi, lorem habitasse fermentum dolore.'), _react2['default'].createElement(_Typography.SectionHeader, null, 'Section'), _react2['default'].createElement('p', null, 'Massa neque odio. Sit tellus venenatis nisl et, nonummy sodales id porttitor libero ullamcorper magnis, et suspendisse tincidunt ac. Cras pellentesque phasellus, eros eleifend mi lobortis leo sed, sollicitudin aenean egestas. Scelerisque quis suspendisse et at phasellus, netus faucibus id dolor non consectetuer penatibus, adipiscing semper sed. Fermentum nunc ac ipsum. Ut eros et pharetra varius egestas enim, nisi eget nunc, vitae a consequat ante id tincidunt eget. Pellentesque amet pretium nulla. Lacus justo consequuntur elementum ante ipsum turpis, eget nec pellentesque, sit condimentum interdum pretium habitasse, vestibulum sem sem ut eros auctor, magna neque. Porta amet magna justo. Platea at elit dolor id in dolor, ac suscipit. Dui a pellentesque id elit neque, magna quis interdum, ut ipsum velit ipsum imperdiet, vel mollis tortor amet, parturient ac aenean.'), _react2['default'].createElement(_Typography.SectionHeader, null, 'Section'), _react2['default'].createElement('p', null, 'Sodales potenti tempus augue proin purus, nostra lorem enim ipsum, vel error elementum erat et vestibulum, pharetra maecenas dolore vel tempus, a curabitur fusce arcu blandit. Lectus malesuada vitae leo, tempor dignissim varius aliquam. Ullamcorper amet suscipit leo lectus aptent. Morbi nec sed a maecenas sed ligula, dignissim fringilla neque aliquam laoreet mauris, pellentesque libero. Nec velit libero, iaculis rhoncus sed mauris tortor, eleifend dictum odio quisque massa vitae at. Wisi curabitur lectus, laoreet inceptos, erat convallis, duis nulla natoque ultricies dis duis, praesent aenean dolor mi. Fermentum imperdiet cursus sit purus ut feugiat, aliquet fermentum tellus lacinia dapibus magna, eget vitae. Phasellus turpis wisi quisque, a sed ut, pharetra non donec mi sit massa imperdiet, lacus tempor ut sit hendrerit est. Vestibulum enim, egestas amet tempus mauris neque fuga lacus.'));
 	      }
 
 	      return render;
@@ -30621,11 +30658,21 @@
 /* 301 */
 /***/ function(module, exports, __webpack_require__) {
 
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
 
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	var _createClass = function () {
+	  function defineProperties(target, props) {
+	    for (var i = 0; i < props.length; i++) {
+	      var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);
+	    }
+	  }return function (Constructor, protoProps, staticProps) {
+	    if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;
+	  };
+	}();
 
 	var _react = __webpack_require__(1);
 
@@ -30633,13 +30680,27 @@
 
 	var _reactRouter = __webpack_require__(218);
 
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	function _interopRequireDefault(obj) {
+	  return obj && obj.__esModule ? obj : { 'default': obj };
+	}
 
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	function _classCallCheck(instance, Constructor) {
+	  if (!(instance instanceof Constructor)) {
+	    throw new TypeError("Cannot call a class as a function");
+	  }
+	}
 
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	function _possibleConstructorReturn(self, call) {
+	  if (!self) {
+	    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+	  }return call && ((typeof call === "undefined" ? "undefined" : _typeof(call)) === "object" || typeof call === "function") ? call : self;
+	}
 
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	function _inherits(subClass, superClass) {
+	  if (typeof superClass !== "function" && superClass !== null) {
+	    throw new TypeError("Super expression must either be null or a function, not " + (typeof superClass === "undefined" ? "undefined" : _typeof(superClass)));
+	  }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+	}
 
 	var AdminHomePage = function (_Component) {
 	  _inherits(AdminHomePage, _Component);
@@ -30655,40 +30716,7 @@
 	    value: function () {
 	      function render() {
 
-	        return _react2['default'].createElement(
-	          'section',
-	          { className: 'mt5' },
-	          _react2['default'].createElement(
-	            'h1',
-	            { className: 'mt0' },
-	            'Admin Section'
-	          ),
-	          _react2['default'].createElement(
-	            _reactRouter.Link,
-	            { to: '/' },
-	            'Home'
-	          ),
-	          _react2['default'].createElement(
-	            'p',
-	            null,
-	            'Lorem ipsum dolor sit amet, pulvinar nulla nihil potenti maecenas, metus id erat molestie integer mauris arcu, condimentum urna justo, cras vitae felis tellus vel feugiat ac, nam cras odio ac. Suspendisse placerat eget nec dui id lobortis, mus rhoncus posuere at, nec vel. Turpis turpis, nonummy bibendum nascetur consequat, et sem reprehenderit diam dis, maecenas nonummy amet laoreet sed id suscipit, aliquam amet lacus tristique nulla suspendisse. Diam autem, amet donec ipsum tristique. Sed hymenaeos, praesent mi, venenatis et pellentesque, lectus nullam et ut eros natus. Metus pellentesque tincidunt, conubia auctor vestibulum vivamus lacinia auctor, vitae commodi amet. Adipiscing suscipit nulla non orci non. Netus ut suspendisse vestibulum nibh, tellus in.'
-	          ),
-	          _react2['default'].createElement(
-	            'p',
-	            null,
-	            'Mollitia aliquet vitae est neque, pellentesque ut venenatis purus, quis proin scelerisque vitae, quis felis eget curae commodo. Vitae suspendisse. Urna a diam, nunc nam. Nec a, feugiat fermentum magna neque, nulla wisi vivamus velit habitasse repellat quis, non odio aliquet et purus nec elit. Quis mollis mi lorem, doloribus libero, id enim. Nunc ut consectetuer et ut. Pellentesque felis risus commodo quam minus suspendisse, donec morbi libero nulla vitae, iaculis elit id lectus. Consectetuer lectus, massa lacus sed, donec morbi arcu integer commodo interdum fringilla. Id pede sed vitae, sed diam lobortis, duis dolor, erat dignissim sapien quis blandit gravida risus, neque nulla auctor id non a consequat. Semper mollis ut, pellentesque non diam sagittis sed eget elit. Mauris nec diam purus vitae, cras posuere eu laoreet varius, vulputate cursus tellus mi ultricies facilisi, lorem habitasse fermentum dolore.'
-	          ),
-	          _react2['default'].createElement(
-	            'p',
-	            null,
-	            'Massa neque odio. Sit tellus venenatis nisl et, nonummy sodales id porttitor libero ullamcorper magnis, et suspendisse tincidunt ac. Cras pellentesque phasellus, eros eleifend mi lobortis leo sed, sollicitudin aenean egestas. Scelerisque quis suspendisse et at phasellus, netus faucibus id dolor non consectetuer penatibus, adipiscing semper sed. Fermentum nunc ac ipsum. Ut eros et pharetra varius egestas enim, nisi eget nunc, vitae a consequat ante id tincidunt eget. Pellentesque amet pretium nulla. Lacus justo consequuntur elementum ante ipsum turpis, eget nec pellentesque, sit condimentum interdum pretium habitasse, vestibulum sem sem ut eros auctor, magna neque. Porta amet magna justo. Platea at elit dolor id in dolor, ac suscipit. Dui a pellentesque id elit neque, magna quis interdum, ut ipsum velit ipsum imperdiet, vel mollis tortor amet, parturient ac aenean.'
-	          ),
-	          _react2['default'].createElement(
-	            'p',
-	            null,
-	            'Sodales potenti tempus augue proin purus, nostra lorem enim ipsum, vel error elementum erat et vestibulum, pharetra maecenas dolore vel tempus, a curabitur fusce arcu blandit. Lectus malesuada vitae leo, tempor dignissim varius aliquam. Ullamcorper amet suscipit leo lectus aptent. Morbi nec sed a maecenas sed ligula, dignissim fringilla neque aliquam laoreet mauris, pellentesque libero. Nec velit libero, iaculis rhoncus sed mauris tortor, eleifend dictum odio quisque massa vitae at. Wisi curabitur lectus, laoreet inceptos, erat convallis, duis nulla natoque ultricies dis duis, praesent aenean dolor mi. Fermentum imperdiet cursus sit purus ut feugiat, aliquet fermentum tellus lacinia dapibus magna, eget vitae. Phasellus turpis wisi quisque, a sed ut, pharetra non donec mi sit massa imperdiet, lacus tempor ut sit hendrerit est. Vestibulum enim, egestas amet tempus mauris neque fuga lacus.'
-	          )
-	        );
+	        return _react2['default'].createElement('section', { className: 'mt5' }, _react2['default'].createElement('h1', { className: 'mt0' }, 'Admin Section'), _react2['default'].createElement(_reactRouter.Link, { to: '/' }, 'Home'), _react2['default'].createElement('p', null, 'Lorem ipsum dolor sit amet, pulvinar nulla nihil potenti maecenas, metus id erat molestie integer mauris arcu, condimentum urna justo, cras vitae felis tellus vel feugiat ac, nam cras odio ac. Suspendisse placerat eget nec dui id lobortis, mus rhoncus posuere at, nec vel. Turpis turpis, nonummy bibendum nascetur consequat, et sem reprehenderit diam dis, maecenas nonummy amet laoreet sed id suscipit, aliquam amet lacus tristique nulla suspendisse. Diam autem, amet donec ipsum tristique. Sed hymenaeos, praesent mi, venenatis et pellentesque, lectus nullam et ut eros natus. Metus pellentesque tincidunt, conubia auctor vestibulum vivamus lacinia auctor, vitae commodi amet. Adipiscing suscipit nulla non orci non. Netus ut suspendisse vestibulum nibh, tellus in.'), _react2['default'].createElement('p', null, 'Mollitia aliquet vitae est neque, pellentesque ut venenatis purus, quis proin scelerisque vitae, quis felis eget curae commodo. Vitae suspendisse. Urna a diam, nunc nam. Nec a, feugiat fermentum magna neque, nulla wisi vivamus velit habitasse repellat quis, non odio aliquet et purus nec elit. Quis mollis mi lorem, doloribus libero, id enim. Nunc ut consectetuer et ut. Pellentesque felis risus commodo quam minus suspendisse, donec morbi libero nulla vitae, iaculis elit id lectus. Consectetuer lectus, massa lacus sed, donec morbi arcu integer commodo interdum fringilla. Id pede sed vitae, sed diam lobortis, duis dolor, erat dignissim sapien quis blandit gravida risus, neque nulla auctor id non a consequat. Semper mollis ut, pellentesque non diam sagittis sed eget elit. Mauris nec diam purus vitae, cras posuere eu laoreet varius, vulputate cursus tellus mi ultricies facilisi, lorem habitasse fermentum dolore.'), _react2['default'].createElement('p', null, 'Massa neque odio. Sit tellus venenatis nisl et, nonummy sodales id porttitor libero ullamcorper magnis, et suspendisse tincidunt ac. Cras pellentesque phasellus, eros eleifend mi lobortis leo sed, sollicitudin aenean egestas. Scelerisque quis suspendisse et at phasellus, netus faucibus id dolor non consectetuer penatibus, adipiscing semper sed. Fermentum nunc ac ipsum. Ut eros et pharetra varius egestas enim, nisi eget nunc, vitae a consequat ante id tincidunt eget. Pellentesque amet pretium nulla. Lacus justo consequuntur elementum ante ipsum turpis, eget nec pellentesque, sit condimentum interdum pretium habitasse, vestibulum sem sem ut eros auctor, magna neque. Porta amet magna justo. Platea at elit dolor id in dolor, ac suscipit. Dui a pellentesque id elit neque, magna quis interdum, ut ipsum velit ipsum imperdiet, vel mollis tortor amet, parturient ac aenean.'), _react2['default'].createElement('p', null, 'Sodales potenti tempus augue proin purus, nostra lorem enim ipsum, vel error elementum erat et vestibulum, pharetra maecenas dolore vel tempus, a curabitur fusce arcu blandit. Lectus malesuada vitae leo, tempor dignissim varius aliquam. Ullamcorper amet suscipit leo lectus aptent. Morbi nec sed a maecenas sed ligula, dignissim fringilla neque aliquam laoreet mauris, pellentesque libero. Nec velit libero, iaculis rhoncus sed mauris tortor, eleifend dictum odio quisque massa vitae at. Wisi curabitur lectus, laoreet inceptos, erat convallis, duis nulla natoque ultricies dis duis, praesent aenean dolor mi. Fermentum imperdiet cursus sit purus ut feugiat, aliquet fermentum tellus lacinia dapibus magna, eget vitae. Phasellus turpis wisi quisque, a sed ut, pharetra non donec mi sit massa imperdiet, lacus tempor ut sit hendrerit est. Vestibulum enim, egestas amet tempus mauris neque fuga lacus.'));
 	      }
 
 	      return render;
@@ -30720,7 +30748,9 @@
 
 	var _reducers2 = _interopRequireDefault(_reducers);
 
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	function _interopRequireDefault(obj) {
+	  return obj && obj.__esModule ? obj : { 'default': obj };
+	}
 
 	exports['default'] = function (initState) {
 	  if (true) {
@@ -30801,7 +30831,9 @@
 
 	var _reducer4 = _interopRequireDefault(_reducer3);
 
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	function _interopRequireDefault(obj) {
+	  return obj && obj.__esModule ? obj : { 'default': obj };
+	}
 
 	exports['default'] = (0, _redux.combineReducers)(Object.assign({}, _reducer2['default'], _reducer4['default']));
 
@@ -30821,43 +30853,46 @@
 	  isFetching: false
 	};
 
-	var githubUser = function githubUser() {
-	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initState;
-	  var action = arguments[1];
+	var githubUser = function () {
+	  function githubUser() {
+	    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initState;
+	    var action = arguments[1];
 
-
-	  switch (action.type) {
-	    case _actions.FETCH_USER:
-	      return Object.assign({}, state, {
-	        isFetching: true
-	      });
-	    case _actions.RECEIVE_USER:
-	      return Object.assign({}, state, {
-	        isFetching: false,
-	        profile: action.json
-	      });
-	    case _actions.REJECT_USER:
-	      return Object.assign({}, state, {
-	        isFetching: false
-	      });
-	    case _actions.FETCH_USER_REPOS:
-	      return Object.assign({}, state, {
-	        isFetching: true
-	      });
-	    case _actions.RECEIVE_USER_REPOS:
-	      return Object.assign({}, state, {
-	        isFetching: false,
-	        repos: action.json
-	      });
-	    case _actions.REJECT_USER_REPOS:
-	      return Object.assign({}, state, {
-	        isFetching: false,
-	        repos: []
-	      });
-	    default:
-	      return state;
+	    switch (action.type) {
+	      case _actions.FETCH_USER:
+	        return Object.assign({}, state, {
+	          isFetching: true
+	        });
+	      case _actions.RECEIVE_USER:
+	        return Object.assign({}, state, {
+	          isFetching: false,
+	          profile: action.json
+	        });
+	      case _actions.REJECT_USER:
+	        return Object.assign({}, state, {
+	          isFetching: false
+	        });
+	      case _actions.FETCH_USER_REPOS:
+	        return Object.assign({}, state, {
+	          isFetching: true
+	        });
+	      case _actions.RECEIVE_USER_REPOS:
+	        return Object.assign({}, state, {
+	          isFetching: false,
+	          repos: action.json
+	        });
+	      case _actions.REJECT_USER_REPOS:
+	        return Object.assign({}, state, {
+	          isFetching: false,
+	          repos: []
+	        });
+	      default:
+	        return state;
+	    }
 	  }
-	};
+
+	  return githubUser;
+	}();
 
 	var githubSearchReducer = {
 	  githubUser: githubUser
@@ -30879,24 +30914,27 @@
 	  error: ''
 	};
 
-	var messages = function messages() {
-	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initState;
-	  var action = arguments[1];
+	var messages = function () {
+	  function messages() {
+	    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initState;
+	    var action = arguments[1];
 
-
-	  switch (action.type) {
-	    case _actions.SET_ERROR:
-	      return Object.assign({}, state, {
-	        error: action.message
-	      });
-	    case _actions.CLEAR_ERROR:
-	      return Object.assign({}, state, {
-	        error: ''
-	      });
-	    default:
-	      return state;
+	    switch (action.type) {
+	      case _actions.SET_ERROR:
+	        return Object.assign({}, state, {
+	          error: action.message
+	        });
+	      case _actions.CLEAR_ERROR:
+	        return Object.assign({}, state, {
+	          error: ''
+	        });
+	      default:
+	        return state;
+	    }
 	  }
-	};
+
+	  return messages;
+	}();
 
 	var ErrorMessageReducer = {
 	  messages: messages

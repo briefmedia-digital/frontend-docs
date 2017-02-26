@@ -18,7 +18,9 @@ const devConfig = merge(
   tools.setEnv('development'),
   tools.common(),
   tools.basicJS(),
+  tools.lintJS(),
   tools.basicCSS(),
+  tools.lintCSS(),
   tools.clean('build')
 );
 
