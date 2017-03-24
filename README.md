@@ -60,6 +60,7 @@ List of helpful links to documentation, tutorials and articles sorted by tech
 9. [Good Practices for Testing React Apps](https://medium.com/@TuckerConnelly/good-practices-for-testing-react-apps-3a64154fa3b1#.wiwjbgymj)
 10. [TDD React Tutorial](https://www.spencerdixon.com/blog/test-driven-react-tutorial.html)
 11. [Higher Order React Components](http://natpryce.com/articles/000814.html)
+12. [React is slow, React is fast (performance)](https://medium.com/dailyjs/react-is-slow-react-is-fast-optimizing-react-apps-in-practice-394176a11fba#.9yqcd363q)
 
 #### Redux
 
